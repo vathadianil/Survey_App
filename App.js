@@ -1,20 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { useContext, useEffect, useState } from "react";
+import AuthContextProvider, { AuthContext } from "./store/auth-context";
+import LoadingOverlay from "./components/ui/LoadingOverlay";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NavigationContainer } from "@react-navigation/native";
+import AuthStack from "./navigation/AuthStack";
+import AuthenticatedStack from "./navigation/AuthenticatedStack";
 
-export default function App() {
+function Navigation() {
+  const authCtx = useContext(AuthContext);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      {authCtx.isAuthenticated ? <AuthenticatedStack /> : <AuthStack />}
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+function Root() {
+  const authCtx = useContext(AuthContext);
+  const [isTokenFetching, setIsTokenFetching] = useState(true);
+  useEffect(() => {
+    async function fetchToken() {
+      setIsTokenFetching(true);
+      const storedToken = await AsyncStorage.getItem("toekn");
+      if (storedToken) {
+        authCtx.authenticate(storedToken);
+      }
+      setIsTokenFetching(false);
+    }
+    fetchToken();
+  }, []);
+  if (isTokenFetching) {
+    return <LoadingOverlay />;
+  }
+  return <Navigation />;
+}
+
+export default function App() {
+  return (
+    <>
+      <StatusBar style="auto" />
+      <AuthContextProvider>
+        <Root />
+      </AuthContextProvider>
+    </>
+  );
+}
