@@ -4,6 +4,7 @@ import { AuthContext } from "../store/auth-context";
 import AuthenticatedDrawerNavigation from "./AuthenticatedDrawerNavigation";
 import StudentDetailsScreen from "../screens/StudentDetailsScreen";
 import LocationSearchScreen from "../screens/LocationSearchScreen";
+import AuthenticatedTabNavigation from "./AuthenticatedTabNavigation";
 
 const Stack = createNativeStackNavigator();
 
@@ -12,8 +13,8 @@ export default function AuthenticatedStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Home"
-        component={AuthenticatedDrawerNavigation}
+        name="Tab Navigation"
+        component={AuthenticatedTabNavigation}
         options={{
           headerShown: false,
         }}
