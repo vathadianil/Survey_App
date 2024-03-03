@@ -1,8 +1,9 @@
 import axios from "axios";
-const baseAuthURL = "https://identitytoolkit.googleapis.com/v1/accounts:";
 
-export const authAxios = axios.create({
-  baseURL: baseAuthURL,
+const baseURL = "http://13.201.5.209:8001";
+
+export default axios.create({
+  baseURL: baseURL,
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",

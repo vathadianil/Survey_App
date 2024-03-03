@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     paddingHorizontal: 4,
     borderRadius: 8,
-    overflow: "hidden",
     backgroundColor: Colors.white,
     elevation: 4,
     shadowColor: Colors.black,

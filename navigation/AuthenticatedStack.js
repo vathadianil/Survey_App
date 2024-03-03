@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../store/auth-context";
 import AuthenticatedDrawerNavigation from "./AuthenticatedDrawerNavigation";
 import StudentDetailsScreen from "../screens/StudentDetailsScreen";
+import LocationSearchScreen from "../screens/LocationSearchScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,14 @@ export default function AuthenticatedStack() {
         component={StudentDetailsScreen}
         options={{
           title: "Details",
+        }}
+      />
+
+      <Stack.Screen
+        name="LocationSearch"
+        component={LocationSearchScreen}
+        options={{
+          title: "",
         }}
       />
     </Stack.Navigator>
