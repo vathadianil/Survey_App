@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
   },
   input: {
     padding: 16,
+    fontFamily: "regular",
   },
   btnContainer: {
     width: "30%",

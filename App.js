@@ -1,11 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import LoadingOverlay from "./components/ui/LoadingOverlay";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthStack from "./navigation/AuthStack";
 import AuthenticatedStack from "./navigation/AuthenticatedStack";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 function Navigation() {
   const authCtx = useContext(AuthContext);
@@ -38,6 +40,24 @@ function Root() {
 }
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    regular: require("./assets/fonts/Poppins-Regular.ttf"),
+    light: require("./assets/fonts/Poppins-Light.ttf"),
+    medium: require("./assets/fonts/Poppins-Medium.ttf"),
+    bold: require("./assets/fonts/Poppins-Bold.ttf"),
+    extrabold: require("./assets/fonts/Poppins-ExtraBold.ttf"),
+    semibold: require("./assets/fonts/Poppins-SemiBold.ttf"),
+  });
+  console.log(fontsLoaded);
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <>
       <StatusBar style="auto" />

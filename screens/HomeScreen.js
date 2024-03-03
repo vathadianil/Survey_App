@@ -1,9 +1,10 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import StudentOverview from "../components/Student/StudentOverview";
 // import { DUMMY_DATA } from "../data/dummy-data";
 import { useEffect, useState } from "react";
 import axios from "../util/axios";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const HomeScreen = () => {
   const [studentDataList, setStudentDataList] = useState([]);
@@ -40,7 +41,7 @@ const HomeScreen = () => {
     return <StudentOverview {...studentProps} />;
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={studentDataList}
         initialNumToRender={6}
@@ -48,7 +49,7 @@ const HomeScreen = () => {
         renderItem={renderStudent}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -69,7 +69,7 @@ const AuthContent = ({ isLogin, onAuthenticate }) => {
           {isLogin ? (
             <Text>
               <View>
-                <Text>Create a</Text>
+                <Text style={styles.normalText}>Create a</Text>
               </View>
               <View style={styles.btnHighlightContainer}>
                 <Text style={styles.btnHighlightText}>New Account</Text>
@@ -81,7 +81,7 @@ const AuthContent = ({ isLogin, onAuthenticate }) => {
                 <Text style={styles.btnHighlightText}>Log In</Text>
               </View>
               <View>
-                <Text>instead</Text>
+                <Text style={styles.normalText}>instead</Text>
               </View>
             </Text>
           )}
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: "800",
+    fontFamily: "semibold",
     marginBottom: 32,
   },
   flatBtnContainer: {
@@ -123,9 +123,12 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.primary500,
   },
   btnHighlightText: {
-    marginHorizontal: 4,
+    marginHorizontal: 6,
     textAlign: "center",
-    fontWeight: "bold",
+    fontFamily: "bold",
     color: Colors.primary800,
+  },
+  normalText: {
+    fontFamily: "regular",
   },
 });

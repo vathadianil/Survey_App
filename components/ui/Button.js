@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: Colors.white,
     textAlign: "center",
+    fontFamily: "regular",
   },
   flatText: {
     color: Colors.shadowColor,
