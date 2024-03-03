@@ -48,7 +48,7 @@ export default function App() {
     extrabold: require("./assets/fonts/Poppins-ExtraBold.ttf"),
     semibold: require("./assets/fonts/Poppins-SemiBold.ttf"),
   });
-  console.log(fontsLoaded);
+
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
       await SplashScreen.hideAsync();

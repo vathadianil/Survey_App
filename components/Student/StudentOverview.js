@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   studentName: {
-    fontWeight: "bold",
+    fontFamily: "medium",
     fontSize: 16,
     marginBottom: 8,
     textTransform: "capitalize",
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     fontSize: 14,
-    fontWeight: "700",
+    fontFamily: "light",
     textTransform: "capitalize",
   },
 
