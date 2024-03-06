@@ -54,28 +54,27 @@ const StudentDetailsScreen = ({ route }) => {
                 : "Not Available"}
             </Text>
           </Pressable>
-          <Pressable
-            style={styles.detailContainer}
-            onPress={phoneNumberPressHndlr.bind(
-              this,
-              selectedStudent.fatherMobileNumber
-            )}
-          >
-            <Ionicons
-              name="call"
-              size={12}
-              color={Colors.primary800}
-              style={styles.icon}
-            />
-            <Text style={[styles.detailText, styles.mobileText]}>
-              {selectedStudent?.fatherMobileNumber
-                ? `${selectedStudent?.fatherMobileNumber} `
-                : "Not Available"}
-            </Text>
-            {selectedStudent?.fatherMobileNumber && (
-              <Text style={[styles.detailText]}>(Guardian)</Text>
-            )}
-          </Pressable>
+          {selectedStudent?.fatherMobileNumber && (
+            <Pressable
+              style={styles.detailContainer}
+              onPress={phoneNumberPressHndlr.bind(
+                this,
+                selectedStudent.fatherMobileNumber
+              )}
+            >
+              <Ionicons
+                name="call"
+                size={12}
+                color={Colors.primary800}
+                style={styles.icon}
+              />
+              <Text style={[styles.detailText, styles.mobileText]}>
+                {selectedStudent?.fatherMobileNumber}
+              </Text>
+
+              <Text style={[styles.detailText]}> (Guardian)</Text>
+            </Pressable>
+          )}
         </View>
       </View>
       <View style={[styles.detailContainer, styles.locationContainer]}>

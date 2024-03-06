@@ -1,14 +1,18 @@
 import { FlatList, StyleSheet } from "react-native";
 import StudentOverview from "../components/Student/StudentOverview";
 // import { DUMMY_DATA } from "../data/dummy-data";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "../util/axios";
-import LoadingOverlay from "../components/ui/LoadingOverlay";
 import { SafeAreaView } from "react-native-safe-area-context";
+import CurrentLocation from "../components/CurrentLocation";
+import NoLocation from "../components/NoLocation";
+import { AuthContext } from "../store/auth-context";
+import StudentOverViewSkelton from "../components/ui/skelton/StudentOverViewSkelton";
 
 const HomeScreen = () => {
   const [studentDataList, setStudentDataList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const authCtx = useContext(AuthContext);
 
   const getStudentDetails = async () => {
     try {
@@ -22,11 +26,11 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    getStudentDetails();
+    // getStudentDetails();
   }, []);
 
   if (isLoading) {
-    return <LoadingOverlay />;
+    return <StudentOverViewSkelton />;
   }
 
   function renderStudent(itemData) {
@@ -40,8 +44,17 @@ const HomeScreen = () => {
     };
     return <StudentOverview {...studentProps} />;
   }
+  if (!authCtx.location) {
+    return (
+      <SafeAreaView style={[styles.container, { padding: 0 }]}>
+        <NoLocation />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
+      <CurrentLocation />
       <FlatList
         data={studentDataList}
         initialNumToRender={6}
