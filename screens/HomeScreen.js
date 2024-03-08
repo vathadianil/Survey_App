@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, Text } from "react-native";
 import StudentOverview from "../components/Student/StudentOverview";
 // import { DUMMY_DATA } from "../data/dummy-data";
 import { useContext, useEffect, useState } from "react";
@@ -8,29 +8,60 @@ import CurrentLocation from "../components/CurrentLocation";
 import NoLocation from "../components/NoLocation";
 import { AuthContext } from "../store/auth-context";
 import StudentOverViewSkelton from "../components/ui/skelton/StudentOverViewSkelton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoadingOverlay from "../components/ui/LoadingOverlay";
+import NoDataFound from "../components/ui/NoDataFound";
+import { Snackbar } from "react-native-paper";
 
 const HomeScreen = () => {
   const [studentDataList, setStudentDataList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLocationFetching, setIsLocationFetching] = useState(true);
+  const [error, setError] = useState(false);
   const authCtx = useContext(AuthContext);
 
-  const getStudentDetails = async () => {
+  const onDismissSnackBar = () => setError(false);
+
+  const getStudentDetails = async (location) => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get("/addresses?village_name=andhra");
+      const { data } = await axios.get(`/student_details?string=${location}`);
       setStudentDataList(data?.data);
       setIsLoading(false);
     } catch (error) {
+      setError(true);
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    // getStudentDetails();
+    const fechLocation = async () => {
+      setIsLocationFetching(true);
+      const storedLocation = await AsyncStorage.getItem("location");
+      if (storedLocation) {
+        authCtx.addLocation(storedLocation);
+      }
+      setIsLocationFetching(false);
+    };
+    fechLocation();
   }, []);
 
-  if (isLoading) {
-    return <StudentOverViewSkelton />;
+  useEffect(() => {
+    if (authCtx.location) {
+      getStudentDetails(authCtx.location);
+    }
+  }, [authCtx.location]);
+
+  if (isLocationFetching) {
+    return <LoadingOverlay />;
+  }
+
+  if (!authCtx.location && !isLocationFetching) {
+    return (
+      <SafeAreaView style={[styles.container, { padding: 0 }]}>
+        <NoLocation />
+      </SafeAreaView>
+    );
   }
 
   function renderStudent(itemData) {
@@ -44,24 +75,36 @@ const HomeScreen = () => {
     };
     return <StudentOverview {...studentProps} />;
   }
-  if (!authCtx.location) {
-    return (
-      <SafeAreaView style={[styles.container, { padding: 0 }]}>
-        <NoLocation />
-      </SafeAreaView>
-    );
-  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <CurrentLocation />
-      <FlatList
-        data={studentDataList}
-        initialNumToRender={6}
-        keyExtractor={(student) => student.id}
-        renderItem={renderStudent}
-        showsVerticalScrollIndicator={false}
-      />
+      {authCtx.location && <CurrentLocation />}
+
+      {isLoading ? (
+        <StudentOverViewSkelton />
+      ) : studentDataList.length > 0 ? (
+        <FlatList
+          data={studentDataList}
+          initialNumToRender={6}
+          keyExtractor={(student) => student.id}
+          renderItem={renderStudent}
+          showsVerticalScrollIndicator={false}
+        />
+      ) : (
+        <NoDataFound />
+      )}
+      <Snackbar
+        visible={error}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "Ok",
+          onPress: () => {
+            onDismissSnackBar();
+          },
+        }}
+      >
+        Something Went wrong. Please Try again Later...
+      </Snackbar>
     </SafeAreaView>
   );
 };
@@ -71,6 +114,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    // padding: 16,
   },
 });

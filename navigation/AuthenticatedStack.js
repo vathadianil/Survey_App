@@ -24,7 +24,7 @@ export default function AuthenticatedStack() {
         name="StudentDetail"
         component={StudentDetailsScreen}
         options={{
-          title: "Details",
+          headerShown: false,
         }}
       />
 
@@ -32,7 +32,7 @@ export default function AuthenticatedStack() {
         name="LocationSearch"
         component={LocationSearchScreen}
         options={{
-          title: "",
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

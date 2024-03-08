@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "survey_app",
+    "name": "Next Step",
     "slug": "survey_app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,16 +15,24 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "VersionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anil2a6.survey_app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1f4d8192-9a18-4d59-ace4-65d7d27f2e8c"
+      }
     }
   }
 }

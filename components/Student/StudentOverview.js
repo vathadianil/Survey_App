@@ -9,6 +9,7 @@ const StudentOverview = ({
   studentName,
   gender,
   mobileNumber,
+  fatherMobileNumber,
   permanentAddress,
 }) => {
   const navigation = useNavigation();
@@ -20,7 +21,12 @@ const StudentOverview = ({
         style={({ pressed }) => pressed && styles.pressedBtn}
         onPress={() => {
           navigation.navigate("StudentDetail", {
-            studentId: id,
+            id: id,
+            studentName: studentName,
+            gender: gender,
+            mobileNumber: mobileNumber,
+            fatherMobileNumber: fatherMobileNumber,
+            permanentAddress: permanentAddress,
           });
         }}
       >

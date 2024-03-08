@@ -8,11 +8,13 @@ export const AuthContext = createContext({
   authenticate: () => {},
   logout: () => {},
   addLocation: () => {},
+  addStudentList: () => {},
 });
 
 function AuthContextProvider({ children }) {
   const [authToken, setAuthToken] = useState();
-  const [location, setLocation] = useState();
+  const [location, setLocation] = useState("");
+  const [studentList, setStudentList] = useState([]);
 
   function authenticate(token) {
     setAuthToken(token);
@@ -25,8 +27,12 @@ function AuthContextProvider({ children }) {
   }
 
   function addLocation(location) {
-    setAuthToken(location);
+    setLocation(location);
     AsyncStorage.setItem("location", location);
+  }
+
+  function addStudentList(studntList) {
+    setStudentList(studntList);
   }
 
   const value = {
@@ -36,6 +42,7 @@ function AuthContextProvider({ children }) {
     authenticate: authenticate,
     logout: logout,
     addLocation: addLocation,
+    addStudentList: addStudentList,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
