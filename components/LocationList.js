@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 
   locationText: {
     fontFamily: "light",
-    fontSize: 14,
+    fontSize: 12,
     textTransform: "capitalize",
     flex: 1,
     flexWrap: "wrap",

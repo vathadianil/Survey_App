@@ -4,7 +4,7 @@ import { Colors } from "../../../constants/styles";
 import Skelton from "./Skelton";
 
 function renderSkelton() {
-  const cardWidth = Dimensions.get("window").width * 0.8;
+  const cardWidth = Dimensions.get("window").width * 0.9;
   return (
     <View style={[styles.card, { width: cardWidth }]}>
       <Skelton width={40} height={40} style={{ borderRadius: 20 }} />
