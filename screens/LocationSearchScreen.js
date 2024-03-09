@@ -77,7 +77,7 @@ const LocationSearchScreen = ({ navigation }) => {
       ) : filteredLocationList.length > 0 && !error ? (
         <LocationList locationList={filteredLocationList} />
       ) : (
-        <NoDataFound />
+        error && <NoDataFound />
       )}
     </SafeAreaView>
   );

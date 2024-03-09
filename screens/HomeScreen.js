@@ -9,14 +9,13 @@ import NoLocation from "../components/NoLocation";
 import { AuthContext } from "../store/auth-context";
 import StudentOverViewSkelton from "../components/ui/skelton/StudentOverViewSkelton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import LoadingOverlay from "../components/ui/LoadingOverlay";
 import NoDataFound from "../components/ui/NoDataFound";
 
 const HomeScreen = () => {
   const authCtx = useContext(AuthContext);
   const [studentDataList, setStudentDataList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLocationFetching, setIsLocationFetching] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [error, setError] = useState(false);
 
   const getStudentDetails = async (location) => {
@@ -33,12 +32,12 @@ const HomeScreen = () => {
 
   useEffect(() => {
     const fechLocation = async () => {
-      setIsLocationFetching(true);
+      setIsLoading(true);
       const storedLocation = await AsyncStorage.getItem("location");
       if (storedLocation) {
         authCtx.addLocation(storedLocation);
       }
-      setIsLocationFetching(false);
+      setIsLoading(false);
     };
     fechLocation();
   }, []);
@@ -49,11 +48,7 @@ const HomeScreen = () => {
     }
   }, [authCtx.location]);
 
-  if (isLocationFetching) {
-    return <LoadingOverlay />;
-  }
-
-  if (!authCtx.location && !isLocationFetching) {
+  if (!authCtx.location && !isLoading) {
     return (
       <SafeAreaView style={[styles.container, { padding: 0 }]}>
         <NoLocation />
@@ -88,7 +83,7 @@ const HomeScreen = () => {
           showsVerticalScrollIndicator={false}
         />
       ) : (
-        <NoDataFound />
+        error && <NoDataFound />
       )}
     </SafeAreaView>
   );
@@ -99,6 +94,5 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // padding: 16,
   },
 });

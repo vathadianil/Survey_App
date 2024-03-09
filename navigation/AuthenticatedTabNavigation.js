@@ -15,6 +15,7 @@ const AuthenticatedTabNavigation = () => {
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
         headerShown: false,
+        // unmountOnBlur: true,
         tabBarStyle: {
           position: "absolute",
           bottom: 0,

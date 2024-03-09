@@ -24,6 +24,8 @@ function AuthContextProvider({ children }) {
   function logout() {
     setAuthToken(null);
     AsyncStorage.removeItem("token");
+    // setLocation("");
+    // AsyncStorage.removeItem("location");
   }
 
   function addLocation(location) {
