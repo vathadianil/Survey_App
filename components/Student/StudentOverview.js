@@ -11,11 +11,27 @@ const StudentOverview = ({
   mobileNumber,
   fatherMobileNumber,
   permanentAddress,
+  visitedStatus,
+  insterestedStatus,
+  tokenAmount,
 }) => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.student}>
+      <View style={styles.statusContainer}>
+        <Text style={styles.stutusText}>
+          {visitedStatus === "NO" ? "Not Visited" : "Visited"}
+        </Text>
+        <View
+          style={[
+            styles.statusIndicator,
+            visitedStatus === "NO"
+              ? { backgroundColor: Colors.error800 }
+              : { backgroundColor: Colors.success },
+          ]}
+        ></View>
+      </View>
       <Pressable
         android_ripple={{ color: Colors.shadowColor }}
         style={({ pressed }) => pressed && styles.pressedBtn}
@@ -27,6 +43,9 @@ const StudentOverview = ({
             mobileNumber: mobileNumber,
             fatherMobileNumber: fatherMobileNumber,
             permanentAddress: permanentAddress,
+            visitedStatus: visitedStatus,
+            insterestedStatus: insterestedStatus,
+            tokenAmount: tokenAmount,
           });
         }}
       >
@@ -77,6 +96,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     marginHorizontal: 8,
     paddingHorizontal: 4,
+    paddingVertical: 16,
     borderRadius: 8,
     backgroundColor: Colors.white,
     elevation: 4,
@@ -85,6 +105,28 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 8,
     overflow: Platform.select({ android: "hidden" }),
+    position: "relative",
+  },
+  statusContainer: {
+    position: "absolute",
+    top: 2,
+    right: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  statusIndicator: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    marginLeft: 4,
+    elevation: 4,
+    shadowColor: Colors.black,
+    shadowRadius: 8,
+  },
+  stutusText: {
+    fontSize: 10,
+    fontFamily: "medium",
+    textTransform: "uppercase",
   },
   innerContainer: {
     flexDirection: "row",

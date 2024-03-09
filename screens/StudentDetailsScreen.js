@@ -30,7 +30,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
         >
           <Ionicons name="chevron-back-circle" size={32} />
         </Pressable>
-        <Text style={styles.title}>Details</Text>
+        <Text style={styles.title}>{studentName}</Text>
         <View></View>
       </View>
       <View style={styles.container}>
@@ -48,7 +48,6 @@ const StudentDetailsScreen = ({ route, navigation }) => {
             />
           </View>
 
-          <Text style={styles.studentName}>{studentName}</Text>
           <View>
             <Pressable
               onPress={phoneNumberPressHndlr.bind(this, mobileNumber)}
@@ -121,8 +120,9 @@ const styles = StyleSheet.create({
 
   title: {
     fontFamily: "semibold",
-    fontSize: 24,
+    fontSize: 16,
     color: Colors.gray,
+    textTransform: "capitalize",
   },
   innerContainer: { alignItems: "center" },
   imageContainer: {
@@ -132,13 +132,7 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
   },
-  studentName: {
-    fontFamily: "semibold",
-    fontSize: 20,
-    marginBottom: 8,
-    textTransform: "capitalize",
-    flexWrap: "wrap",
-  },
+
   detailContainer: {
     flexDirection: "row",
     alignItems: "center",

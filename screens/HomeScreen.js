@@ -22,6 +22,7 @@ const HomeScreen = () => {
     try {
       setIsLoading(true);
       const { data } = await axios.get(`/student_details?string=${location}`);
+      console.log(data.data);
       setStudentDataList(data?.data);
       setIsLoading(false);
     } catch (error) {
@@ -64,6 +65,9 @@ const HomeScreen = () => {
       mobileNumber: itemData.item.mobileNumber,
       fatherMobileNumber: itemData.item.fatherMobileNumber,
       permanentAddress: itemData.item.permanentAddress,
+      visitedStatus: itemData.item.Visited_Status,
+      insterestedStatus: itemData.item.Intrested_Status,
+      tokenAmount: itemData.item.Token_Amount,
     };
     return <StudentOverview {...studentProps} />;
   }

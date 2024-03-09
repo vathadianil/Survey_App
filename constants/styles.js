@@ -8,7 +8,7 @@ export const Colors = {
   error100: "#fcdcbf",
   error500: "#f37c13",
   error800: "#f00",
-  success: "#0f0",
+  success: "green",
 
   gray: "#83829A",
   gray2: "#C1C0C8",
