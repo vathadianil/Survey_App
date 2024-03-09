@@ -57,8 +57,8 @@ export default LocationList;
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 16,
-    marginHorizontal: 8,
+    marginVertical: 12,
+    marginHorizontal: 16,
     borderRadius: 8,
     backgroundColor: Colors.white,
     elevation: 4,
@@ -71,18 +71,19 @@ const styles = StyleSheet.create({
 
   innerContainer: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 24,
-    paddingVertical: 12,
+    padding: 12,
   },
   icon: {
     marginRight: 10,
   },
+
   locationText: {
-    fontSize: 14,
     fontFamily: "light",
+    fontSize: 14,
     textTransform: "capitalize",
+    flex: 1,
+    flexWrap: "wrap",
   },
 
   pressedBtn: {

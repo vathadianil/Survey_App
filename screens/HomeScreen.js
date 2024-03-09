@@ -22,7 +22,6 @@ const HomeScreen = () => {
     try {
       setIsLoading(true);
       const { data } = await axios.get(`/student_details?string=${location}`);
-      console.log(data.data);
       setStudentDataList(data?.data);
       setIsLoading(false);
     } catch (error) {

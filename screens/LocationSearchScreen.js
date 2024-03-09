@@ -87,10 +87,6 @@ export default LocationSearchScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 8,
-    marginHorizontal: 12,
-    elevation: 3,
-    alignItems: "center",
   },
   searchContainer: {
     height: 50,
@@ -100,6 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary400,
     borderRadius: 8,
     marginVertical: 8,
+    marginHorizontal: 16,
     paddingLeft: 4,
   },
   searchIcon: {
