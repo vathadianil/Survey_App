@@ -48,6 +48,7 @@ const LocationList = ({ locationList }) => {
       keyExtractor={(location) => location.id}
       renderItem={renderLocation}
       showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="always"
     />
   );
 };
