@@ -6,7 +6,6 @@ import { Ionicons } from "@expo/vector-icons";
 import LocationList from "../components/LocationList";
 import axios from "../util/axios";
 import LocationSearchSkelton from "../components/ui/skelton/LocationSearchSkelton";
-import { Snackbar } from "react-native-paper";
 import NoDataFound from "../components/ui/NoDataFound";
 
 const LocationSearchScreen = ({ navigation }) => {
@@ -16,7 +15,6 @@ const LocationSearchScreen = ({ navigation }) => {
   const [filteredLocationList, setFilteredLocationList] = useState([]);
   const [error, setError] = useState(false);
 
-  const onDismissSnackBar = () => setError(false);
   function updateInputValueHandler(enteredValue) {
     setEnteredInput(enteredValue);
     let filteredData = [];
@@ -76,24 +74,11 @@ const LocationSearchScreen = ({ navigation }) => {
 
       {isLoading ? (
         <LocationSearchSkelton />
-      ) : filteredLocationList.length > 0 ? (
+      ) : filteredLocationList.length > 0 && !error ? (
         <LocationList locationList={filteredLocationList} />
       ) : (
         <NoDataFound />
       )}
-
-      <Snackbar
-        visible={error}
-        onDismiss={onDismissSnackBar}
-        action={{
-          label: "Ok",
-          onPress: () => {
-            onDismissSnackBar();
-          },
-        }}
-      >
-        Something Went wrong. Please Try again Later...
-      </Snackbar>
     </SafeAreaView>
   );
 };
@@ -105,6 +90,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 12,
     elevation: 3,
+    alignItems: "center",
   },
   searchContainer: {
     height: 50,

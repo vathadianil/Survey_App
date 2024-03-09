@@ -2,7 +2,7 @@
   "expo": {
     "name": "Next Step",
     "slug": "survey_app",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,11 +15,11 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.0.2",
       "supportsTablet": true
     },
     "android": {
-      "VersionCode": 2,
+      "VersionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

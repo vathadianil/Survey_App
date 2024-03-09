@@ -11,16 +11,13 @@ import StudentOverViewSkelton from "../components/ui/skelton/StudentOverViewSkel
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import NoDataFound from "../components/ui/NoDataFound";
-import { Snackbar } from "react-native-paper";
 
 const HomeScreen = () => {
+  const authCtx = useContext(AuthContext);
   const [studentDataList, setStudentDataList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLocationFetching, setIsLocationFetching] = useState(true);
   const [error, setError] = useState(false);
-  const authCtx = useContext(AuthContext);
-
-  const onDismissSnackBar = () => setError(false);
 
   const getStudentDetails = async (location) => {
     try {
@@ -82,7 +79,7 @@ const HomeScreen = () => {
 
       {isLoading ? (
         <StudentOverViewSkelton />
-      ) : studentDataList.length > 0 ? (
+      ) : studentDataList?.length > 0 && !error ? (
         <FlatList
           data={studentDataList}
           initialNumToRender={6}
@@ -93,18 +90,6 @@ const HomeScreen = () => {
       ) : (
         <NoDataFound />
       )}
-      <Snackbar
-        visible={error}
-        onDismiss={onDismissSnackBar}
-        action={{
-          label: "Ok",
-          onPress: () => {
-            onDismissSnackBar();
-          },
-        }}
-      >
-        Something Went wrong. Please Try again Later...
-      </Snackbar>
     </SafeAreaView>
   );
 };

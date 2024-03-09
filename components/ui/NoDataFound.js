@@ -1,10 +1,19 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
+import LottieView from "lottie-react-native";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const NoDataFound = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>No Data Found!!!</Text>
+      <View style={styles.imageContainer}>
+        <LottieView
+          style={styles.image}
+          source={require(`../../assets/lottie-animations/Oops.json`)}
+          autoPlay
+          loop={false}
+        />
+      </View>
     </View>
   );
 };
@@ -17,8 +26,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  text: {
-    fontFamily: "semibold",
-    fontSize: 32,
+  imageContainer: {
+    width: "90%",
+    aspectRatio: 1,
+  },
+  image: {
+    flex: 1,
   },
 });

@@ -34,11 +34,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: Colors.primary400,
   },
-  text: {
-    marginVertical: 32,
-    fontFamily: "regular",
-    fontSize: 14,
-  },
   imageContainer: {
     width: "90%",
     aspectRatio: 1,
