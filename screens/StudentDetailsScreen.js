@@ -1,13 +1,24 @@
-import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 import { Linking } from "react-native";
-import { Switch, List } from "react-native-paper";
+import { List, Switch } from "react-native-paper";
 import { useState } from "react";
+import PersonalDetails from "../components/PersonalDetails";
+import EducationDetails from "../components/EducationDetails";
+import Button from "../components/ui/Button";
 
 const StudentDetailsScreen = ({ route, navigation }) => {
+  const [isVisitedSwitchOn, setIsVisitedSwitchOn] = useState(false);
   const [isInterestSwitchOn, setIsInterestSwitchOn] = useState(false);
 
   const onToggleInterestSwitch = () =>
@@ -39,40 +50,26 @@ const StudentDetailsScreen = ({ route, navigation }) => {
         <Text style={styles.title}>{studentName}</Text>
         <View></View>
       </View>
-      <View style={styles.container}>
-        <View style={styles.innerContainer}>
-          <View style={styles.imageContainer}>
-            <LottieView
-              style={styles.image}
-              source={
-                gender === "Female"
-                  ? require(`../assets/lottie-animations/female1.json`)
-                  : require(`../assets/lottie-animations/male1.json`)
-              }
-              autoPlay
-              loop={false}
-            />
-          </View>
-
-          <View>
-            <Pressable
-              onPress={phoneNumberPressHndlr.bind(this, mobileNumber)}
-              style={styles.detailContainer}
-            >
-              <Ionicons
-                name="call"
-                size={12}
-                color={Colors.primary800}
-                style={styles.icon}
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.innerContainer}>
+            <View style={styles.imageContainer}>
+              <LottieView
+                style={styles.image}
+                source={
+                  gender === "Female"
+                    ? require(`../assets/lottie-animations/female1.json`)
+                    : require(`../assets/lottie-animations/male1.json`)
+                }
+                autoPlay
+                loop={false}
               />
-              <Text style={[styles.detailText, styles.mobileText]}>
-                {mobileNumber ? mobileNumber : "Not Available"}
-              </Text>
-            </Pressable>
-            {fatherMobileNumber && (
+            </View>
+
+            <View>
               <Pressable
+                onPress={phoneNumberPressHndlr.bind(this, mobileNumber)}
                 style={styles.detailContainer}
-                onPress={phoneNumberPressHndlr.bind(this, fatherMobileNumber)}
               >
                 <Ionicons
                   name="call"
@@ -81,52 +78,58 @@ const StudentDetailsScreen = ({ route, navigation }) => {
                   style={styles.icon}
                 />
                 <Text style={[styles.detailText, styles.mobileText]}>
-                  {fatherMobileNumber}
+                  {mobileNumber ? mobileNumber : "Not Available"}
                 </Text>
-
-                <Text style={[styles.detailText]}> (Guardian)</Text>
               </Pressable>
-            )}
+              {fatherMobileNumber && (
+                <Pressable
+                  style={styles.detailContainer}
+                  onPress={phoneNumberPressHndlr.bind(this, fatherMobileNumber)}
+                >
+                  <Ionicons
+                    name="call"
+                    size={12}
+                    color={Colors.primary800}
+                    style={styles.icon}
+                  />
+                  <Text style={[styles.detailText, styles.mobileText]}>
+                    {fatherMobileNumber}
+                  </Text>
+
+                  <Text style={[styles.detailText]}> (Guardian)</Text>
+                </Pressable>
+              )}
+            </View>
           </View>
-        </View>
-        <View style={[styles.detailContainer, styles.locationContainer]}>
-          <Ionicons name="location" size={12} style={styles.icon} />
-          <Text style={[styles.detailText]}>{permanentAddress}</Text>
-        </View>
-        <View style={styles.switchContainer}>
-          <Text style={styles.switchText}>Visited Status</Text>
-          <Switch
-            value={isInterestSwitchOn}
-            onValueChange={onToggleInterestSwitch}
-            color={Colors.primary800}
-          />
-        </View>
-        <View style={styles.switchContainer}>
-          <Text style={styles.switchText}>Interested To Join</Text>
-          <Switch
-            value={isInterestSwitchOn}
-            onValueChange={onToggleInterestSwitch}
-            color={Colors.primary800}
-          />
+          <View style={[styles.detailContainer, styles.locationContainer]}>
+            <Ionicons name="location" size={12} style={styles.icon} />
+            <Text style={[styles.detailText]}>{permanentAddress}</Text>
+          </View>
+          <View style={styles.switchContainer}>
+            <Text style={styles.switchText}>Visited Status</Text>
+            <Switch
+              value={isVisitedSwitchOn}
+              onValueChange={setIsVisitedSwitchOn}
+              color={Colors.primary800}
+            />
+          </View>
+          <View style={styles.switchContainer}>
+            <Text style={styles.switchText}>Interested To Join</Text>
+            <Switch
+              value={isInterestSwitchOn}
+              onValueChange={onToggleInterestSwitch}
+              color={Colors.primary800}
+            />
+          </View>
         </View>
         <List.AccordionGroup>
-          <List.Accordion title="Accordion 1" id="1">
-            <List.Item title="Item 1" />
-          </List.Accordion>
-          <List.Accordion title="Accordion 2" id="2">
-            <List.Item title="Item 2" />
-          </List.Accordion>
-          <View>
-            <Text>
-              List.Accordion can be wrapped because implementation uses
-              React.Context.
-            </Text>
-            <List.Accordion title="Accordion 3" id="3">
-              <List.Item title="Item 3" />
-            </List.Accordion>
-          </View>
+          <PersonalDetails />
+          <EducationDetails />
         </List.AccordionGroup>
-      </View>
+        <View style={styles.btnContainer}>
+          <Button style={styles.btn}>Submit</Button>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -206,5 +209,12 @@ const styles = StyleSheet.create({
   },
   switchText: {
     fontFamily: "medium",
+  },
+  btnContainer: {
+    alignItems: "center",
+  },
+  btn: {
+    width: "30%",
+    marginBottom: 70,
   },
 });
