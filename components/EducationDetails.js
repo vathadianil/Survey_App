@@ -1,9 +1,12 @@
 import { StyleSheet, View, Text } from "react-native";
-import { List, Card, TextInput, RadioButton } from "react-native-paper";
+import { List, Card, RadioButton } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 import { Dropdown } from "react-native-element-dropdown";
 import { useState } from "react";
+import CustomInput from "./ui/paper/CustomInput";
+import CustomDropdown from "./ui/paper/CustomDropdown";
+import CustomRadio from "./ui/paper/CustomRadio";
 
 const admissionCategoryList = [
   { label: "Convener", value: "Convener" },
@@ -25,152 +28,124 @@ const mediumList = [
 ];
 
 const EducationDetails = () => {
-  const [value, setValue] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
+  const [admissionCategory, setAdmissionCategory] = useState(null);
+  const [isAdmissionCategoryFocus, setIsAdmissionCategoryFocus] =
+    useState(false);
+
+  const [courseOrGroup, setCourseOrGroup] = useState(null);
+  const [isCourseOrGroupFocus, setIsCourseOrGroupFocus] = useState(false);
+
+  const [medium, setMedimum] = useState(null);
+  const [isMediumFocus, setIsMediumFocus] = useState(false);
+
+  const [physicallyChallenged, setPhysicallyChallenged] = useState("no");
+  const [registrationFeePaid, setRegistrationFeePaid] = useState("no");
+
+  const onPhysicallyChallengedValueChange = (newValue) => {
+    setPhysicallyChallenged(newValue);
+  };
+
+  const onRegistrationFeePaidValueChange = (newValue) => {
+    setRegistrationFeePaid(newValue);
+  };
+
+  const toggleFocusForAdmissionCategory = (value) => {
+    setIsAdmissionCategoryFocus(value);
+  };
+
+  const onAdmissionCategoryValueChange = (value) => {
+    setAdmissionCategory(value);
+  };
+
+  const toggleFocusForCourseOrGroup = (value) => {
+    setIsCourseOrGroupFocus(value);
+  };
+
+  const onCourseOrGroupValueChange = (value) => {
+    setCourseOrGroup(value);
+  };
+
+  const toggleFocusForMedium = (value) => {
+    setIsMediumFocus(value);
+  };
+
+  const onMediumValueChange = (value) => {
+    setMedimum(value);
+  };
 
   return (
     <Card mode="elevated" style={styles.container}>
       <List.Accordion
-        id="2"
+        id="two"
         titleStyle={styles.accordionText}
+        rippleColor={Colors.primary400}
         title="Education Details"
         left={(props) => (
           <Ionicons {...props} name="person-add-outline" size={20} />
         )}
       >
-        <View style={styles.inputContainer}>
-          <TextInput
-            label="SSC Hall Ticket Number"
-            mode="outlined"
-            activeOutlineColor={Colors.primary800}
-            outlineColor={Colors.primary800}
-            contentStyle={styles.textInputContent}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            label="Last Studied School/College"
-            mode="outlined"
-            activeOutlineColor={Colors.primary800}
-            outlineColor={Colors.primary800}
-            contentStyle={styles.textInputContent}
-          />
-        </View>
+        <CustomInput
+          label={"SSC Hall Ticket Number"}
+          style={styles.inputContainer}
+        />
+        <CustomInput
+          label={"Last Studied School/College"}
+          style={styles.inputContainer}
+        />
 
-        <View style={styles.inputContainer}>
-          <Dropdown
-            style={[
-              styles.dropdown,
-              { borderColor: Colors.primary800, borderWidth: 1 },
-            ]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            data={admissionCategoryList}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "Admission Category" : "..."}
-            searchPlaceholder="Search Admission Category..."
-            value={value}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setValue(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
+        <CustomDropdown
+          label={"Admission Category"}
+          style={styles.inputContainer}
+          data={admissionCategoryList}
+          value={admissionCategory}
+          isFocus={isAdmissionCategoryFocus}
+          onFocusChange={toggleFocusForAdmissionCategory}
+          onValueChange={onAdmissionCategoryValueChange}
+        />
 
-        <View style={[styles.inputContainer, styles.radioGroupContainer]}>
-          <Text style={styles.radioGroupLable}>Physically Challanged</Text>
-          <RadioButton.Group
-            onValueChange={(newValue) => setValue(newValue)}
-            value={value}
-          >
-            <View>
-              <View style={styles.radioBtnContainer}>
-                <RadioButton value="yes" />
-                <Text style={styles.radioLabelText}>Yes</Text>
-              </View>
-              <View style={styles.radioBtnContainer}>
-                <RadioButton value="no" />
-                <Text style={styles.radioLabelText}>No</Text>
-              </View>
-            </View>
-          </RadioButton.Group>
-        </View>
+        <CustomRadio
+          label={"Physically Challanged"}
+          style={styles.inputContainer}
+          value={physicallyChallenged}
+          onValueChange={onPhysicallyChallengedValueChange}
+          data={[
+            { value: "yes", displayText: "Yes" },
+            { value: "no", displayText: "No" },
+          ]}
+          radioGroupAlignVertical={true}
+        />
 
-        <View style={styles.inputContainer}>
-          <Dropdown
-            style={[
-              styles.dropdown,
-              { borderColor: Colors.primary800, borderWidth: 1 },
-            ]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            data={courseOrGroupList}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "Course/Group" : "..."}
-            searchPlaceholder="Search Course/Group..."
-            value={value}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setValue(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
+        <CustomDropdown
+          label={"Course/Group"}
+          style={styles.inputContainer}
+          data={courseOrGroupList}
+          value={courseOrGroup}
+          isFocus={isCourseOrGroupFocus}
+          onFocusChange={toggleFocusForCourseOrGroup}
+          onValueChange={onCourseOrGroupValueChange}
+        />
 
-        <View style={styles.inputContainer}>
-          <Dropdown
-            style={[
-              styles.dropdown,
-              { borderColor: Colors.primary800, borderWidth: 1 },
-            ]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            data={mediumList}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "Medium" : "..."}
-            searchPlaceholder="Search Medium..."
-            value={value}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setValue(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View style={[styles.inputContainer, styles.radioGroupContainer]}>
-          <Text style={styles.radioGroupLable}>Registration Fee Paid</Text>
-          <RadioButton.Group
-            onValueChange={(newValue) => setValue(newValue)}
-            value={value}
-          >
-            <View>
-              <View style={styles.radioBtnContainer}>
-                <RadioButton value="yes" />
-                <Text style={styles.radioLabelText}>Yes</Text>
-              </View>
-              <View style={styles.radioBtnContainer}>
-                <RadioButton value="no" />
-                <Text style={styles.radioLabelText}>No</Text>
-              </View>
-            </View>
-          </RadioButton.Group>
-        </View>
+        <CustomDropdown
+          label={"Medium"}
+          style={styles.inputContainer}
+          data={mediumList}
+          value={medium}
+          isFocus={isMediumFocus}
+          onFocusChange={toggleFocusForMedium}
+          onValueChange={onMediumValueChange}
+        />
+
+        <CustomRadio
+          label={"Registration Fee Paid"}
+          style={styles.inputContainer}
+          value={registrationFeePaid}
+          onValueChange={onRegistrationFeePaidValueChange}
+          data={[
+            { value: "yes", displayText: "Yes" },
+            { value: "no", displayText: "No" },
+          ]}
+          radioGroupAlignVertical={true}
+        />
       </List.Accordion>
     </Card>
   );
@@ -196,43 +171,6 @@ const styles = StyleSheet.create({
     fontFamily: "regular",
   },
 
-  dropdown: {
-    height: 50,
-    borderColor: "gray",
-    borderWidth: 0.5,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-  },
-  icon: {
-    marginRight: 5,
-  },
-  label: {
-    position: "absolute",
-    backgroundColor: "white",
-    left: 22,
-    top: 8,
-    zIndex: 999,
-    paddingHorizontal: 8,
-    fontSize: 14,
-  },
-  placeholderStyle: {
-    fontSize: 16,
-    paddingLeft: 8,
-    fontFamily: "light",
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-    paddingLeft: 8,
-    fontFamily: "regular",
-  },
-
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-    fontFamily: "regular",
-    borderColor: Colors.primary800,
-    borderRadius: 4,
-  },
   radioGroupContainer: {
     flexDirection: "row",
     alignItems: "center",

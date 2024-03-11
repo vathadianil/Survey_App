@@ -1,66 +1,46 @@
-import { StyleSheet, View, Text } from "react-native";
-import { List, Card, TextInput, RadioButton } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { List, Card, TextInput } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 import { useState } from "react";
+import CustomInput from "./ui/paper/CustomInput";
+import CustomRadio from "./ui/paper/CustomRadio";
 
 const PersonalDetails = () => {
-  const [value, setValue] = useState("male");
+  const [gender, setGender] = useState("male");
+
+  const onGenderValueChange = (newValue) => {
+    setGender(newValue);
+  };
+
   return (
     <Card mode="elevated" style={styles.container}>
       <List.Accordion
-        id="1"
-        titleStyle={styles.accordionText}
+        id="one"
+        titleStyle={[styles.accordionText]}
+        rippleColor={Colors.primary400}
         title="Personal Details"
         left={(props) => (
           <Ionicons {...props} name="person-add-outline" size={20} />
         )}
       >
-        <View style={styles.inputContainer}>
-          <TextInput
-            label="Student Name(As Per SSC)"
-            mode="outlined"
-            activeOutlineColor={Colors.primary800}
-            outlineColor={Colors.primary800}
-            contentStyle={styles.textInputContent}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            label="Father Name"
-            mode="outlined"
-            activeOutlineColor={Colors.primary800}
-            outlineColor={Colors.primary800}
-            contentStyle={styles.textInputContent}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            label="Motehr Name"
-            mode="outlined"
-            activeOutlineColor={Colors.primary800}
-            outlineColor={Colors.primary800}
-            contentStyle={styles.textInputContent}
-          />
-        </View>
-        <View style={[styles.inputContainer, styles.radioGroupContainer]}>
-          <Text style={styles.radioGroupLable}>Gender</Text>
-          <RadioButton.Group
-            onValueChange={(newValue) => setValue(newValue)}
-            value={value}
-          >
-            <View style={styles.radioGroupContainer}>
-              <View style={styles.radioBtnContainer}>
-                <RadioButton value="male" />
-                <Text style={styles.radioLabelText}>Male</Text>
-              </View>
-              <View style={styles.radioBtnContainer}>
-                <RadioButton value="female" />
-                <Text style={styles.radioLabelText}>Female</Text>
-              </View>
-            </View>
-          </RadioButton.Group>
-        </View>
+        <CustomInput
+          label={"Student Name(As Per SSC)"}
+          style={styles.inputContainer}
+        />
+        <CustomInput label={"Father Name"} style={styles.inputContainer} />
+        <CustomInput label={"Motehr Name"} style={styles.inputContainer} />
+        <CustomRadio
+          label={"Gender"}
+          style={styles.inputContainer}
+          value={gender}
+          onValueChange={onGenderValueChange}
+          data={[
+            { value: "male", displayText: "Male" },
+            { value: "female", displayText: "Female" },
+          ]}
+        />
+
         <View style={styles.inputContainer}>
           <TextInput
             label="Religion"
@@ -145,22 +125,7 @@ const styles = StyleSheet.create({
     marginRight: 35,
     marginBottom: 20,
   },
-  radioGroupContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  radioBtnContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 12,
-  },
-  radioGroupLable: {
-    fontFamily: "regular",
-    fontSize: 16,
-  },
-  radioLabelText: {
-    fontFamily: "light",
-  },
+
   textInputContent: {
     fontFamily: "regular",
   },

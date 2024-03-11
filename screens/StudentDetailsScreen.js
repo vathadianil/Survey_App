@@ -11,18 +11,23 @@ import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 import { Linking } from "react-native";
-import { List, Switch } from "react-native-paper";
+import { List } from "react-native-paper";
 import { useState } from "react";
 import PersonalDetails from "../components/PersonalDetails";
 import EducationDetails from "../components/EducationDetails";
 import Button from "../components/ui/Button";
+import CustomSwitch from "../components/ui/paper/CustomSwitch";
 
 const StudentDetailsScreen = ({ route, navigation }) => {
   const [isVisitedSwitchOn, setIsVisitedSwitchOn] = useState(false);
   const [isInterestSwitchOn, setIsInterestSwitchOn] = useState(false);
 
+  const onToggleVisitedSwitch = () =>
+    setIsVisitedSwitchOn((prevState) => !prevState);
+
   const onToggleInterestSwitch = () =>
-    setIsInterestSwitchOn(!isInterestSwitchOn);
+    setIsInterestSwitchOn((prevState) => !prevState);
+
   const {
     studentName,
     gender,
@@ -105,22 +110,16 @@ const StudentDetailsScreen = ({ route, navigation }) => {
             <Ionicons name="location" size={12} style={styles.icon} />
             <Text style={[styles.detailText]}>{permanentAddress}</Text>
           </View>
-          <View style={styles.switchContainer}>
-            <Text style={styles.switchText}>Visited Status</Text>
-            <Switch
-              value={isVisitedSwitchOn}
-              onValueChange={setIsVisitedSwitchOn}
-              color={Colors.primary800}
-            />
-          </View>
-          <View style={styles.switchContainer}>
-            <Text style={styles.switchText}>Interested To Join</Text>
-            <Switch
-              value={isInterestSwitchOn}
-              onValueChange={onToggleInterestSwitch}
-              color={Colors.primary800}
-            />
-          </View>
+          <CustomSwitch
+            label={"Visited Status"}
+            isSwitchOn={isVisitedSwitchOn}
+            onValueChange={onToggleVisitedSwitch}
+          />
+          <CustomSwitch
+            label={"Interested To Join"}
+            isSwitchOn={isInterestSwitchOn}
+            onValueChange={onToggleInterestSwitch}
+          />
         </View>
         <List.AccordionGroup>
           <PersonalDetails />
@@ -201,15 +200,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.error100,
     borderRadius: 6,
   },
-  switchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginHorizontal: 8,
-  },
-  switchText: {
-    fontFamily: "medium",
-  },
+
   btnContainer: {
     alignItems: "center",
   },
