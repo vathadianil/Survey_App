@@ -1,17 +1,31 @@
 import { StyleSheet, View } from "react-native";
 import { Colors } from "../../../constants/styles";
-import { TextInput } from "react-native-paper";
+import { HelperText, TextInput } from "react-native-paper";
 
-const CustomInput = ({ label, style }) => {
+const CustomInput = ({
+  label,
+  style,
+  onValueChange,
+  value,
+  onBlurHanlder,
+  hasError,
+  errorText,
+}) => {
   return (
     <View style={[style]}>
       <TextInput
         label={label}
         mode="outlined"
-        activeOutlineColor={Colors.primary800}
-        outlineColor={Colors.primary800}
-        contentStyle={styles.textInputContent}
+        value={value}
+        onChangeText={onValueChange}
+        onBlur={onBlurHanlder}
+        activeOutlineColor={hasError ? Colors.error800 : Colors.primary800}
+        outlineColor={hasError ? Colors.error800 : Colors.primary800}
+        contentStyle={[styles.textInputContent]}
       />
+      <HelperText type="error" visible={hasError}>
+        {errorText}
+      </HelperText>
     </View>
   );
 };

@@ -3,13 +3,32 @@ import React from "react";
 import { Colors } from "../../constants/styles";
 import { Ionicons } from "@expo/vector-icons";
 
-const Button = ({ style, mode, onPress, children, icon, color, size }) => {
+const Button = ({
+  style,
+  mode,
+  onPress,
+  children,
+  icon,
+  color,
+  size,
+  disabled,
+}) => {
   return (
-    <View style={[styles.container, style, mode === "flat" && styles.flat]}>
+    <View
+      style={[
+        styles.container,
+        style,
+        mode === "flat" && styles.flat,
+        disabled && { backgroundColor: Colors.shadowColor },
+      ]}
+    >
       <Pressable
-        onPress={onPress}
-        android_ripple={{ color: Colors.shadowColor }}
-        style={({ pressed }) => pressed && styles.pressed}
+        onPress={() => {
+          if (disabled) return;
+          onPress();
+        }}
+        android_ripple={!disabled && { color: Colors.shadowColor }}
+        style={({ pressed }) => !disabled && pressed && styles.pressed}
       >
         <View style={[styles.button, mode === "flat" && styles.flat]}>
           {icon && (
@@ -20,7 +39,13 @@ const Button = ({ style, mode, onPress, children, icon, color, size }) => {
               size={size || 16}
             />
           )}
-          <Text style={[styles.buttonText, mode === "flat" && styles.flatText]}>
+          <Text
+            style={[
+              styles.buttonText,
+              mode === "flat" && styles.flatText,
+              disabled && { color: Colors.gray },
+            ]}
+          >
             {children}
           </Text>
         </View>
@@ -61,7 +86,7 @@ const styles = StyleSheet.create({
     fontFamily: "regular",
   },
   flatText: {
-    color: Colors.shadowColor,
+    color: Colors.primary500,
   },
   pressed: {
     opacity: 0.5,

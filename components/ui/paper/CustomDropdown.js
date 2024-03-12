@@ -2,24 +2,32 @@ import { StyleSheet, View } from "react-native";
 
 import { Dropdown } from "react-native-element-dropdown";
 import { Colors } from "../../../constants/styles";
+import { HelperText } from "react-native-paper";
 
 const CustomDropdown = ({
   label,
   style,
   data,
-  isFocus,
   value,
-  onFocusChange,
+  hasError,
+  onBlurHanlder,
   onValueChange,
+  errorText,
 }) => {
   return (
     <View style={style}>
       <Dropdown
         style={[
           styles.dropdown,
-          { borderColor: Colors.primary800, borderWidth: 1 },
+          {
+            borderColor: hasError ? Colors.error800 : Colors.primary800,
+            borderWidth: 1,
+          },
         ]}
-        placeholderStyle={styles.placeholderStyle}
+        placeholderStyle={[
+          styles.placeholderStyle,
+          hasError && { color: Colors.error800 },
+        ]}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         data={data}
@@ -27,16 +35,18 @@ const CustomDropdown = ({
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder={!isFocus ? label : "..."}
+        placeholder={label}
         searchPlaceholder={`Search ${label}...`}
         value={value}
-        onFocus={() => onFocusChange(true)}
-        onBlur={() => onFocusChange(false)}
+        onBlur={onBlurHanlder}
         onChange={(item) => {
           onValueChange(item.value);
-          onFocusChange(false);
         }}
+        keyboardAvoiding={true}
       />
+      <HelperText type="error" visible={hasError}>
+        {errorText}
+      </HelperText>
     </View>
   );
 };

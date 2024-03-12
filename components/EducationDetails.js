@@ -1,8 +1,7 @@
-import { StyleSheet, View, Text } from "react-native";
-import { List, Card, RadioButton } from "react-native-paper";
+import { StyleSheet } from "react-native";
+import { List, Card } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
-import { Dropdown } from "react-native-element-dropdown";
 import { useState } from "react";
 import CustomInput from "./ui/paper/CustomInput";
 import CustomDropdown from "./ui/paper/CustomDropdown";

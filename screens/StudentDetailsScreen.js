@@ -11,22 +11,21 @@ import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 import { Linking } from "react-native";
-import { List } from "react-native-paper";
 import { useState } from "react";
-import PersonalDetails from "../components/PersonalDetails";
-import EducationDetails from "../components/EducationDetails";
-import Button from "../components/ui/Button";
 import CustomSwitch from "../components/ui/paper/CustomSwitch";
+import StudentDetailsForm from "../components/StudentDetailsForm";
 
 const StudentDetailsScreen = ({ route, navigation }) => {
   const [isVisitedSwitchOn, setIsVisitedSwitchOn] = useState(false);
   const [isInterestSwitchOn, setIsInterestSwitchOn] = useState(false);
 
-  const onToggleVisitedSwitch = () =>
+  const onToggleVisitedSwitch = () => {
     setIsVisitedSwitchOn((prevState) => !prevState);
+  };
 
-  const onToggleInterestSwitch = () =>
+  const onToggleInterestSwitch = () => {
     setIsInterestSwitchOn((prevState) => !prevState);
+  };
 
   const {
     studentName,
@@ -115,19 +114,20 @@ const StudentDetailsScreen = ({ route, navigation }) => {
             isSwitchOn={isVisitedSwitchOn}
             onValueChange={onToggleVisitedSwitch}
           />
-          <CustomSwitch
-            label={"Interested To Join"}
-            isSwitchOn={isInterestSwitchOn}
-            onValueChange={onToggleInterestSwitch}
-          />
+          {isVisitedSwitchOn && (
+            <CustomSwitch
+              label={"Interested To Join"}
+              isSwitchOn={isInterestSwitchOn}
+              onValueChange={onToggleInterestSwitch}
+            />
+          )}
         </View>
-        <List.AccordionGroup>
-          <PersonalDetails />
-          <EducationDetails />
-        </List.AccordionGroup>
-        <View style={styles.btnContainer}>
-          <Button style={styles.btn}>Submit</Button>
-        </View>
+        <StudentDetailsForm
+          isVisitedSwitchOn={isVisitedSwitchOn}
+          isInterestSwitchOn={isInterestSwitchOn}
+          gender={gender?.toLowerCase()}
+          mobileNumber={mobileNumber}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -199,13 +199,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.error100,
     borderRadius: 6,
-  },
-
-  btnContainer: {
-    alignItems: "center",
-  },
-  btn: {
-    width: "30%",
-    marginBottom: 70,
   },
 });
