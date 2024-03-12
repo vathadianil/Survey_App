@@ -42,6 +42,12 @@
             "usesCleartextTraffic": true
           }
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "The app needs to accesses your camera in order take photos."
+        }
       ]
     ]
   }

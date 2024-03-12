@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 import { List, Card } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
-import { useState } from "react";
 import CustomInput from "./ui/paper/CustomInput";
 import CustomDropdown from "./ui/paper/CustomDropdown";
 import CustomRadio from "./ui/paper/CustomRadio";
@@ -26,51 +25,53 @@ const mediumList = [
   { label: "Telugu", value: "Telugu" },
 ];
 
-const EducationDetails = () => {
-  const [admissionCategory, setAdmissionCategory] = useState(null);
-  const [isAdmissionCategoryFocus, setIsAdmissionCategoryFocus] =
-    useState(false);
+const EducationDetails = ({
+  hallTicketInputData,
+  schoolOrCollegeNameInputData,
+  admissionCategoryDropDownData,
+  courseOrGroupDropDownData,
+  mediumDropDownData,
+  registrationFeePaidRadioData,
+}) => {
+  const {
+    value: hallTicket,
+    hasError: hallTicketHasError,
+    valueChangeHandler: hallTicketChangeHandler,
+    inputBlurHandler: hallTicketBlurHandler,
+  } = hallTicketInputData;
 
-  const [courseOrGroup, setCourseOrGroup] = useState(null);
-  const [isCourseOrGroupFocus, setIsCourseOrGroupFocus] = useState(false);
+  const {
+    value: schoolOrCollegeName,
+    hasError: schoolOrCollegeNameHasError,
+    valueChangeHandler: schoolOrCollegeNameChangeHandler,
+    inputBlurHandler: schoolOrCollegeNameBlurHandler,
+  } = schoolOrCollegeNameInputData;
 
-  const [medium, setMedimum] = useState(null);
-  const [isMediumFocus, setIsMediumFocus] = useState(false);
+  const {
+    value: admissionCategory,
+    hasError: admissionCategoryHasError,
+    valueChangeHandler: admissionCategoryChangeHandler,
+    inputBlurHandler: admissionCategoryBlurHandler,
+  } = admissionCategoryDropDownData;
 
-  const [physicallyChallenged, setPhysicallyChallenged] = useState("no");
-  const [registrationFeePaid, setRegistrationFeePaid] = useState("no");
+  const {
+    value: courseorGroup,
+    hasError: courseorGroupHasError,
+    valueChangeHandler: courseorGroupChangeHandler,
+    inputBlurHandler: courseorGroupBlurHandler,
+  } = courseOrGroupDropDownData;
 
-  const onPhysicallyChallengedValueChange = (newValue) => {
-    setPhysicallyChallenged(newValue);
-  };
+  const {
+    value: medium,
+    hasError: mediumHasError,
+    valueChangeHandler: mediumChangeHandler,
+    inputBlurHandler: mediumBlurHandler,
+  } = mediumDropDownData;
 
-  const onRegistrationFeePaidValueChange = (newValue) => {
-    setRegistrationFeePaid(newValue);
-  };
-
-  const toggleFocusForAdmissionCategory = (value) => {
-    setIsAdmissionCategoryFocus(value);
-  };
-
-  const onAdmissionCategoryValueChange = (value) => {
-    setAdmissionCategory(value);
-  };
-
-  const toggleFocusForCourseOrGroup = (value) => {
-    setIsCourseOrGroupFocus(value);
-  };
-
-  const onCourseOrGroupValueChange = (value) => {
-    setCourseOrGroup(value);
-  };
-
-  const toggleFocusForMedium = (value) => {
-    setIsMediumFocus(value);
-  };
-
-  const onMediumValueChange = (value) => {
-    setMedimum(value);
-  };
+  const {
+    value: registrationFeePaid,
+    valueChangeHandler: registrationFeePaidChangeHandler,
+  } = registrationFeePaidRadioData;
 
   return (
     <Card mode="elevated" style={styles.container}>
@@ -84,61 +85,61 @@ const EducationDetails = () => {
         )}
       >
         <CustomInput
-          label={"SSC Hall Ticket Number"}
+          label={"Hall Ticket Number"}
           style={styles.inputContainer}
+          errorText={"Hall Ticket Number is Required"}
+          value={hallTicket}
+          onBlurHanlder={hallTicketBlurHandler}
+          onValueChange={hallTicketChangeHandler}
+          hasError={hallTicketHasError}
         />
+
         <CustomInput
           label={"Last Studied School/College"}
           style={styles.inputContainer}
+          errorText={"Last Studied School/College Name is Required"}
+          value={schoolOrCollegeName}
+          onBlurHanlder={schoolOrCollegeNameBlurHandler}
+          onValueChange={schoolOrCollegeNameChangeHandler}
+          hasError={schoolOrCollegeNameHasError}
         />
 
         <CustomDropdown
           label={"Admission Category"}
           style={styles.inputContainer}
+          errorText={"Admission category selection is required"}
           data={admissionCategoryList}
           value={admissionCategory}
-          isFocus={isAdmissionCategoryFocus}
-          onFocusChange={toggleFocusForAdmissionCategory}
-          onValueChange={onAdmissionCategoryValueChange}
+          onBlurHanlder={admissionCategoryBlurHandler}
+          onValueChange={admissionCategoryChangeHandler}
+          hasError={admissionCategoryHasError}
         />
-
-        <CustomRadio
-          label={"Physically Challanged"}
-          style={styles.inputContainer}
-          value={physicallyChallenged}
-          onValueChange={onPhysicallyChallengedValueChange}
-          data={[
-            { value: "yes", displayText: "Yes" },
-            { value: "no", displayText: "No" },
-          ]}
-          radioGroupAlignVertical={true}
-        />
-
         <CustomDropdown
           label={"Course/Group"}
           style={styles.inputContainer}
+          errorText={"Course/Group selection is required"}
           data={courseOrGroupList}
-          value={courseOrGroup}
-          isFocus={isCourseOrGroupFocus}
-          onFocusChange={toggleFocusForCourseOrGroup}
-          onValueChange={onCourseOrGroupValueChange}
+          value={courseorGroup}
+          onBlurHanlder={courseorGroupBlurHandler}
+          onValueChange={courseorGroupChangeHandler}
+          hasError={courseorGroupHasError}
         />
-
         <CustomDropdown
           label={"Medium"}
           style={styles.inputContainer}
+          errorText={"Medium selection is required"}
           data={mediumList}
           value={medium}
-          isFocus={isMediumFocus}
-          onFocusChange={toggleFocusForMedium}
-          onValueChange={onMediumValueChange}
+          onBlurHanlder={mediumBlurHandler}
+          onValueChange={mediumChangeHandler}
+          hasError={mediumHasError}
         />
 
         <CustomRadio
           label={"Registration Fee Paid"}
-          style={styles.inputContainer}
+          style={[styles.inputContainer, { marginBottom: 30 }]}
           value={registrationFeePaid}
-          onValueChange={onRegistrationFeePaidValueChange}
+          onValueChange={registrationFeePaidChangeHandler}
           data={[
             { value: "yes", displayText: "Yes" },
             { value: "no", displayText: "No" },
@@ -166,24 +167,8 @@ const styles = StyleSheet.create({
     marginRight: 35,
     marginBottom: 20,
   },
+
   textInputContent: {
     fontFamily: "regular",
-  },
-
-  radioGroupContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  radioBtnContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 12,
-  },
-  radioGroupLable: {
-    fontFamily: "regular",
-    fontSize: 16,
-  },
-  radioLabelText: {
-    fontFamily: "light",
   },
 });

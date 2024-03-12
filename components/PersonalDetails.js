@@ -6,6 +6,8 @@ import { Colors } from "../constants/styles";
 import CustomInput from "./ui/paper/CustomInput";
 import CustomRadio from "./ui/paper/CustomRadio";
 import CustomDropdown from "./ui/paper/CustomDropdown";
+import CustomDatePicker from "./ui/CustomDatePicker";
+import ImagePicker from "./ui/ImagePicker";
 
 const religionList = [
   { label: "Hindu", value: "Hindu" },
@@ -32,12 +34,17 @@ const PersonalDetails = ({
   motherOccupationDropDownData,
   motherOccupationInputnData,
   genderRadioData,
+  physicallyChallengedRadioData,
   religionDropDownData,
   motherTongueInputData,
   casteDropDownData,
   subCasteDropDownData,
   mobileNumberInputData,
-  alternateMobileNoInputDate,
+  alternateMobileNoInputData,
+  dateOfBirthDateData,
+  aadharNoInputData,
+  photoImagePickerData,
+  signImagePickerData,
 }) => {
   const {
     value: studentName,
@@ -92,6 +99,11 @@ const PersonalDetails = ({
     genderRadioData;
 
   const {
+    value: physicallyChallenged,
+    valueChangeHandler: physicallyChallengedChangeHandler,
+  } = physicallyChallengedRadioData;
+
+  const {
     value: religion,
     hasError: religionHasError,
     valueChangeHandler: religionChangeHandler,
@@ -129,7 +141,33 @@ const PersonalDetails = ({
   const {
     value: alternateMobileNo,
     valueChangeHandler: alternateMobileNoChangeHandler,
-  } = alternateMobileNoInputDate;
+  } = alternateMobileNoInputData;
+
+  const {
+    value: dateOfBirth,
+    hasError: dateOfBirthHasError,
+    valueChangeHandler: dateOfBirthChangeHandler,
+    inputBlurHandler: dateOfBirthBlurHandler,
+  } = dateOfBirthDateData;
+
+  const {
+    value: aadharNo,
+    hasError: aadharNoHasError,
+    valueChangeHandler: aadharNoChangeHandler,
+    inputBlurHandler: aadharNoBlurHandler,
+  } = aadharNoInputData;
+
+  const {
+    value: photo,
+    hasError: photoHasError,
+    valueChangeHandler: photoChangeHandler,
+  } = photoImagePickerData;
+
+  const {
+    value: sign,
+    hasError: signHasError,
+    valueChangeHandler: signChangeHandler,
+  } = signImagePickerData;
 
   return (
     <Card mode="elevated" style={styles.container}>
@@ -229,6 +267,18 @@ const PersonalDetails = ({
           ]}
         />
 
+        <CustomRadio
+          label={"Physically Challanged"}
+          style={[styles.inputContainer, { marginBottom: 30 }]}
+          value={physicallyChallenged}
+          onValueChange={physicallyChallengedChangeHandler}
+          data={[
+            { value: "yes", displayText: "Yes" },
+            { value: "no", displayText: "No" },
+          ]}
+          radioGroupAlignVertical={true}
+        />
+
         <CustomDropdown
           label={"Religion"}
           style={styles.inputContainer}
@@ -288,25 +338,46 @@ const PersonalDetails = ({
           value={alternateMobileNo}
           onValueChange={alternateMobileNoChangeHandler}
         />
+        <CustomDatePicker
+          label={"Date Of Birth"}
+          style={styles.inputContainer}
+          errorText={"Date of Birth is Required"}
+          value={dateOfBirth}
+          onBlurHanlder={dateOfBirthBlurHandler}
+          onValueChange={dateOfBirthChangeHandler}
+          hasError={dateOfBirthHasError}
+          readOnly={true}
+          showIcon={true}
+        />
+        <CustomInput
+          label={"Aadhar Number"}
+          style={styles.inputContainer}
+          errorText={"Aadhar Number is Required"}
+          value={aadharNo}
+          onBlurHanlder={aadharNoBlurHandler}
+          onValueChange={aadharNoChangeHandler}
+          hasError={aadharNoHasError}
+        />
 
-        <View style={styles.inputContainer}>
-          <TextInput
-            label="Date Of Birth"
-            mode="outlined"
-            activeOutlineColor={Colors.primary800}
-            outlineColor={Colors.primary800}
-            contentStyle={styles.textInputContent}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            label="Aadhar Number"
-            mode="outlined"
-            activeOutlineColor={Colors.primary800}
-            outlineColor={Colors.primary800}
-            contentStyle={styles.textInputContent}
-          />
-        </View>
+        <ImagePicker
+          style={[styles.inputContainer, { marginBottom: 40 }]}
+          label={"Take Pic"}
+          lottieImageType={"pic"}
+          pickedImage={photo.uriImage}
+          takeImageHandler={photoChangeHandler}
+          hasError={photoHasError}
+          errorText={"Image is required"}
+        />
+
+        <ImagePicker
+          style={[styles.inputContainer, { marginBottom: 40 }]}
+          label={"Take Sign"}
+          lottieImageType={"sign"}
+          pickedImage={sign.uriImage}
+          takeImageHandler={signChangeHandler}
+          hasError={signHasError}
+          errorText={"Sign is required"}
+        />
       </List.Accordion>
     </Card>
   );

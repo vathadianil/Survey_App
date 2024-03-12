@@ -5,6 +5,8 @@ import EducationDetails from "./EducationDetails";
 import { useReducer } from "react";
 import useInput from "../util/hooks/useInput";
 import Button from "../components/ui/Button";
+import axios from "../util/axios";
+import useImage from "../util/hooks/useImage";
 
 const initialState = {
   isSuccess: false,
@@ -38,7 +40,7 @@ const formSubmitReducer = (state = initialState, action) => {
 };
 
 function validateText(text) {
-  const isValid = !!text?.trim();
+  const isValid = !!String(text)?.trim();
   return isValid;
 }
 
@@ -60,28 +62,57 @@ const StudentDetailsForm = ({
   const motherOccupationDropDownData = useInput("", validateText);
   const motherOccupationInputnData = useInput("", validateText);
   const genderRadioData = useInput(gender, validateText);
+  const physicallyChallengedRadioData = useInput("no", validateText);
   const religionDropDownData = useInput("", validateText);
   const motherTongueInputData = useInput("", validateText);
   const casteDropDownData = useInput("", validateText);
   const subCasteDropDownData = useInput("", validateText);
   const mobileNumberInputData = useInput(mobileNumber, validateText);
-  const alternateMobileNoInputDate = useInput("", validateText);
+  const alternateMobileNoInputData = useInput("", validateText);
+  const dateOfBirthDateData = useInput(new Date(), validateText);
+  const aadharNoInputData = useInput("", validateText);
+  const photoImagePickerData = useImage(
+    { uriImage: "", base64Image: "" },
+    validateText
+  );
+  const signImagePickerData = useImage(
+    { uriImage: "", base64Image: "" },
+    validateText
+  );
+
+  const hallTicketInputData = useInput("", validateText);
+  const schoolOrCollegeNameInputData = useInput("", validateText);
+  const admissionCategoryDropDownData = useInput("", validateText);
+  const courseOrGroupDropDownData = useInput("", validateText);
+  const mediumDropDownData = useInput("", validateText);
+  const registrationFeePaidRadioData = useInput("no", validateText);
 
   let formIsValid = false;
   if (isVisitedSwitchOn && !isInterestSwitchOn) {
     formIsValid = true;
   } else if (
-    studentNameInputData.isValid &&
+    (studentNameInputData,
     fatherNameInputData.isValid &&
-    fatherOccupationDropDownData.isValid &&
-    motherNameInputData.isValid &&
-    motherOccupationDropDownData.isValid &&
-    genderRadioData.isValid &&
-    religionDropDownData.isValid &&
-    motherTongueInputData.isValid &&
-    casteDropDownData.isValid &&
-    subCasteDropDownData.isValid &&
-    mobileNumberInputData.isValid
+      fatherOccupationDropDownData.isValid &&
+      motherNameInputData.isValid &&
+      motherOccupationDropDownData.isValid &&
+      genderRadioData.isValid &&
+      physicallyChallengedRadioData.isValid &&
+      religionDropDownData.isValid &&
+      motherTongueInputData.isValid &&
+      casteDropDownData.isValid &&
+      subCasteDropDownData.isValid &&
+      mobileNumberInputData.isValid &&
+      dateOfBirthDateData.isValid &&
+      aadharNoInputData.isValid &&
+      photoImagePickerData.isValid &&
+      signImagePickerData.isValid &&
+      hallTicketInputData.isValid &&
+      schoolOrCollegeNameInputData.isValid &&
+      admissionCategoryDropDownData.isValid &&
+      courseOrGroupDropDownData.isValid &&
+      mediumDropDownData.isValid &&
+      registrationFeePaidRadioData.isValid)
   ) {
     if (
       (fatherOccupationDropDownData.value === "Other" &&
@@ -94,6 +125,58 @@ const StudentDetailsForm = ({
       formIsValid = true;
     }
   }
+
+  const handleSubmit = async () => {
+    const formValues = {
+      visited: isVisitedSwitchOn ? "Yes" : "No",
+      interested: isInterestSwitchOn ? "Yes" : "No",
+      studentName: studentNameInputData.value,
+      fatherName: fatherNameInputData.value,
+      fatherOccupation:
+        fatherOccupationDropDownData.value === "Other"
+          ? fatherOccupationInputnData.value
+          : fatherOccupationDropDownData.value,
+      motherName: motherNameInputData.value,
+      motherOccupation:
+        motherOccupationDropDownData.value === "Other"
+          ? motherOccupationInputnData.value
+          : motherOccupationDropDownData.value,
+      gender: genderRadioData.value,
+      physicallyChallenged: physicallyChallengedRadioData.value,
+      religion: religionDropDownData.value,
+      motherTongue: motherTongueInputData.value,
+      caste: casteDropDownData.value,
+      subCaste: subCasteDropDownData.value,
+      mobileNumber: mobileNumberInputData.value,
+      alternateMobileNo: dateOfBirthDateData.value,
+      aadharNo: aadharNoInputData.value,
+      studentImage: photoImagePickerData?.value?.base64Image,
+      signImage: signImagePickerData?.value?.base64Image,
+    };
+
+    dispatchFormState({
+      type: "SUBMIT_LOADING",
+    });
+    try {
+      const result = await axios.post("/update_student_details", formValues);
+      if (
+        result?.data.returnCode === 1 &&
+        result.data.returnMessage === "Success"
+      ) {
+        dispatchFormState({
+          type: "SUCCESS",
+        });
+      } else {
+        dispatchFormState({
+          type: "FAILURE",
+        });
+      }
+    } catch (error) {
+      dispatchFormState({
+        type: "FAILURE",
+      });
+    }
+  };
 
   return (
     <View>
@@ -108,19 +191,35 @@ const StudentDetailsForm = ({
             motherOccupationDropDownData={motherOccupationDropDownData}
             motherOccupationInputnData={motherOccupationInputnData}
             genderRadioData={genderRadioData}
+            physicallyChallengedRadioData={physicallyChallengedRadioData}
             religionDropDownData={religionDropDownData}
             motherTongueInputData={motherTongueInputData}
             casteDropDownData={casteDropDownData}
             subCasteDropDownData={subCasteDropDownData}
             mobileNumberInputData={mobileNumberInputData}
-            alternateMobileNoInputDate={alternateMobileNoInputDate}
+            alternateMobileNoInputData={alternateMobileNoInputData}
+            dateOfBirthDateData={dateOfBirthDateData}
+            aadharNoInputData={aadharNoInputData}
+            photoImagePickerData={photoImagePickerData}
+            signImagePickerData={signImagePickerData}
           />
-          {/* <EducationDetails /> */}
+          <EducationDetails
+            hallTicketInputData={hallTicketInputData}
+            schoolOrCollegeNameInputData={schoolOrCollegeNameInputData}
+            admissionCategoryDropDownData={admissionCategoryDropDownData}
+            courseOrGroupDropDownData={courseOrGroupDropDownData}
+            mediumDropDownData={mediumDropDownData}
+            registrationFeePaidRadioData={registrationFeePaidRadioData}
+          />
         </List.AccordionGroup>
       )}
       {isVisitedSwitchOn && (
         <View style={styles.btnContainer}>
-          <Button style={styles.btn} disabled={!formIsValid}>
+          <Button
+            style={styles.btn}
+            disabled={!formIsValid}
+            onPress={handleSubmit}
+          >
             Submit
           </Button>
         </View>
