@@ -126,6 +126,13 @@ const StudentDetailsForm = ({
     }
   }
 
+  const convertDateToString = (date) => {
+    const day = date?.getDate();
+    const month = date?.getMonth() + 1;
+    const year = date?.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
   const handleSubmit = async () => {
     const formValues = {
       visited: isVisitedSwitchOn ? "Yes" : "No",
@@ -149,9 +156,16 @@ const StudentDetailsForm = ({
       subCaste: subCasteDropDownData.value,
       mobileNumber: mobileNumberInputData.value,
       alternateMobileNo: dateOfBirthDateData.value,
+      dateOfBirth: convertDateToString(dateOfBirthDateData.value),
       aadharNo: aadharNoInputData.value,
       studentImage: photoImagePickerData?.value?.base64Image,
       signImage: signImagePickerData?.value?.base64Image,
+      hallTicket: hallTicketInputData.value,
+      schoolOrCollegeName: schoolOrCollegeNameInputData.value,
+      admissionCategory: admissionCategoryDropDownData.value,
+      courseOrGroup: courseOrGroupDropDownData.value,
+      medium: mediumDropDownData.value,
+      registrationFeePaid: registrationFeePaidRadioData.value,
     };
 
     dispatchFormState({

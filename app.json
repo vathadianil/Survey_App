@@ -16,7 +16,8 @@
     ],
     "ios": {
       "buildNumber": "1.0.2",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anil2a6.surveyapp"
     },
     "android": {
       "VersionCode": 3,
