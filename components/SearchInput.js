@@ -2,6 +2,7 @@ import { Pressable, StyleSheet, TextInput, View } from "react-native";
 import { Colors } from "../constants/styles";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import CustomMenu from "./ui/paper/CustomMenu";
 
 const SearchInput = ({
   updateInputValueHandler,
@@ -9,10 +10,13 @@ const SearchInput = ({
   showGoBackBtn,
   placeholder,
   iconType,
+  filterValue,
+  onChangeValue,
 }) => {
   const navigation = useNavigation();
+
   return (
-    <View style={[styles.searchContainer]}>
+    <View style={styles.searchContainer}>
       {showGoBackBtn && (
         <Pressable
           onPress={() => {
@@ -32,23 +36,14 @@ const SearchInput = ({
         />
       </View>
       <View
-        style={[
-          styles.searchBtn,
-          {
-            backgroundColor:
-              iconType === "filter" ? Colors.primary800 : Colors.black,
-          },
-        ]}
+        style={[styles.searchBtn, iconType === "filter" && styles.flterBtn]}
       >
-        <Pressable onPress={() => {}}>
-          <Ionicons
-            name={
-              iconType === "filter" ? "filter-circle-outline" : "search-sharp"
-            }
-            size={24}
-            color={Colors.shadowColor}
-          />
-        </Pressable>
+        {iconType === "search" && (
+          <Ionicons name="search-sharp" size={24} color={Colors.shadowColor} />
+        )}
+        {iconType === "filter" && (
+          <CustomMenu value={filterValue} onChangeValue={onChangeValue} />
+        )}
       </View>
     </View>
   );
@@ -90,5 +85,9 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
+  },
+  flterBtn: {
+    width: 110,
+    backgroundColor: "transparent",
   },
 });

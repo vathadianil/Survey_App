@@ -1,6 +1,5 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import StudentOverview from "../components/Student/StudentOverview";
-// import { DUMMY_DATA } from "../data/dummy-data";
 import { useContext, useEffect, useState } from "react";
 import axios from "../util/axios";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,34 +10,28 @@ import StudentOverViewSkelton from "../components/ui/skelton/StudentOverViewSkel
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NoDataFound from "../components/ui/NoDataFound";
 import SearchInput from "../components/SearchInput";
+import useFilter from "../util/hooks/useFilter";
 
 const HomeScreen = () => {
   const authCtx = useContext(AuthContext);
-  const [studentDataList, setStudentDataList] = useState([]);
-  const [filteredStudentDataList, setFilteredStudentDataList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [enteredInput, setEnteredInput] = useState("");
   const [error, setError] = useState(false);
 
-  function updateInputValueHandler(enteredValue) {
-    setEnteredInput(enteredValue);
-    let filteredData = [];
-    studentDataList.filter((item) => {
-      if (
-        item?.studentName.toLowerCase().includes(enteredValue?.toLowerCase())
-      ) {
-        filteredData.push(item);
-      }
-    });
-    setFilteredStudentDataList(filteredData);
-  }
+  const {
+    inputValue: enteredInput,
+    originalData: studentDataList,
+    filteredData: filteredStudentDataList,
+    filterValue,
+    inputValueChangeHandler: updateInputValueHandler,
+    originalDataChangeHandler: studentDataChangeHandler,
+    filterValueChangeHandler: onChangeFilterValue,
+  } = useFilter("", "ALL", ["studentName", "Visited_Status"]);
 
   const getStudentDetails = async (location) => {
     try {
       setIsLoading(true);
       const { data } = await axios.get(`/student_details?string=${location}`);
-      setStudentDataList(data?.data);
-      setFilteredStudentDataList(data?.data);
+      studentDataChangeHandler(data?.data);
       setIsLoading(false);
     } catch (error) {
       setError(true);
@@ -100,6 +93,8 @@ const HomeScreen = () => {
             enteredInput={enteredInput}
             placeholder={"Search Student Name"}
             iconType={"filter"}
+            filterValue={filterValue}
+            onChangeValue={onChangeFilterValue}
           />
           <FlatList
             data={filteredStudentDataList}
@@ -110,7 +105,7 @@ const HomeScreen = () => {
           />
         </View>
       ) : (
-        error && <NoDataFound />
+        <NoDataFound />
       )}
     </SafeAreaView>
   );
