@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import StudentOverview from "../components/Student/StudentOverview";
 // import { DUMMY_DATA } from "../data/dummy-data";
 import { useContext, useEffect, useState } from "react";
@@ -10,19 +10,35 @@ import { AuthContext } from "../store/auth-context";
 import StudentOverViewSkelton from "../components/ui/skelton/StudentOverViewSkelton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NoDataFound from "../components/ui/NoDataFound";
+import SearchInput from "../components/SearchInput";
 
 const HomeScreen = () => {
   const authCtx = useContext(AuthContext);
   const [studentDataList, setStudentDataList] = useState([]);
+  const [filteredStudentDataList, setFilteredStudentDataList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [enteredInput, setEnteredInput] = useState("");
   const [error, setError] = useState(false);
+
+  function updateInputValueHandler(enteredValue) {
+    setEnteredInput(enteredValue);
+    let filteredData = [];
+    studentDataList.filter((item) => {
+      if (
+        item?.studentName.toLowerCase().includes(enteredValue?.toLowerCase())
+      ) {
+        filteredData.push(item);
+      }
+    });
+    setFilteredStudentDataList(filteredData);
+  }
 
   const getStudentDetails = async (location) => {
     try {
       setIsLoading(true);
       const { data } = await axios.get(`/student_details?string=${location}`);
       setStudentDataList(data?.data);
+      setFilteredStudentDataList(data?.data);
       setIsLoading(false);
     } catch (error) {
       setError(true);
@@ -78,13 +94,21 @@ const HomeScreen = () => {
       {isLoading ? (
         <StudentOverViewSkelton />
       ) : studentDataList?.length > 0 && !error ? (
-        <FlatList
-          data={studentDataList}
-          initialNumToRender={6}
-          keyExtractor={(student) => student.id}
-          renderItem={renderStudent}
-          showsVerticalScrollIndicator={false}
-        />
+        <View>
+          <SearchInput
+            updateInputValueHandler={updateInputValueHandler}
+            enteredInput={enteredInput}
+            placeholder={"Search Student Name"}
+            iconType={"filter"}
+          />
+          <FlatList
+            data={filteredStudentDataList}
+            initialNumToRender={6}
+            keyExtractor={(student) => student.id}
+            renderItem={renderStudent}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
       ) : (
         error && <NoDataFound />
       )}
