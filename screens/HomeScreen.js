@@ -1,6 +1,6 @@
-import { Animated, StyleSheet, View } from "react-native";
+import { Animated, FlatList, StyleSheet, View } from "react-native";
 import StudentOverview from "../components/Student/StudentOverview";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "../util/axios";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CurrentLocation from "../components/CurrentLocation";
@@ -16,7 +16,6 @@ const HomeScreen = () => {
   const authCtx = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-  const scrollY = useRef(new Animated.Value(0)).current;
 
   const {
     inputValue: enteredInput,
@@ -66,7 +65,7 @@ const HomeScreen = () => {
     );
   }
 
-  function renderStudent(item, index, scrollY) {
+  function renderStudent({ item }) {
     const studentProps = {
       id: item.id,
       studentName: item.studentName,
@@ -77,8 +76,6 @@ const HomeScreen = () => {
       visitedStatus: item.Visited_Status,
       insterestedStatus: item.Intrested_Status,
       tokenAmount: item.Token_Amount,
-      index: index,
-      scrollY: scrollY,
     };
     return <StudentOverview {...studentProps} />;
   }
@@ -99,20 +96,14 @@ const HomeScreen = () => {
             filterValue={filterValue}
             onChangeValue={onChangeFilterValue}
           />
-          <Animated.FlatList
-            onScroll={Animated.event(
-              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-              { useNativeDriver: true }
-            )}
+          <FlatList
             data={filteredStudentDataList}
             contentContainerStyle={{
               padding: 16,
             }}
             initialNumToRender={6}
             keyExtractor={(student) => student.id}
-            renderItem={({ item, index }) =>
-              renderStudent(item, index, scrollY)
-            }
+            renderItem={renderStudent}
             showsVerticalScrollIndicator={false}
           />
         </View>
@@ -128,5 +119,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingBottom: 164,
   },
 });
