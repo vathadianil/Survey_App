@@ -93,17 +93,16 @@ export default StudentOverview;
 
 const styles = StyleSheet.create({
   student: {
-    marginVertical: 16,
-    marginHorizontal: 8,
+    marginVertical: 8,
     paddingHorizontal: 4,
     paddingVertical: 16,
     borderRadius: 8,
     backgroundColor: Colors.white,
     elevation: 4,
     shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
     overflow: Platform.select({ android: "hidden" }),
     position: "relative",
   },

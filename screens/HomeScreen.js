@@ -98,6 +98,9 @@ const HomeScreen = () => {
           />
           <FlatList
             data={filteredStudentDataList}
+            contentContainerStyle={{
+              padding: 16,
+            }}
             initialNumToRender={6}
             keyExtractor={(student) => student.id}
             renderItem={renderStudent}
