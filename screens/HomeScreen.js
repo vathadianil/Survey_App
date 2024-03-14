@@ -1,6 +1,6 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { Animated, StyleSheet, View } from "react-native";
 import StudentOverview from "../components/Student/StudentOverview";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import axios from "../util/axios";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CurrentLocation from "../components/CurrentLocation";
@@ -16,6 +16,7 @@ const HomeScreen = () => {
   const authCtx = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   const {
     inputValue: enteredInput,
@@ -65,17 +66,19 @@ const HomeScreen = () => {
     );
   }
 
-  function renderStudent(itemData) {
+  function renderStudent(item, index, scrollY) {
     const studentProps = {
-      id: itemData.item.id,
-      studentName: itemData.item.studentName,
-      gender: itemData.item.gender,
-      mobileNumber: itemData.item.mobileNumber,
-      fatherMobileNumber: itemData.item.fatherMobileNumber,
-      permanentAddress: itemData.item.permanentAddress,
-      visitedStatus: itemData.item.Visited_Status,
-      insterestedStatus: itemData.item.Intrested_Status,
-      tokenAmount: itemData.item.Token_Amount,
+      id: item.id,
+      studentName: item.studentName,
+      gender: item.gender,
+      mobileNumber: item.mobileNumber,
+      fatherMobileNumber: item.fatherMobileNumber,
+      permanentAddress: item.permanentAddress,
+      visitedStatus: item.Visited_Status,
+      insterestedStatus: item.Intrested_Status,
+      tokenAmount: item.Token_Amount,
+      index: index,
+      scrollY: scrollY,
     };
     return <StudentOverview {...studentProps} />;
   }
@@ -96,14 +99,20 @@ const HomeScreen = () => {
             filterValue={filterValue}
             onChangeValue={onChangeFilterValue}
           />
-          <FlatList
+          <Animated.FlatList
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: true }
+            )}
             data={filteredStudentDataList}
             contentContainerStyle={{
               padding: 16,
             }}
             initialNumToRender={6}
             keyExtractor={(student) => student.id}
-            renderItem={renderStudent}
+            renderItem={({ item, index }) =>
+              renderStudent(item, index, scrollY)
+            }
             showsVerticalScrollIndicator={false}
           />
         </View>

@@ -1,8 +1,22 @@
-import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Animated,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Colors } from "../../constants/styles";
 import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+
+// imageHeight:100
+// padding:16
+// paddingVertical:32
+// marginBottom:16
+
+const ITEM_SIZE = 164;
 
 const StudentOverview = ({
   id,
@@ -14,11 +28,18 @@ const StudentOverview = ({
   visitedStatus,
   insterestedStatus,
   tokenAmount,
+  index,
+  scrollY,
 }) => {
   const navigation = useNavigation();
+  const inputRange = [-1, 0, ITEM_SIZE * index, ITEM_SIZE * (index + 2)];
+  const scale = scrollY.interpolate({
+    inputRange,
+    outputRange: [1, 1, 1, 0],
+  });
 
   return (
-    <View style={styles.student}>
+    <Animated.View style={[styles.student, { transform: [{ scale }] }]}>
       <View style={styles.statusContainer}>
         <Text style={styles.stutusText}>
           {visitedStatus === "NO" ? "Not Visited" : "Visited"}
@@ -85,7 +106,7 @@ const StudentOverview = ({
           </View>
         </View>
       </Pressable>
-    </View>
+    </Animated.View>
   );
 };
 

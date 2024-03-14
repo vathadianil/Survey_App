@@ -2,9 +2,9 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
   Pressable,
   Platform,
+  FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
@@ -16,10 +16,10 @@ const LocationList = ({ locationList }) => {
   const authCtx = useContext(AuthContext);
   const navigation = useNavigation();
 
-  function renderLocation(itemData) {
+  function renderLocation({ item }) {
     const locationData = {
-      id: itemData.item.id,
-      location: itemData.item.permanentAddress,
+      id: item.id,
+      location: item.permanentAddress,
     };
 
     return (
