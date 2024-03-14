@@ -19,6 +19,8 @@ const SearchInput = ({
     <View style={styles.searchContainer}>
       {showGoBackBtn && (
         <Pressable
+          android_ripple={{ color: Colors.shadowColor }}
+          style={({ pressed }) => pressed && styles.pressed}
           onPress={() => {
             navigation.goBack();
           }}
@@ -89,5 +91,8 @@ const styles = StyleSheet.create({
   flterBtn: {
     width: 110,
     backgroundColor: "transparent",
+  },
+  pressed: {
+    opacity: 0.25,
   },
 });
