@@ -43,13 +43,7 @@ const AuthenticatedTabNavigation = () => {
         headerShown: false,
         // unmountOnBlur: true,
         tabBarStyle: {
-          position: "absolute",
-          bottom: 10,
-          right: 20,
-          left: 20,
-          elevation: 0,
-          height: 70,
-          borderRadius: 15,
+          ...styles.customTabBarStyles,
           ...styles.shadow,
         },
       }}
@@ -129,8 +123,8 @@ const styles = StyleSheet.create({
       width: 0,
       height: 10,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.5,
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
     elevation: 4,
   },
   customTabInnerContainer: {
@@ -140,6 +134,15 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35,
+  },
+  customTabBarStyles: {
+    position: "absolute",
+    bottom: 10,
+    right: 20,
+    left: 20,
+    elevation: 0,
+    height: 70,
+    borderRadius: 15,
   },
   pressedBtn: {
     opacity: 0.25,

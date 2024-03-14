@@ -6,7 +6,35 @@ import Button from "../components/ui/Button";
 import { Colors } from "../constants/styles";
 import { AuthContext } from "../store/auth-context";
 import { Ionicons } from "@expo/vector-icons";
+import SurveyorAnalytics from "../components/SurveyorAnalytics";
 import { ProgressBar } from "react-native-paper";
+
+const data = [
+  {
+    iconName: "accessibility-outline",
+    completed: 2,
+    total: 4,
+    avg: null,
+    sectionName: "Visited Students",
+    progress: 50,
+  },
+  {
+    iconName: "checkmark-circle-outline",
+    completed: 2,
+    total: 4,
+    avg: null,
+    sectionName: "Completed Surveys",
+    progress: 50,
+  },
+  {
+    iconName: "star-outline",
+    completed: null,
+    total: null,
+    avg: 4,
+    sectionName: "Average Completion Rate",
+    progress: null,
+  },
+];
 
 const ProfileScreen = ({ navigation }) => {
   const authCtx = useContext(AuthContext);
@@ -33,6 +61,7 @@ const ProfileScreen = ({ navigation }) => {
             Log out
           </Button>
         </View>
+
         <View style={styles.detailsContainer}>
           <View style={styles.imageContainer}>
             <LottieView
@@ -48,35 +77,10 @@ const ProfileScreen = ({ navigation }) => {
 
         <View style={styles.analyticsContainer}>
           <Text style={styles.analyticsHeaderText}>Analytics</Text>
-          <View style={styles.surveyProgressContainer}>
-            <View style={styles.iconContainer}>
-              <Ionicons name="checkmark-circle-outline" size={24} />
-            </View>
 
-            <View style={styles.textWrapper}>
-              <Text style={styles.text1}>2 of 4</Text>
-              <Text style={styles.text2}>Completed Surveys</Text>
-            </View>
-            <View style={styles.progressIndicatorContainer}>
-              <View style={{ width: "100%" }}>
-                <ProgressBar
-                  progress={0.5}
-                  color={Colors.black}
-                  style={{ borderRadius: 4 }}
-                />
-              </View>
-              <Text style={[styles.text2, { marginTop: 10 }]}>50%</Text>
-            </View>
-          </View>
-          <View style={styles.surveyProgressContainer}>
-            <View style={styles.iconContainer}>
-              <Ionicons name="star-outline" size={24} />
-            </View>
-            <View style={styles.textWrapper}>
-              <Text style={styles.text1}>3</Text>
-              <Text style={styles.text2}>Average Completion Rate</Text>
-            </View>
-          </View>
+          {data.map((item) => (
+            <SurveyorAnalytics {...item} key={item.sectionName} />
+          ))}
         </View>
       </View>
     </SafeAreaView>
@@ -128,30 +132,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 
-  surveyProgressContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 16,
-  },
-  iconContainer: {
-    padding: 16,
-    backgroundColor: Colors.gray3,
-    marginRight: 8,
-    borderRadius: 8,
-  },
-  textWrapper: {
-    marginRight: 32,
-  },
-  text1: {
-    fontFamily: "semibold",
-  },
-  text2: {
-    color: Colors.gray,
-  },
-  progressIndicatorContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
   pressed: {
     opacity: 0.25,
   },
