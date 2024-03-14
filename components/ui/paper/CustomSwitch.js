@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import { Switch } from "react-native-paper";
 import { Colors } from "../../../constants/styles";
 
@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginHorizontal: 8,
+    marginBottom: Platform.select({ ios: 16 }),
   },
   switchText: {
     fontFamily: "medium",
