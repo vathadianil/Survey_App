@@ -93,7 +93,7 @@ export default StudentOverview;
 
 const styles = StyleSheet.create({
   student: {
-    marginVertical: 8,
+    marginBottom: 16,
     paddingHorizontal: 4,
     paddingVertical: 16,
     borderRadius: 8,

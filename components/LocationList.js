@@ -45,6 +45,9 @@ const LocationList = ({ locationList }) => {
     <FlatList
       data={locationList}
       initialNumToRender={6}
+      contentContainerStyle={{
+        padding: 16,
+      }}
       keyExtractor={(location) => location.id}
       renderItem={renderLocation}
       showsVerticalScrollIndicator={false}
@@ -57,14 +60,13 @@ export default LocationList;
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 12,
-    marginHorizontal: 16,
+    marginBottom: 16,
     borderRadius: 8,
     backgroundColor: Colors.white,
     elevation: 4,
     shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 3,
     shadowRadius: 8,
     overflow: Platform.select({ android: "hidden" }),
   },

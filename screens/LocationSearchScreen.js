@@ -45,9 +45,7 @@ const LocationSearchScreen = () => {
   useEffect(() => {
     getLocationList();
   }, []);
-  // if (isLoading) {
-  //   return <LocationSearchSkelton />;
-  // }
+
   return (
     <SafeAreaView style={styles.container}>
       <SearchInput
