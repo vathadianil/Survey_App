@@ -7,6 +7,7 @@ import axios from "../util/axios";
 import LocationSearchSkelton from "../components/ui/skelton/LocationSearchSkelton";
 import NoDataFound from "../components/ui/NoDataFound";
 import SearchInput from "../components/SearchInput";
+import { GET_LOCATION_LIST } from "../util/apiRequests";
 
 const LocationSearchScreen = () => {
   const [enteredInput, setEnteredInput] = useState("");
@@ -33,7 +34,7 @@ const LocationSearchScreen = () => {
   const getLocationList = async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get("/getAddressesList");
+      const { data } = await axios.get(GET_LOCATION_LIST);
       setLocationList(data?.data);
       setFilteredLocationList(data?.data);
       setIsLoading(false);

@@ -45,6 +45,7 @@ const PersonalDetails = ({
   aadharNoInputData,
   photoImagePickerData,
   signImagePickerData,
+  formList,
 }) => {
   const {
     value: studentName,
@@ -233,7 +234,7 @@ const PersonalDetails = ({
           hasError={motherNameHasError}
         />
 
-        <CustomDropdown
+        {/* <CustomDropdown
           label={"Mother Occupation"}
           style={styles.inputContainer}
           errorText={"Mother Occupation selection is required"}
@@ -242,7 +243,7 @@ const PersonalDetails = ({
           onBlurHanlder={motherOccuDropdownValueBlurHandler}
           onValueChange={motherOccuDropdownValueChangeHandler}
           hasError={motherOccuDropdownValueHasError}
-        />
+        /> */}
 
         {motherOccuDropdownValue === "Other" && (
           <CustomInput
@@ -279,7 +280,7 @@ const PersonalDetails = ({
           radioGroupAlignVertical={true}
         />
 
-        <CustomDropdown
+        {/* <CustomDropdown
           label={"Religion"}
           style={styles.inputContainer}
           errorText={"Religion selection is required"}
@@ -288,7 +289,7 @@ const PersonalDetails = ({
           onBlurHanlder={religionBlurHandler}
           onValueChange={religionChangeHandler}
           hasError={religionHasError}
-        />
+        /> */}
 
         <CustomInput
           label={"Mother Tongue"}
@@ -300,7 +301,7 @@ const PersonalDetails = ({
           hasError={motherTongueHasError}
         />
 
-        <CustomDropdown
+        {/* <CustomDropdown
           label={"Caste"}
           style={styles.inputContainer}
           errorText={"Caste selection is required"}
@@ -309,9 +310,9 @@ const PersonalDetails = ({
           onBlurHanlder={casteDropDownBlurHandler}
           onValueChange={casteDropDownChangeHandler}
           hasError={casteDropDownHasError}
-        />
+        /> */}
 
-        <CustomDropdown
+        {/* <CustomDropdown
           label={"Sub Caste"}
           style={styles.inputContainer}
           errorText={"Sub Caste selection is required"}
@@ -320,7 +321,7 @@ const PersonalDetails = ({
           onBlurHanlder={subCasteDropdownBlurHandler}
           onValueChange={subCasteDropdownChangeHandler}
           hasError={subCasteDropdownHasError}
-        />
+        /> */}
 
         <CustomInput
           label={"Mobile"}

@@ -1,0 +1,9 @@
+export const GET_STUDENT_LIST = "/student_details?string=";
+export const GET_LOCATION_LIST = "/getAddressesList";
+export const GET_FATHER_OCCUPATION_LIST = "/getFatherOccupationList";
+export const GET_MOTHER_OCCUPATION_LIST = "/getMotherOccupationList";
+export const GET_CASTE_LIST = "/getCasteList";
+export const GET_SUB_CASTE_LIST = "/getSubCaste";
+export const GET_HT_NO_LIST = "/getHtNoList";
+export const GET_MEDIUM_LIST = "/getMedium";
+export const GET_RELIGION_LIST = "/getReligion";

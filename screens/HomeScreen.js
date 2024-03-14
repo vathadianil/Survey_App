@@ -1,4 +1,4 @@
-import { Animated, FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import StudentOverview from "../components/Student/StudentOverview";
 import { useContext, useEffect, useState } from "react";
 import axios from "../util/axios";
@@ -11,6 +11,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import NoDataFound from "../components/ui/NoDataFound";
 import SearchInput from "../components/SearchInput";
 import useFilter from "../util/hooks/useFilter";
+import {
+  GET_CASTE_LIST,
+  GET_FATHER_OCCUPATION_LIST,
+  GET_HT_NO_LIST,
+  GET_MEDIUM_LIST,
+  GET_MOTHER_OCCUPATION_LIST,
+  GET_RELIGION_LIST,
+  GET_STUDENT_LIST,
+  GET_SUB_CASTE_LIST,
+} from "../util/apiRequests";
 
 const HomeScreen = () => {
   const authCtx = useContext(AuthContext);
@@ -30,7 +40,7 @@ const HomeScreen = () => {
   const getStudentDetails = async (location) => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get(`/student_details?string=${location}`);
+      const { data } = await axios.get(`${GET_STUDENT_LIST}${location}`);
       studentDataChangeHandler(data?.data);
       setIsLoading(false);
     } catch (error) {
@@ -39,16 +49,61 @@ const HomeScreen = () => {
     }
   };
 
+  const getRequiredListData = async () => {
+    try {
+      const formList = authCtx.formList;
+      const [
+        fatherOccupation,
+        motherOccupation,
+        caste,
+        subCaste,
+        hallTicketNo,
+        medium,
+        religion,
+      ] = await Promise.allSettled([
+        axios.get(GET_FATHER_OCCUPATION_LIST),
+        axios.get(GET_MOTHER_OCCUPATION_LIST),
+        axios.get(GET_CASTE_LIST),
+        axios.get(GET_SUB_CASTE_LIST),
+        axios.get(GET_HT_NO_LIST),
+        axios.get(GET_MEDIUM_LIST),
+        axios.get(GET_RELIGION_LIST),
+      ]);
+      const fatherOccupationList = fatherOccupation?.value?.data?.fOccupation;
+      const motherOccupationList = motherOccupation?.value?.data?.mOccupation;
+      const casteList = caste?.value?.data?.data;
+      const subCasteList = subCaste?.value?.data?.SubCaste;
+      const hallTicketNoList = hallTicketNo?.value?.data?.HtNo;
+      const mediumList = medium?.value?.data?.Medium;
+      const religionList = religion?.value?.data?.Religion;
+
+      authCtx.addFormList({
+        ...formList,
+        fatherOccupationList,
+        motherOccupationList,
+        casteList,
+        subCasteList,
+        hallTicketNoList,
+        mediumList,
+        religionList,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fechLocation = async () => {
+    setIsLoading(true);
+    const storedLocation = await AsyncStorage.getItem("location");
+    if (storedLocation) {
+      authCtx.addLocation(storedLocation);
+    }
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const fechLocation = async () => {
-      setIsLoading(true);
-      const storedLocation = await AsyncStorage.getItem("location");
-      if (storedLocation) {
-        authCtx.addLocation(storedLocation);
-      }
-      setIsLoading(false);
-    };
     fechLocation();
+    getRequiredListData();
   }, []);
 
   useEffect(() => {

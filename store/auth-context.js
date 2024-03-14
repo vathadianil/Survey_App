@@ -5,16 +5,35 @@ export const AuthContext = createContext({
   token: "",
   location: "",
   isAuthenticated: false,
+  formList: {
+    fatherOccupationList: [],
+    motherOccupationList: [],
+    casteList: [],
+    subCasteList: [],
+    hallTicketNoList: [],
+    mediumList: [],
+    religionList: [],
+  },
   authenticate: () => {},
   logout: () => {},
   addLocation: () => {},
   addStudentList: () => {},
+  addFormList: () => {},
 });
 
 function AuthContextProvider({ children }) {
   const [authToken, setAuthToken] = useState();
   const [location, setLocation] = useState("");
   const [studentList, setStudentList] = useState([]);
+  const [formList, setFormList] = useState({
+    fatherOccupationList: [],
+    motherOccupationList: [],
+    casteList: [],
+    subCasteList: [],
+    hallTicketNoList: [],
+    mediumList: [],
+    religionList: [],
+  });
 
   function authenticate(token) {
     setAuthToken(token);
@@ -37,14 +56,24 @@ function AuthContextProvider({ children }) {
     setStudentList(studntList);
   }
 
+  function addStudentList(studntList) {
+    setStudentList(studntList);
+  }
+
+  function addFormList(formList) {
+    setFormList(formList);
+  }
+
   const value = {
     token: authToken,
     isAuthenticated: !!authToken,
     location: location,
+    formList: formList,
     authenticate: authenticate,
     logout: logout,
     addLocation: addLocation,
     addStudentList: addStudentList,
+    addFormList: addFormList,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

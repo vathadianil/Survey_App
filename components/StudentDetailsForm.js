@@ -2,11 +2,12 @@ import { StyleSheet, View } from "react-native";
 import { List } from "react-native-paper";
 import PersonalDetails from "./PersonalDetails";
 import EducationDetails from "./EducationDetails";
-import { useReducer } from "react";
+import { useContext, useReducer } from "react";
 import useInput from "../util/hooks/useInput";
 import Button from "../components/ui/Button";
 import axios from "../util/axios";
 import useImage from "../util/hooks/useImage";
+import { AuthContext } from "../store/auth-context";
 
 const initialState = {
   isSuccess: false,
@@ -49,11 +50,15 @@ const StudentDetailsForm = ({
   isInterestSwitchOn,
   gender,
   mobileNumber = "",
+  formList,
 }) => {
+  const authCtx = useContext(AuthContext);
+
   const [formState, dispatchFormState] = useReducer(
     formSubmitReducer,
     initialState
   );
+
   const studentNameInputData = useInput("", validateText);
   const fatherNameInputData = useInput("", validateText);
   const fatherOccupationDropDownData = useInput("", validateText);
@@ -216,6 +221,7 @@ const StudentDetailsForm = ({
             aadharNoInputData={aadharNoInputData}
             photoImagePickerData={photoImagePickerData}
             signImagePickerData={signImagePickerData}
+            formList={formList}
           />
           <EducationDetails
             hallTicketInputData={hallTicketInputData}

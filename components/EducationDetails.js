@@ -104,7 +104,7 @@ const EducationDetails = ({
           hasError={schoolOrCollegeNameHasError}
         />
 
-        <CustomDropdown
+        {/* <CustomDropdown
           label={"Admission Category"}
           style={styles.inputContainer}
           errorText={"Admission category selection is required"}
@@ -113,8 +113,9 @@ const EducationDetails = ({
           onBlurHanlder={admissionCategoryBlurHandler}
           onValueChange={admissionCategoryChangeHandler}
           hasError={admissionCategoryHasError}
-        />
-        <CustomDropdown
+        /> */}
+
+        {/* <CustomDropdown
           label={"Course/Group"}
           style={styles.inputContainer}
           errorText={"Course/Group selection is required"}
@@ -123,8 +124,9 @@ const EducationDetails = ({
           onBlurHanlder={courseorGroupBlurHandler}
           onValueChange={courseorGroupChangeHandler}
           hasError={courseorGroupHasError}
-        />
-        <CustomDropdown
+        /> */}
+
+        {/* <CustomDropdown
           label={"Medium"}
           style={styles.inputContainer}
           errorText={"Medium selection is required"}
@@ -133,7 +135,7 @@ const EducationDetails = ({
           onBlurHanlder={mediumBlurHandler}
           onValueChange={mediumChangeHandler}
           hasError={mediumHasError}
-        />
+        /> */}
 
         <CustomRadio
           label={"Registration Fee Paid"}
