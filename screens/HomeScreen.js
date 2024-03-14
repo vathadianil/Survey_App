@@ -136,7 +136,7 @@ const HomeScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, isLoading && { paddingBottom: 0 }]}>
       {authCtx.location && <CurrentLocation />}
 
       {isLoading ? (
