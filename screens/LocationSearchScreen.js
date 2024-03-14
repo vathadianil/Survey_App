@@ -71,5 +71,6 @@ export default LocationSearchScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingBottom: 50,
   },
 });
