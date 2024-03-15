@@ -4,22 +4,19 @@ import { Colors } from "../constants/styles";
 import AuthContent from "../components/Auth/AuthContent";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import { login } from "../util/Auth";
-import { Snackbar } from "react-native-paper";
 import { AppContext } from "../store/app-context";
+import CustomSnackBar from "../components/ui/paper/CustomSnackBar";
+import useSnackBar from "../util/hooks/useSnackBar";
 
 const LoginScreen = () => {
   const appCtx = useContext(AppContext);
   const [isAuthenticatung, setIsAuthenticating] = useState(false);
-
-  const [visible, setVisible] = useState(false);
-  const onToggleSnackBar = () => setVisible(!visible);
-  const onDismissSnackBar = () => setVisible(false);
+  const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
 
   async function loginHndlr({ email, password }) {
     setIsAuthenticating(true);
     try {
       const token = await login(email, password);
-
       appCtx.authenticate(token);
     } catch (error) {
       console.log(error);
@@ -37,18 +34,13 @@ const LoginScreen = () => {
       </View>
       <View style={[styles.innerContainer, styles.formContainer]}>
         <AuthContent onAuthenticate={loginHndlr} isLogin={true} />
-        <Snackbar
+        <CustomSnackBar
+          onDismissSnackBar={onDismissSnackBar}
           visible={visible}
-          onDismiss={onDismissSnackBar}
-          action={{
-            label: "Ok",
-            onPress: () => {
-              onDismissSnackBar();
-            },
-          }}
-        >
-          Could not Log you in. Please check your Credentials and Try Again!
-        </Snackbar>
+          message={
+            "Could not Log you in. Please check your Credentials and Try Again!"
+          }
+        />
       </View>
     </View>
   );
@@ -71,6 +63,7 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 2,
     width: "100%",
+
     backgroundColor: Colors.white,
     borderTopLeftRadius: 100,
     elevation: 8,

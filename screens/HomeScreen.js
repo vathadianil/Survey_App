@@ -23,11 +23,14 @@ import {
   GET_SUB_CASTE_LIST,
 } from "../util/apiRequests";
 import { AppContext } from "../store/app-context";
+import useSnackBar from "../util/hooks/useSnackBar";
+import CustomSnackBar from "../components/ui/paper/CustomSnackBar";
 
 const HomeScreen = () => {
   const appCtx = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
   const {
     inputValue: enteredInput,
     originalData: studentDataList,
@@ -46,6 +49,7 @@ const HomeScreen = () => {
       setIsLoading(false);
     } catch (error) {
       setError(true);
+      onToggleSnackBar();
       setIsLoading(false);
     }
   };
@@ -74,7 +78,6 @@ const HomeScreen = () => {
         axios.get(GET_PREVIOUS_EDUCATION_LIST),
         axios.get(GET_ADMISSION_LIST),
       ]);
-      console.log(admissionCategory.value.data.data);
       const fatherOccupationList = fatherOccupation?.value?.data?.data;
       const motherOccupationList = motherOccupation?.value?.data?.value;
       const casteList = caste?.value?.data?.data;
@@ -98,6 +101,8 @@ const HomeScreen = () => {
         admissionCategoryList,
       });
     } catch (error) {
+      setError(true);
+      onToggleSnackBar();
       console.log(error);
     }
   };
@@ -164,6 +169,11 @@ const HomeScreen = () => {
       ) : (
         <NoDataFound />
       )}
+      <CustomSnackBar
+        onDismissSnackBar={onDismissSnackBar}
+        visible={visible}
+        message={"Something went wrong. Please Try Again!"}
+      />
     </SafeAreaView>
   );
 };

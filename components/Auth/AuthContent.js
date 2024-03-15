@@ -1,11 +1,11 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useState } from "react";
-
 import { useNavigation } from "@react-navigation/native";
 import AuthForm from "./AuthForm";
 import { Colors } from "../../constants/styles";
-import FlatButton from "../ui/FlatButton";
-import { Snackbar } from "react-native-paper";
+
+import CustomSnackBar from "../ui/paper/CustomSnackBar";
+import useSnackBar from "../../util/hooks/useSnackBar";
 
 const AuthContent = ({ isLogin, onAuthenticate }) => {
   const navigation = useNavigation();
@@ -16,9 +16,7 @@ const AuthContent = ({ isLogin, onAuthenticate }) => {
     confirmPassword: false,
   });
 
-  const [visible, setVisible] = useState(false);
-  const onToggleSnackBar = () => setVisible(!visible);
-  const onDismissSnackBar = () => setVisible(false);
+  const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
 
   function switchAuthModeHandler() {
     if (isLogin) {
@@ -44,7 +42,6 @@ const AuthContent = ({ isLogin, onAuthenticate }) => {
       !passwordIsValid ||
       (!isLogin && (!emailsAreEqual || !passwordsAreEqual))
     ) {
-      // Alert.alert("Invalid input", "Please check your entered credentials.");
       onToggleSnackBar();
       setCredentialsInvalid({
         email: !emailIsValid,
@@ -64,7 +61,7 @@ const AuthContent = ({ isLogin, onAuthenticate }) => {
         onSubmit={submitHandler}
         credentialsInvalid={credentialsInvalid}
       />
-      <View style={styles.flatBtnContainer}>
+      {/* <View style={styles.flatBtnContainer}>
         <FlatButton onPress={switchAuthModeHandler}>
           {isLogin ? (
             <Text>
@@ -86,19 +83,13 @@ const AuthContent = ({ isLogin, onAuthenticate }) => {
             </Text>
           )}
         </FlatButton>
-      </View>
-      <Snackbar
+      </View> */}
+
+      <CustomSnackBar
+        onDismissSnackBar={onDismissSnackBar}
         visible={visible}
-        onDismiss={onDismissSnackBar}
-        action={{
-          label: "Ok",
-          onPress: () => {
-            onDismissSnackBar();
-          },
-        }}
-      >
-        Please check your entered credentials.
-      </Snackbar>
+        message={" Please check your entered credentials."}
+      />
     </View>
   );
 };
