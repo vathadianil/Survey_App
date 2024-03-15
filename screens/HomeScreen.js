@@ -39,7 +39,7 @@ const HomeScreen = () => {
     inputValueChangeHandler: updateInputValueHandler,
     originalDataChangeHandler: studentDataChangeHandler,
     filterValueChangeHandler: onChangeFilterValue,
-  } = useFilter("", "ALL", ["studentName", "Visited_Status"]);
+  } = useFilter("", "ALL", ["studentName", "visitedStatus"]);
 
   const getStudentDetails = async (location) => {
     try {
