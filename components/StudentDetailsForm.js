@@ -45,35 +45,84 @@ function validateText(text) {
   return isValid;
 }
 
-const StudentDetailsForm = ({
-  isVisitedSwitchOn,
-  isInterestSwitchOn,
-  gender,
-  mobileNumber = "",
-}) => {
-  const { formList } = useContext(AppContext);
+function getInitialValue(list, value) {
+  if (!value) {
+    return "";
+  } else if (list.findIndex((item) => item.value === value) === -1) {
+    return "Other";
+  } else {
+    return value;
+  }
+}
+
+const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
+  const { formList, studentData } = useContext(AppContext);
   const [formState, dispatchFormState] = useReducer(
     formSubmitReducer,
     initialState
   );
 
-  const studentNameInputData = useInput("", validateText);
-  const fatherNameInputData = useInput("", validateText);
-  const fatherOccupationDropDownData = useInput("", validateText);
-  const fatherOccupationInputnData = useInput("", validateText);
-  const motherNameInputData = useInput("", validateText);
-  const motherOccupationDropDownData = useInput("", validateText);
-  const motherOccupationInputnData = useInput("", validateText);
+  const {
+    studentName,
+    fatherName,
+    fOccupation,
+    motherName,
+    mOccupation,
+    gender,
+    disability,
+    religion,
+    motherTounge,
+    caste,
+    subCaste,
+    mobileNumber,
+    alternateMNo,
+    dob,
+    aadharNo,
+  } = studentData;
+
+  const {
+    fatherOccupationList,
+    motherOccupationList,
+    religionList,
+    casteList,
+    subCasteList,
+  } = formList;
+
+  const studentNameInputData = useInput(studentName, validateText);
+  const fatherNameInputData = useInput(fatherName, validateText);
+  const fatherOccupationDropDownData = useInput(
+    getInitialValue(fatherOccupationList, fOccupation),
+    validateText
+  );
+  const fatherOccupationInputnData = useInput(fOccupation, validateText);
+  const motherNameInputData = useInput(motherName, validateText);
+  const motherOccupationDropDownData = useInput(
+    getInitialValue(motherOccupationList, mOccupation),
+    validateText
+  );
+  const motherOccupationInputnData = useInput(mOccupation, validateText);
   const genderRadioData = useInput(gender, validateText);
-  const physicallyChallengedRadioData = useInput("no", validateText);
-  const religionDropDownData = useInput("", validateText);
-  const motherTongueInputData = useInput("", validateText);
-  const casteDropDownData = useInput("", validateText);
-  const subCasteDropDownData = useInput("", validateText);
+  const physicallyChallengedRadioData = useInput(
+    disability ? disability : "NO",
+    validateText
+  );
+  const religionDropDownData = useInput(
+    getInitialValue(religionList, religion),
+    validateText
+  );
+  const motherTongueInputData = useInput(motherTounge, validateText);
+  const casteDropDownData = useInput(
+    getInitialValue(casteList, caste),
+    validateText
+  );
+  const subCasteDropDownData = useInput(
+    getInitialValue(subCasteList, subCaste),
+    validateText
+  );
   const mobileNumberInputData = useInput(mobileNumber, validateText);
-  const alternateMobileNoInputData = useInput("", validateText);
-  const dateOfBirthDateData = useInput(new Date(), validateText);
-  const aadharNoInputData = useInput("", validateText);
+  const alternateMobileNoInputData = useInput(alternateMNo, validateText);
+  const dateOfBirthDateData = useInput(dob ? dob : new Date(), validateText);
+  const aadharNoInputData = useInput(aadharNo, validateText);
   const photoImagePickerData = useImage(
     { uriImage: "", base64Image: "" },
     validateText

@@ -16,7 +16,7 @@ import CustomSwitch from "../components/ui/paper/CustomSwitch";
 import StudentDetailsForm from "../components/StudentDetailsForm";
 import { AppContext } from "../store/app-context";
 
-const StudentDetailsScreen = ({ route, navigation }) => {
+const StudentDetailsScreen = ({ navigation }) => {
   const { studentData } = useContext(AppContext);
   const {
     studentName,
@@ -24,10 +24,15 @@ const StudentDetailsScreen = ({ route, navigation }) => {
     mobileNumber,
     fatherMobileNumber,
     permanentAddress,
+    visitedStatus,
+    intrestedStatus,
   } = studentData;
-  console.log(studentData);
-  const [isVisitedSwitchOn, setIsVisitedSwitchOn] = useState(false);
-  const [isInterestSwitchOn, setIsInterestSwitchOn] = useState(false);
+  const [isVisitedSwitchOn, setIsVisitedSwitchOn] = useState(
+    visitedStatus === "NO" ? false : true
+  );
+  const [isInterestSwitchOn, setIsInterestSwitchOn] = useState(
+    intrestedStatus === "NO" ? false : true
+  );
 
   const onToggleVisitedSwitch = () => {
     setIsVisitedSwitchOn((prevState) => !prevState);
@@ -127,8 +132,6 @@ const StudentDetailsScreen = ({ route, navigation }) => {
         <StudentDetailsForm
           isVisitedSwitchOn={isVisitedSwitchOn}
           isInterestSwitchOn={isInterestSwitchOn}
-          gender={gender?.toLowerCase()}
-          mobileNumber={mobileNumber}
         />
       </ScrollView>
     </SafeAreaView>

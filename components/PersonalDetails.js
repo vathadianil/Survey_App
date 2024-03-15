@@ -247,8 +247,8 @@ const PersonalDetails = ({
           value={gender}
           onValueChange={genderChangeHandler}
           data={[
-            { value: "male", displayText: "Male" },
-            { value: "female", displayText: "Female" },
+            { value: "Male", displayText: "Male" },
+            { value: "Female", displayText: "Female" },
           ]}
         />
 
@@ -258,8 +258,8 @@ const PersonalDetails = ({
           value={physicallyChallenged}
           onValueChange={physicallyChallengedChangeHandler}
           data={[
-            { value: "yes", displayText: "Yes" },
-            { value: "no", displayText: "No" },
+            { value: "YES", displayText: "Yes" },
+            { value: "NO", displayText: "No" },
           ]}
           radioGroupAlignVertical={true}
         />
