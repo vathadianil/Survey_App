@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import { List, Card, TextInput } from "react-native-paper";
+import { StyleSheet } from "react-native";
+import { List, Card } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 
@@ -8,22 +8,6 @@ import CustomRadio from "./ui/paper/CustomRadio";
 import CustomDropdown from "./ui/paper/CustomDropdown";
 import CustomDatePicker from "./ui/CustomDatePicker";
 import ImagePicker from "./ui/ImagePicker";
-
-const religionList = [
-  { label: "Hindu", value: "Hindu" },
-  { label: "Christian", value: "Christian" },
-];
-
-const occupationList = [
-  { label: "Farmer", value: "farmer" },
-  { label: "Doctor", value: "Doctor" },
-  { label: "Other", value: "Other" },
-];
-
-const casteList = [
-  { label: "OC", value: "OC" },
-  { label: "BC", value: "BC" },
-];
 
 const PersonalDetails = ({
   studentNameInputData,
@@ -205,7 +189,7 @@ const PersonalDetails = ({
           label={"Father Occupation"}
           style={styles.inputContainer}
           errorText={"Father Occupation selection is required"}
-          data={occupationList}
+          data={formList?.fatherOccupationList}
           value={fatherOccuDropdownValue}
           onBlurHanlder={fatherOccuDropdownValueBlurHandler}
           onValueChange={fatherOccuDropdownValueChangeHandler}
@@ -234,16 +218,16 @@ const PersonalDetails = ({
           hasError={motherNameHasError}
         />
 
-        {/* <CustomDropdown
+        <CustomDropdown
           label={"Mother Occupation"}
           style={styles.inputContainer}
           errorText={"Mother Occupation selection is required"}
-          data={occupationList}
+          data={formList?.motherOccupationList}
           value={motherOccuDropdownValue}
           onBlurHanlder={motherOccuDropdownValueBlurHandler}
           onValueChange={motherOccuDropdownValueChangeHandler}
           hasError={motherOccuDropdownValueHasError}
-        /> */}
+        />
 
         {motherOccuDropdownValue === "Other" && (
           <CustomInput
@@ -280,16 +264,16 @@ const PersonalDetails = ({
           radioGroupAlignVertical={true}
         />
 
-        {/* <CustomDropdown
+        <CustomDropdown
           label={"Religion"}
           style={styles.inputContainer}
           errorText={"Religion selection is required"}
-          data={religionList}
+          data={formList?.religionList}
           value={religion}
           onBlurHanlder={religionBlurHandler}
           onValueChange={religionChangeHandler}
           hasError={religionHasError}
-        /> */}
+        />
 
         <CustomInput
           label={"Mother Tongue"}
@@ -301,27 +285,27 @@ const PersonalDetails = ({
           hasError={motherTongueHasError}
         />
 
-        {/* <CustomDropdown
+        <CustomDropdown
           label={"Caste"}
           style={styles.inputContainer}
           errorText={"Caste selection is required"}
-          data={casteList}
+          data={formList?.casteList}
           value={casteDropDown}
           onBlurHanlder={casteDropDownBlurHandler}
           onValueChange={casteDropDownChangeHandler}
           hasError={casteDropDownHasError}
-        /> */}
+        />
 
-        {/* <CustomDropdown
+        <CustomDropdown
           label={"Sub Caste"}
           style={styles.inputContainer}
           errorText={"Sub Caste selection is required"}
-          data={casteList}
+          data={formList?.subCasteList}
           value={subCasteDropdown}
           onBlurHanlder={subCasteDropdownBlurHandler}
           onValueChange={subCasteDropdownChangeHandler}
           hasError={subCasteDropdownHasError}
-        /> */}
+        />
 
         <CustomInput
           label={"Mobile"}

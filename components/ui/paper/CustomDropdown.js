@@ -33,7 +33,7 @@ const CustomDropdown = ({
         data={data}
         search
         maxHeight={300}
-        labelField="label"
+        labelField="value"
         valueField="value"
         placeholder={label}
         searchPlaceholder={`Search ${label}...`}

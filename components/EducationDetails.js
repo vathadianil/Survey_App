@@ -32,6 +32,7 @@ const EducationDetails = ({
   courseOrGroupDropDownData,
   mediumDropDownData,
   registrationFeePaidRadioData,
+  formList,
 }) => {
   const {
     value: hallTicket,
@@ -103,8 +104,8 @@ const EducationDetails = ({
           onValueChange={schoolOrCollegeNameChangeHandler}
           hasError={schoolOrCollegeNameHasError}
         />
-
-        {/* <CustomDropdown
+        {/* 
+        <CustomDropdown
           label={"Admission Category"}
           style={styles.inputContainer}
           errorText={"Admission category selection is required"}
@@ -126,16 +127,16 @@ const EducationDetails = ({
           hasError={courseorGroupHasError}
         /> */}
 
-        {/* <CustomDropdown
+        <CustomDropdown
           label={"Medium"}
           style={styles.inputContainer}
           errorText={"Medium selection is required"}
-          data={mediumList}
+          data={formList?.mediumList}
           value={medium}
           onBlurHanlder={mediumBlurHandler}
           onValueChange={mediumChangeHandler}
           hasError={mediumHasError}
-        /> */}
+        />
 
         <CustomRadio
           label={"Registration Fee Paid"}

@@ -26,7 +26,6 @@ const HomeScreen = () => {
   const authCtx = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-
   const {
     inputValue: enteredInput,
     originalData: studentDataList,
@@ -69,13 +68,14 @@ const HomeScreen = () => {
         axios.get(GET_MEDIUM_LIST),
         axios.get(GET_RELIGION_LIST),
       ]);
-      const fatherOccupationList = fatherOccupation?.value?.data?.fOccupation;
-      const motherOccupationList = motherOccupation?.value?.data?.mOccupation;
+
+      const fatherOccupationList = fatherOccupation?.value?.data?.data;
+      const motherOccupationList = motherOccupation?.value?.data?.value;
       const casteList = caste?.value?.data?.data;
-      const subCasteList = subCaste?.value?.data?.SubCaste;
-      const hallTicketNoList = hallTicketNo?.value?.data?.HtNo;
-      const mediumList = medium?.value?.data?.Medium;
-      const religionList = religion?.value?.data?.Religion;
+      const subCasteList = subCaste?.value?.data?.data;
+      const hallTicketNoList = hallTicketNo?.value?.data?.data;
+      const mediumList = medium?.value?.data?.data;
+      const religionList = religion?.value?.data?.data;
 
       authCtx.addFormList({
         ...formList,

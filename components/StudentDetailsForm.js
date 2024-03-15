@@ -50,10 +50,9 @@ const StudentDetailsForm = ({
   isInterestSwitchOn,
   gender,
   mobileNumber = "",
-  formList,
 }) => {
-  const authCtx = useContext(AuthContext);
-
+  const { formList } = useContext(AuthContext);
+  console.log(formList);
   const [formState, dispatchFormState] = useReducer(
     formSubmitReducer,
     initialState
@@ -230,6 +229,7 @@ const StudentDetailsForm = ({
             courseOrGroupDropDownData={courseOrGroupDropDownData}
             mediumDropDownData={mediumDropDownData}
             registrationFeePaidRadioData={registrationFeePaidRadioData}
+            formList={formList}
           />
         </List.AccordionGroup>
       )}
