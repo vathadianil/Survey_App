@@ -13,6 +13,8 @@ export const AppContext = createContext({
     hallTicketNoList: [],
     mediumList: [],
     religionList: [],
+    previousEducationList: [],
+    admissionCategoryList: [],
   },
   studentData: {},
   authenticate: () => {},
@@ -34,6 +36,8 @@ function AppContextProvider({ children }) {
     hallTicketNoList: [],
     mediumList: [],
     religionList: [],
+    previousEducationList: [],
+    admissionCategoryList: [],
   });
 
   function authenticate(token) {

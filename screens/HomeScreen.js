@@ -11,11 +11,13 @@ import NoDataFound from "../components/ui/NoDataFound";
 import SearchInput from "../components/SearchInput";
 import useFilter from "../util/hooks/useFilter";
 import {
+  GET_ADMISSION_LIST,
   GET_CASTE_LIST,
   GET_FATHER_OCCUPATION_LIST,
   GET_HT_NO_LIST,
   GET_MEDIUM_LIST,
   GET_MOTHER_OCCUPATION_LIST,
+  GET_PREVIOUS_EDUCATION_LIST,
   GET_RELIGION_LIST,
   GET_STUDENT_LIST,
   GET_SUB_CASTE_LIST,
@@ -59,6 +61,8 @@ const HomeScreen = () => {
         hallTicketNo,
         medium,
         religion,
+        previousEducation,
+        admissionCategory,
       ] = await Promise.allSettled([
         axios.get(GET_FATHER_OCCUPATION_LIST),
         axios.get(GET_MOTHER_OCCUPATION_LIST),
@@ -67,8 +71,10 @@ const HomeScreen = () => {
         axios.get(GET_HT_NO_LIST),
         axios.get(GET_MEDIUM_LIST),
         axios.get(GET_RELIGION_LIST),
+        axios.get(GET_PREVIOUS_EDUCATION_LIST),
+        axios.get(GET_ADMISSION_LIST),
       ]);
-
+      console.log(admissionCategory.value.data.data);
       const fatherOccupationList = fatherOccupation?.value?.data?.data;
       const motherOccupationList = motherOccupation?.value?.data?.value;
       const casteList = caste?.value?.data?.data;
@@ -76,6 +82,8 @@ const HomeScreen = () => {
       const hallTicketNoList = hallTicketNo?.value?.data?.data;
       const mediumList = medium?.value?.data?.data;
       const religionList = religion?.value?.data?.data;
+      const previousEducationList = previousEducation.value?.data?.data;
+      const admissionCategoryList = admissionCategory?.value?.data?.data;
 
       appCtx.addFormList({
         ...formList,
@@ -86,6 +94,8 @@ const HomeScreen = () => {
         hallTicketNoList,
         mediumList,
         religionList,
+        previousEducationList,
+        admissionCategoryList,
       });
     } catch (error) {
       console.log(error);

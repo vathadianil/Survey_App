@@ -78,6 +78,12 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     alternateMNo,
     dob,
     aadharNo,
+    previousEducation,
+    hallTicketNo,
+    lastStudiedAt,
+    admissionCategory,
+    courseGroup,
+    medium,
   } = studentData;
 
   const {
@@ -132,11 +138,18 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     validateText
   );
 
-  const hallTicketInputData = useInput("", validateText);
-  const schoolOrCollegeNameInputData = useInput("", validateText);
-  const admissionCategoryDropDownData = useInput("", validateText);
-  const courseOrGroupDropDownData = useInput("", validateText);
-  const mediumDropDownData = useInput("", validateText);
+  const previousEducationDropdownData = useInput(
+    previousEducation,
+    validateText
+  );
+  const hallTicketInputData = useInput(hallTicketNo, validateText);
+  const schoolOrCollegeNameInputData = useInput(lastStudiedAt, validateText);
+  const admissionCategoryDropDownData = useInput(
+    admissionCategory,
+    validateText
+  );
+  const courseOrGroupDropDownData = useInput(courseGroup, validateText);
+  const mediumDropDownData = useInput(medium, validateText);
   const registrationFeePaidRadioData = useInput("no", validateText);
 
   let formIsValid = false;
@@ -159,6 +172,7 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
       aadharNoInputData.isValid &&
       photoImagePickerData.isValid &&
       signImagePickerData.isValid &&
+      previousEducationDropdownData.isValid &&
       hallTicketInputData.isValid &&
       schoolOrCollegeNameInputData.isValid &&
       admissionCategoryDropDownData.isValid &&
@@ -187,37 +201,38 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
 
   const handleSubmit = async () => {
     const formValues = {
-      visited: isVisitedSwitchOn ? "Yes" : "No",
-      interested: isInterestSwitchOn ? "Yes" : "No",
       studentName: studentNameInputData.value,
       fatherName: fatherNameInputData.value,
-      fatherOccupation:
+      fOccupation:
         fatherOccupationDropDownData.value === "Other"
           ? fatherOccupationInputnData.value
           : fatherOccupationDropDownData.value,
       motherName: motherNameInputData.value,
-      motherOccupation:
+      mOccupation:
         motherOccupationDropDownData.value === "Other"
           ? motherOccupationInputnData.value
           : motherOccupationDropDownData.value,
       gender: genderRadioData.value,
-      physicallyChallenged: physicallyChallengedRadioData.value,
+      disability: physicallyChallengedRadioData.value,
       religion: religionDropDownData.value,
-      motherTongue: motherTongueInputData.value,
+      motherTounge: motherTongueInputData.value,
       caste: casteDropDownData.value,
       subCaste: subCasteDropDownData.value,
       mobileNumber: mobileNumberInputData.value,
-      alternateMobileNo: dateOfBirthDateData.value,
-      dateOfBirth: convertDateToString(dateOfBirthDateData.value),
+      alternateMNo: dateOfBirthDateData.value,
+      dob: convertDateToString(dateOfBirthDateData.value),
       aadharNo: aadharNoInputData.value,
       studentImage: photoImagePickerData?.value?.base64Image,
       signImage: signImagePickerData?.value?.base64Image,
+      previousEducation: previousEducationDropdownData.value,
       hallTicketNo: hallTicketInputData.value,
-      schoolOrCollegeName: schoolOrCollegeNameInputData.value,
+      lastStudiedAt: schoolOrCollegeNameInputData.value,
       admissionCategory: admissionCategoryDropDownData.value,
-      courseOrGroup: courseOrGroupDropDownData.value,
+      courseGroup: courseOrGroupDropDownData.value,
       medium: mediumDropDownData.value,
       registrationFeePaid: registrationFeePaidRadioData.value,
+      visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
+      intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
     };
 
     dispatchFormState({
@@ -271,6 +286,7 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
             formList={formList}
           />
           <EducationDetails
+            previousEducationDropdownData={previousEducationDropdownData}
             hallTicketInputData={hallTicketInputData}
             schoolOrCollegeNameInputData={schoolOrCollegeNameInputData}
             admissionCategoryDropDownData={admissionCategoryDropDownData}

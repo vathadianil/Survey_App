@@ -7,3 +7,5 @@ export const GET_SUB_CASTE_LIST = "/getSubCaste";
 export const GET_HT_NO_LIST = "/getHtNoList";
 export const GET_MEDIUM_LIST = "/getMedium";
 export const GET_RELIGION_LIST = "/getReligion";
+export const GET_PREVIOUS_EDUCATION_LIST = "/getPreviousEducation";
+export const GET_ADMISSION_LIST = "/getAdmissionList";

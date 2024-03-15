@@ -6,26 +6,13 @@ import CustomInput from "./ui/paper/CustomInput";
 import CustomDropdown from "./ui/paper/CustomDropdown";
 import CustomRadio from "./ui/paper/CustomRadio";
 
-const admissionCategoryList = [
-  { label: "Convener", value: "Convener" },
-  { label: "Management", value: "Management" },
-  { label: "Spot", value: "Spot" },
-  { label: "Regular", value: "Regular" },
-  { label: "On Transfer Certificate", value: "On Transfer Certificate" },
-  { label: "Lateral Entry", value: "Lateral Entry" },
-];
-
 const courseOrGroupList = [
   { label: "Engineering", value: "Engineering" },
   { label: "Inter", value: "Inter" },
 ];
 
-const mediumList = [
-  { label: "English", value: "English" },
-  { label: "Telugu", value: "Telugu" },
-];
-
 const EducationDetails = ({
+  previousEducationDropdownData,
   hallTicketInputData,
   schoolOrCollegeNameInputData,
   admissionCategoryDropDownData,
@@ -34,6 +21,13 @@ const EducationDetails = ({
   registrationFeePaidRadioData,
   formList,
 }) => {
+  const {
+    value: previousEducation,
+    hasError: previousEducationHasError,
+    valueChangeHandler: previousEducationChangeHandler,
+    inputBlurHandler: previousEducationBlurHandler,
+  } = previousEducationDropdownData;
+
   const {
     value: hallTicket,
     hasError: hallTicketHasError,
@@ -85,6 +79,16 @@ const EducationDetails = ({
           <Ionicons {...props} name="person-add-outline" size={20} />
         )}
       >
+        <CustomDropdown
+          label={"Previous Education"}
+          style={styles.inputContainer}
+          errorText={"Previous Education selection is required"}
+          data={formList?.previousEducationList}
+          value={previousEducation}
+          onBlurHanlder={previousEducationBlurHandler}
+          onValueChange={previousEducationChangeHandler}
+          hasError={previousEducationHasError}
+        />
         <CustomInput
           label={"Hall Ticket Number"}
           style={styles.inputContainer}
@@ -104,19 +108,19 @@ const EducationDetails = ({
           onValueChange={schoolOrCollegeNameChangeHandler}
           hasError={schoolOrCollegeNameHasError}
         />
-        {/* 
+
         <CustomDropdown
           label={"Admission Category"}
           style={styles.inputContainer}
           errorText={"Admission category selection is required"}
-          data={admissionCategoryList}
+          data={formList?.admissionCategoryList}
           value={admissionCategory}
           onBlurHanlder={admissionCategoryBlurHandler}
           onValueChange={admissionCategoryChangeHandler}
           hasError={admissionCategoryHasError}
-        /> */}
+        />
 
-        {/* <CustomDropdown
+        <CustomDropdown
           label={"Course/Group"}
           style={styles.inputContainer}
           errorText={"Course/Group selection is required"}
@@ -125,7 +129,7 @@ const EducationDetails = ({
           onBlurHanlder={courseorGroupBlurHandler}
           onValueChange={courseorGroupChangeHandler}
           hasError={courseorGroupHasError}
-        /> */}
+        />
 
         <CustomDropdown
           label={"Medium"}
@@ -138,7 +142,7 @@ const EducationDetails = ({
           hasError={mediumHasError}
         />
 
-        <CustomRadio
+        {/* <CustomRadio
           label={"Registration Fee Paid"}
           style={[styles.inputContainer, { marginBottom: 30 }]}
           value={registrationFeePaid}
@@ -148,7 +152,7 @@ const EducationDetails = ({
             { value: "no", displayText: "No" },
           ]}
           radioGroupAlignVertical={true}
-        />
+        /> */}
       </List.Accordion>
     </Card>
   );
