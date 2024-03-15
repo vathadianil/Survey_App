@@ -11,11 +11,21 @@ import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 import { Linking } from "react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import CustomSwitch from "../components/ui/paper/CustomSwitch";
 import StudentDetailsForm from "../components/StudentDetailsForm";
+import { AppContext } from "../store/app-context";
 
 const StudentDetailsScreen = ({ route, navigation }) => {
+  const { studentData } = useContext(AppContext);
+  const {
+    studentName,
+    gender,
+    mobileNumber,
+    fatherMobileNumber,
+    permanentAddress,
+  } = studentData;
+  console.log(studentData);
   const [isVisitedSwitchOn, setIsVisitedSwitchOn] = useState(false);
   const [isInterestSwitchOn, setIsInterestSwitchOn] = useState(false);
 
@@ -26,14 +36,6 @@ const StudentDetailsScreen = ({ route, navigation }) => {
   const onToggleInterestSwitch = () => {
     setIsInterestSwitchOn((prevState) => !prevState);
   };
-
-  const {
-    studentName,
-    gender,
-    mobileNumber,
-    fatherMobileNumber,
-    permanentAddress,
-  } = route.params;
 
   async function phoneNumberPressHndlr(mobileNumber) {
     const isSupported = await Linking.canOpenURL(`tel:${mobileNumber}`);

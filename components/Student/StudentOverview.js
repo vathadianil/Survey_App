@@ -3,20 +3,14 @@ import { Colors } from "../../constants/styles";
 import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useContext } from "react";
+import { AppContext } from "../../store/app-context";
 
-const StudentOverview = ({
-  id,
-  studentName,
-  gender,
-  mobileNumber,
-  fatherMobileNumber,
-  permanentAddress,
-  visitedStatus,
-  insterestedStatus,
-  tokenAmount,
-}) => {
+const StudentOverview = ({ studentData }) => {
+  const { gender, mobileNumber, permanentAddress, studentName, visitedStatus } =
+    studentData;
   const navigation = useNavigation();
-
+  const appCtx = useContext(AppContext);
   return (
     <View style={[styles.student]}>
       <View style={styles.statusContainer}>
@@ -36,17 +30,8 @@ const StudentOverview = ({
         android_ripple={{ color: Colors.shadowColor }}
         style={({ pressed }) => pressed && styles.pressedBtn}
         onPress={() => {
-          navigation.navigate("StudentDetail", {
-            id: id,
-            studentName: studentName,
-            gender: gender,
-            mobileNumber: mobileNumber,
-            fatherMobileNumber: fatherMobileNumber,
-            permanentAddress: permanentAddress,
-            visitedStatus: visitedStatus,
-            insterestedStatus: insterestedStatus,
-            tokenAmount: tokenAmount,
-          });
+          appCtx.addStudentData(studentData);
+          navigation.navigate("StudentDetail");
         }}
       >
         <View style={[styles.innerContainer]}>

@@ -121,18 +121,7 @@ const HomeScreen = () => {
   }
 
   function renderStudent({ item }) {
-    const studentProps = {
-      id: item.id,
-      studentName: item.studentName,
-      gender: item.gender,
-      mobileNumber: item.mobileNumber,
-      fatherMobileNumber: item.fatherMobileNumber,
-      permanentAddress: item.permanentAddress,
-      visitedStatus: item.Visited_Status,
-      insterestedStatus: item.Intrested_Status,
-      tokenAmount: item.Token_Amount,
-    };
-    return <StudentOverview {...studentProps} />;
+    return <StudentOverview studentData={item} />;
   }
 
   return (

@@ -14,17 +14,18 @@ export const AppContext = createContext({
     mediumList: [],
     religionList: [],
   },
+  studentData: {},
   authenticate: () => {},
   logout: () => {},
   addLocation: () => {},
-  addStudentList: () => {},
+  addStudentData: () => {},
   addFormList: () => {},
 });
 
 function AppContextProvider({ children }) {
   const [authToken, setAuthToken] = useState();
   const [location, setLocation] = useState("");
-  const [studentList, setStudentList] = useState([]);
+  const [studentData, setStudentData] = useState([]);
   const [formList, setFormList] = useState({
     fatherOccupationList: [],
     motherOccupationList: [],
@@ -52,12 +53,8 @@ function AppContextProvider({ children }) {
     AsyncStorage.setItem("location", location);
   }
 
-  function addStudentList(studntList) {
-    setStudentList(studntList);
-  }
-
-  function addStudentList(studntList) {
-    setStudentList(studntList);
+  function addStudentData(studentData) {
+    setStudentData(studentData);
   }
 
   function addFormList(formList) {
@@ -69,10 +66,11 @@ function AppContextProvider({ children }) {
     isAuthenticated: !!authToken,
     location: location,
     formList: formList,
+    studentData: studentData,
     authenticate: authenticate,
     logout: logout,
     addLocation: addLocation,
-    addStudentList: addStudentList,
+    addStudentData: addStudentData,
     addFormList: addFormList,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

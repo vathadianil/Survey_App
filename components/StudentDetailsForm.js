@@ -52,7 +52,6 @@ const StudentDetailsForm = ({
   mobileNumber = "",
 }) => {
   const { formList } = useContext(AppContext);
-  console.log(formList);
   const [formState, dispatchFormState] = useReducer(
     formSubmitReducer,
     initialState
@@ -164,7 +163,7 @@ const StudentDetailsForm = ({
       aadharNo: aadharNoInputData.value,
       studentImage: photoImagePickerData?.value?.base64Image,
       signImage: signImagePickerData?.value?.base64Image,
-      hallTicket: hallTicketInputData.value,
+      hallTicketNo: hallTicketInputData.value,
       schoolOrCollegeName: schoolOrCollegeNameInputData.value,
       admissionCategory: admissionCategoryDropDownData.value,
       courseOrGroup: courseOrGroupDropDownData.value,
