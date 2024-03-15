@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useContext, useState } from "react";
 import { Colors } from "../constants/styles";
-import { AuthContext } from "../store/auth-context";
 import AuthContent from "../components/Auth/AuthContent";
 import { createUser } from "../util/Auth";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import { Snackbar } from "react-native-paper";
+import { AppContext } from "../store/app-context";
 
 const SingUpScreen = () => {
-  const authCtx = useContext(AuthContext);
+  const appCtx = useContext(AppContext);
   const [isAuthenticatung, setIsAuthenticating] = useState(false);
 
   const [visible, setVisible] = useState(false);
@@ -20,7 +20,7 @@ const SingUpScreen = () => {
     try {
       const token = await createUser(email, password);
       console.log(token);
-      authCtx.authenticate(token);
+      appCtx.authenticate(token);
     } catch (error) {
       onToggleSnackBar();
       setIsAuthenticating(false);

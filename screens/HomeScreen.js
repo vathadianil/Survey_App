@@ -5,7 +5,6 @@ import axios from "../util/axios";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CurrentLocation from "../components/CurrentLocation";
 import NoLocation from "../components/NoLocation";
-import { AuthContext } from "../store/auth-context";
 import StudentOverViewSkelton from "../components/ui/skelton/StudentOverViewSkelton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NoDataFound from "../components/ui/NoDataFound";
@@ -21,9 +20,10 @@ import {
   GET_STUDENT_LIST,
   GET_SUB_CASTE_LIST,
 } from "../util/apiRequests";
+import { AppContext } from "../store/app-context";
 
 const HomeScreen = () => {
-  const authCtx = useContext(AuthContext);
+  const appCtx = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const {
@@ -50,7 +50,7 @@ const HomeScreen = () => {
 
   const getRequiredListData = async () => {
     try {
-      const formList = authCtx.formList;
+      const formList = appCtx.formList;
       const [
         fatherOccupation,
         motherOccupation,
@@ -77,7 +77,7 @@ const HomeScreen = () => {
       const mediumList = medium?.value?.data?.data;
       const religionList = religion?.value?.data?.data;
 
-      authCtx.addFormList({
+      appCtx.addFormList({
         ...formList,
         fatherOccupationList,
         motherOccupationList,
@@ -96,7 +96,7 @@ const HomeScreen = () => {
     setIsLoading(true);
     const storedLocation = await AsyncStorage.getItem("location");
     if (storedLocation) {
-      authCtx.addLocation(storedLocation);
+      appCtx.addLocation(storedLocation);
     }
     setIsLoading(false);
   };
@@ -107,12 +107,12 @@ const HomeScreen = () => {
   }, []);
 
   useEffect(() => {
-    if (authCtx.location) {
-      getStudentDetails(authCtx.location);
+    if (appCtx.location) {
+      getStudentDetails(appCtx.location);
     }
-  }, [authCtx.location]);
+  }, [appCtx.location]);
 
-  if (!authCtx.location && !isLoading) {
+  if (!appCtx.location && !isLoading) {
     return (
       <SafeAreaView style={[styles.container, { padding: 0 }]}>
         <NoLocation />
@@ -137,7 +137,7 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={[styles.container, isLoading && { paddingBottom: 0 }]}>
-      {authCtx.location && <CurrentLocation />}
+      {appCtx.location && <CurrentLocation />}
 
       {isLoading ? (
         <StudentOverViewSkelton />

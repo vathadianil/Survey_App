@@ -7,7 +7,7 @@ import useInput from "../util/hooks/useInput";
 import Button from "../components/ui/Button";
 import axios from "../util/axios";
 import useImage from "../util/hooks/useImage";
-import { AuthContext } from "../store/auth-context";
+import { AppContext } from "../store/app-context";
 
 const initialState = {
   isSuccess: false,
@@ -51,7 +51,7 @@ const StudentDetailsForm = ({
   gender,
   mobileNumber = "",
 }) => {
-  const { formList } = useContext(AuthContext);
+  const { formList } = useContext(AppContext);
   console.log(formList);
   const [formState, dispatchFormState] = useReducer(
     formSubmitReducer,

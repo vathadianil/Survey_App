@@ -4,10 +4,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
 import Button from "../components/ui/Button";
 import { Colors } from "../constants/styles";
-import { AuthContext } from "../store/auth-context";
 import { Ionicons } from "@expo/vector-icons";
 import SurveyorAnalytics from "../components/SurveyorAnalytics";
-import { ProgressBar } from "react-native-paper";
+import { AppContext } from "../store/app-context";
 
 const data = [
   {
@@ -37,7 +36,7 @@ const data = [
 ];
 
 const ProfileScreen = ({ navigation }) => {
-  const authCtx = useContext(AuthContext);
+  const appCtx = useContext(AppContext);
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -54,7 +53,7 @@ const ProfileScreen = ({ navigation }) => {
 
           <Button
             onPress={() => {
-              authCtx.logout();
+              appCtx.logout();
             }}
             style={styles.btn}
           >

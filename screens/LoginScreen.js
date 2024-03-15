@@ -2,13 +2,13 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useContext, useState } from "react";
 import { Colors } from "../constants/styles";
 import AuthContent from "../components/Auth/AuthContent";
-import { AuthContext } from "../store/auth-context";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import { login } from "../util/Auth";
 import { Snackbar } from "react-native-paper";
+import { AppContext } from "../store/app-context";
 
 const LoginScreen = () => {
-  const authCtx = useContext(AuthContext);
+  const appCtx = useContext(AppContext);
   const [isAuthenticatung, setIsAuthenticating] = useState(false);
 
   const [visible, setVisible] = useState(false);
@@ -20,7 +20,7 @@ const LoginScreen = () => {
     try {
       const token = await login(email, password);
 
-      authCtx.authenticate(token);
+      appCtx.authenticate(token);
     } catch (error) {
       console.log(error);
       onToggleSnackBar();

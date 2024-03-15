@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useState } from "react";
 
-export const AuthContext = createContext({
+export const AppContext = createContext({
   token: "",
   location: "",
   isAuthenticated: false,
@@ -21,7 +21,7 @@ export const AuthContext = createContext({
   addFormList: () => {},
 });
 
-function AuthContextProvider({ children }) {
+function AppContextProvider({ children }) {
   const [authToken, setAuthToken] = useState();
   const [location, setLocation] = useState("");
   const [studentList, setStudentList] = useState([]);
@@ -75,7 +75,7 @@ function AuthContextProvider({ children }) {
     addStudentList: addStudentList,
     addFormList: addFormList,
   };
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
 
-export default AuthContextProvider;
+export default AppContextProvider;

@@ -9,11 +9,11 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 import { useContext } from "react";
-import { AuthContext } from "../store/auth-context";
 import { useNavigation } from "@react-navigation/native";
+import { AppContext } from "../store/app-context";
 
 const LocationList = ({ locationList }) => {
-  const authCtx = useContext(AuthContext);
+  const appCtx = useContext(AppContext);
   const navigation = useNavigation();
 
   function renderLocation({ item }) {
@@ -28,7 +28,7 @@ const LocationList = ({ locationList }) => {
           android_ripple={{ color: Colors.shadowColor }}
           style={({ pressed }) => pressed && styles.pressedBtn}
           onPress={() => {
-            authCtx.addLocation(locationData.location);
+            appCtx.addLocation(locationData.location);
             navigation.navigate("Home");
           }}
         >
