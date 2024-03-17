@@ -312,6 +312,7 @@ const PersonalDetails = ({
           style={styles.inputContainer}
           errorText={"Mobile Number is Required"}
           value={mobileNumber}
+          numberkeyBoard={true}
           onBlurHanlder={mobileNumberBlurHandler}
           onValueChange={mobileNumberChangeHandler}
           hasError={mobileNumberHasError}
@@ -322,6 +323,7 @@ const PersonalDetails = ({
           style={styles.inputContainer}
           value={alternateMobileNo}
           onValueChange={alternateMobileNoChangeHandler}
+          numberkeyBoard={true}
         />
         <CustomDatePicker
           label={"Date Of Birth"}
@@ -342,9 +344,10 @@ const PersonalDetails = ({
           onBlurHanlder={aadharNoBlurHandler}
           onValueChange={aadharNoChangeHandler}
           hasError={aadharNoHasError}
+          numberkeyBoard={true}
         />
 
-        <ImagePicker
+        {/* <ImagePicker
           style={[styles.inputContainer, { marginBottom: 40 }]}
           label={"Take Pic"}
           lottieImageType={"pic"}
@@ -352,9 +355,9 @@ const PersonalDetails = ({
           takeImageHandler={photoChangeHandler}
           hasError={photoHasError}
           errorText={"Image is required"}
-        />
+        /> */}
 
-        <ImagePicker
+        {/* <ImagePicker
           style={[styles.inputContainer, { marginBottom: 40 }]}
           label={"Take Sign"}
           lottieImageType={"sign"}
@@ -362,7 +365,7 @@ const PersonalDetails = ({
           takeImageHandler={signChangeHandler}
           hasError={signHasError}
           errorText={"Sign is required"}
-        />
+        /> */}
       </List.Accordion>
     </Card>
   );

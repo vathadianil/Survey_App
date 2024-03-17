@@ -10,6 +10,7 @@ const CustomInput = ({
   onBlurHanlder,
   hasError,
   errorText,
+  numberkeyBoard = false,
 }) => {
   return (
     <View style={[style]}>
@@ -17,6 +18,7 @@ const CustomInput = ({
         label={label}
         mode="outlined"
         value={value}
+        keyboardType={numberkeyBoard ? "number-pad" : "default"}
         onChangeText={onValueChange}
         onBlur={onBlurHanlder}
         activeOutlineColor={hasError ? Colors.error800 : Colors.primary800}

@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import { List } from "react-native-paper";
+import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, List } from "react-native-paper";
 import PersonalDetails from "./PersonalDetails";
 import EducationDetails from "./EducationDetails";
 import { useContext, useReducer } from "react";
@@ -8,6 +8,10 @@ import Button from "../components/ui/Button";
 import axios from "../util/axios";
 import useImage from "../util/hooks/useImage";
 import { AppContext } from "../store/app-context";
+import { useNavigation } from "@react-navigation/native";
+import { Colors } from "../constants/styles";
+import CustomSnackBar from "./ui/paper/CustomSnackBar";
+import useSnackBar from "../util/hooks/useSnackBar";
 
 const initialState = {
   isSuccess: false,
@@ -56,6 +60,8 @@ function getInitialValue(list, value) {
 }
 
 const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
+  const navigation = useNavigation();
+  const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
   const { formList, studentData } = useContext(AppContext);
   const [formState, dispatchFormState] = useReducer(
     formSubmitReducer,
@@ -125,10 +131,16 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     getInitialValue(subCasteList, subCaste),
     validateText
   );
-  const mobileNumberInputData = useInput(mobileNumber, validateText);
-  const alternateMobileNoInputData = useInput(alternateMNo, validateText);
+  const mobileNumberInputData = useInput(
+    mobileNumber ? mobileNumber : "",
+    validateText
+  );
+  const alternateMobileNoInputData = useInput(
+    alternateMNo ? alternateMNo : "",
+    validateText
+  );
   const dateOfBirthDateData = useInput(dob ? dob : new Date(), validateText);
-  const aadharNoInputData = useInput(aadharNo, validateText);
+  const aadharNoInputData = useInput(aadharNo ? aadharNo : "", validateText);
   const photoImagePickerData = useImage(
     { uriImage: "", base64Image: "" },
     validateText
@@ -139,17 +151,26 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   );
 
   const previousEducationDropdownData = useInput(
-    previousEducation,
+    previousEducation ? previousEducation : "",
     validateText
   );
-  const hallTicketInputData = useInput(hallTicketNo, validateText);
-  const schoolOrCollegeNameInputData = useInput(lastStudiedAt, validateText);
+  const hallTicketInputData = useInput(
+    hallTicketNo ? hallTicketNo : "",
+    validateText
+  );
+  const schoolOrCollegeNameInputData = useInput(
+    lastStudiedAt ? lastStudiedAt : "",
+    validateText
+  );
   const admissionCategoryDropDownData = useInput(
-    admissionCategory,
+    admissionCategory ? admissionCategory : "",
     validateText
   );
-  const courseOrGroupDropDownData = useInput(courseGroup, validateText);
-  const mediumDropDownData = useInput(medium, validateText);
+  const courseOrGroupDropDownData = useInput(
+    courseGroup ? courseGroup : "",
+    validateText
+  );
+  const mediumDropDownData = useInput(medium ? medium : "", validateText);
   const registrationFeePaidRadioData = useInput("no", validateText);
 
   let formIsValid = false;
@@ -170,8 +191,8 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
       mobileNumberInputData.isValid &&
       dateOfBirthDateData.isValid &&
       aadharNoInputData.isValid &&
-      photoImagePickerData.isValid &&
-      signImagePickerData.isValid &&
+      // photoImagePickerData.isValid &&
+      // signImagePickerData.isValid &&
       previousEducationDropdownData.isValid &&
       hallTicketInputData.isValid &&
       schoolOrCollegeNameInputData.isValid &&
@@ -200,46 +221,54 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   };
 
   const handleSubmit = async () => {
-    const formValues = {
-      studentName: studentNameInputData.value,
-      fatherName: fatherNameInputData.value,
-      fOccupation:
-        fatherOccupationDropDownData.value === "Other"
-          ? fatherOccupationInputnData.value
-          : fatherOccupationDropDownData.value,
-      motherName: motherNameInputData.value,
-      mOccupation:
-        motherOccupationDropDownData.value === "Other"
-          ? motherOccupationInputnData.value
-          : motherOccupationDropDownData.value,
-      gender: genderRadioData.value,
-      disability: physicallyChallengedRadioData.value,
-      religion: religionDropDownData.value,
-      motherTounge: motherTongueInputData.value,
-      caste: casteDropDownData.value,
-      subCaste: subCasteDropDownData.value,
-      mobileNumber: mobileNumberInputData.value,
-      alternateMNo: dateOfBirthDateData.value,
-      dob: convertDateToString(dateOfBirthDateData.value),
-      aadharNo: aadharNoInputData.value,
-      studentImage: photoImagePickerData?.value?.base64Image,
-      signImage: signImagePickerData?.value?.base64Image,
-      previousEducation: previousEducationDropdownData.value,
-      hallTicketNo: hallTicketInputData.value,
-      lastStudiedAt: schoolOrCollegeNameInputData.value,
-      admissionCategory: admissionCategoryDropDownData.value,
-      courseGroup: courseOrGroupDropDownData.value,
-      medium: mediumDropDownData.value,
-      registrationFeePaid: registrationFeePaidRadioData.value,
-      visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
-      intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
-    };
-
-    dispatchFormState({
-      type: "SUBMIT_LOADING",
-    });
     try {
-      const result = await axios.post("/update_student_details", formValues);
+      const formValues = {
+        studentName: studentNameInputData.value,
+        fatherName: fatherNameInputData.value,
+        fOccupation:
+          fatherOccupationDropDownData.value === "Other"
+            ? fatherOccupationInputnData.value
+            : fatherOccupationDropDownData.value,
+        motherName: motherNameInputData.value,
+        mOccupation:
+          motherOccupationDropDownData.value === "Other"
+            ? motherOccupationInputnData.value
+            : motherOccupationDropDownData.value,
+        gender: genderRadioData.value,
+        disability: physicallyChallengedRadioData.value,
+        religion: religionDropDownData.value,
+        motherTounge: motherTongueInputData.value,
+        caste: casteDropDownData.value,
+        subCaste: subCasteDropDownData.value,
+        mobileNumber: mobileNumberInputData.value,
+        alternateMNo: alternateMobileNoInputData.value,
+        dob: convertDateToString(dateOfBirthDateData.value),
+        aadharNo: aadharNoInputData.value,
+        studentImage: photoImagePickerData?.value?.base64Image,
+        signImage: signImagePickerData?.value?.base64Image,
+        previousEducation: previousEducationDropdownData.value,
+        hallTicketNo: hallTicketInputData.value,
+        lastStudiedAt: schoolOrCollegeNameInputData.value,
+        admissionCategory: admissionCategoryDropDownData.value,
+        courseGroup: courseOrGroupDropDownData.value,
+        medium: mediumDropDownData.value,
+        registrationFeePaid: registrationFeePaidRadioData.value,
+        visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
+        intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
+        passedOutYear: "",
+        studentRegNo: "",
+        registrationFee: "",
+        registrationFeeStatus: "",
+        registrationFeeReceipt: "",
+        agentID: "",
+        insertBy: "",
+        updateBy: "",
+        studentId: "",
+      };
+      dispatchFormState({
+        type: "SUBMIT_LOADING",
+      });
+      const result = await axios.post("/updateStudentDetails", formValues);
       if (
         result?.data.returnCode === 1 &&
         result.data.returnMessage === "Success"
@@ -247,15 +276,19 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         dispatchFormState({
           type: "SUCCESS",
         });
+        navigation.navigate("Home");
       } else {
         dispatchFormState({
           type: "FAILURE",
         });
       }
+      onToggleSnackBar();
     } catch (error) {
+      console.log(error);
       dispatchFormState({
         type: "FAILURE",
       });
+      onToggleSnackBar();
     }
   };
 
@@ -301,11 +334,31 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         <View style={styles.btnContainer}>
           <Button
             style={styles.btn}
-            disabled={!formIsValid}
+            disabled={!formIsValid || formState.loading}
             onPress={handleSubmit}
           >
-            Submit
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {formState.submitted && formState.loading && (
+                <ActivityIndicator animating={true} color={Colors.black} />
+              )}
+              <Text style={{ color: Colors.white, marginLeft: 10 }}>
+                Submit
+              </Text>
+            </View>
           </Button>
+          <CustomSnackBar
+            onDismissSnackBar={onDismissSnackBar}
+            visible={visible}
+            message={
+              "Something went wrong, Unable to Submit the Details. Please Try Again!"
+            }
+          />
         </View>
       )}
     </View>

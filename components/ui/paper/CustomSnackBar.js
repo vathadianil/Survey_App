@@ -8,6 +8,7 @@ const CustomSnackBar = ({ visible, message, onDismissSnackBar }) => {
         action={{
           label: "Ok",
         }}
+        duration={7000}
         visible={visible}
         onDismiss={onDismissSnackBar}
       >
