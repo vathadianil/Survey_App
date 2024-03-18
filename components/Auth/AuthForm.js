@@ -56,7 +56,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <Input
-          placeholder="Email Address"
+          placeholder="User Name"
           onUpdateValue={updateInputValueHandler.bind(this, "email")}
           value={enteredEmail}
           keyboardType="email-address"

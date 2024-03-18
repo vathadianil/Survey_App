@@ -31,7 +31,6 @@ const HomeScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
-  console.log({ isLoading });
   const {
     inputValue: enteredInput,
     originalData: studentDataList,

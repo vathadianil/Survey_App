@@ -69,6 +69,7 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   );
 
   const {
+    id,
     studentName,
     fatherName,
     fOccupation,
@@ -260,10 +261,10 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         registrationFee: "",
         registrationFeeStatus: "",
         registrationFeeReceipt: "",
-        agentID: "",
-        insertBy: "",
-        updateBy: "",
-        studentId: "",
+        agentID: "2",
+        insertBy: "admin",
+        updateBy: "admin",
+        id: id + "",
       };
       dispatchFormState({
         type: "SUBMIT_LOADING",
