@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import { Colors } from "../constants/styles";
 import AuthContent from "../components/Auth/AuthContent";
@@ -28,7 +34,7 @@ const LoginScreen = () => {
     return <LoadingOverlay />;
   }
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.innerContainer}>
         <Text style={styles.title}>WELCOME</Text>
       </View>
@@ -42,7 +48,7 @@ const LoginScreen = () => {
           }
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -63,7 +69,6 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 2,
     width: "100%",
-
     backgroundColor: Colors.white,
     borderTopLeftRadius: 100,
     elevation: 8,
