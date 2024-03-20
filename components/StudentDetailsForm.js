@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { ActivityIndicator, List } from "react-native-paper";
 import PersonalDetails from "./PersonalDetails";
 import EducationDetails from "./EducationDetails";
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useContext, useReducer } from "react";
 import useInput from "../util/hooks/useInput";
 import Button from "../components/ui/Button";
 import axios from "../util/axios";
@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Colors } from "../constants/styles";
 import CustomSnackBar from "./ui/paper/CustomSnackBar";
 import useSnackBar from "../util/hooks/useSnackBar";
+import { baseURL } from "../util/axios";
 
 const initialState = {
   isSuccess: false,
@@ -120,14 +121,23 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
 
   const { agentId, userId } = loginData;
 
-  const studentNameInputData = useInput(studentName, validateText);
-  const fatherNameInputData = useInput(fatherName, validateText);
+  const studentNameInputData = useInput(
+    studentName ? studentName : "",
+    validateText
+  );
+  const fatherNameInputData = useInput(
+    fatherName ? fatherName : "",
+    validateText
+  );
   const fatherOccupationDropDownData = useInput(
     getInitialValue(fatherOccupationList, fOccupation),
     validateText
   );
   const fatherOccupationInputnData = useInput(fOccupation, validateText);
-  const motherNameInputData = useInput(motherName, validateText);
+  const motherNameInputData = useInput(
+    motherName ? motherName : "",
+    validateText
+  );
   const motherOccupationDropDownData = useInput(
     getInitialValue(motherOccupationList, mOccupation),
     validateText
@@ -142,7 +152,10 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     getInitialValue(religionList, religion),
     validateText
   );
-  const motherTongueInputData = useInput(motherTounge, validateText);
+  const motherTongueInputData = useInput(
+    motherTounge ? motherTounge : "",
+    validateText
+  );
   const casteDropDownData = useInput(
     getInitialValue(casteList, caste),
     validateText
@@ -167,12 +180,8 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     aadharNo ? aadharNo + "" : "",
     validateText
   );
-  const photoImagePickerData = useImage(
-    `http://13.232.201.89:8001/get-photo/${id}`
-  );
-  const signImagePickerData = useImage(
-    `http://13.232.201.89:8001/get-sign/${id}`
-  );
+  const photoImagePickerData = useImage(`${baseURL}/get-photo/${id}`);
+  const signImagePickerData = useImage(`${baseURL}/get-sign/${id}`);
 
   const previousEducationDropdownData = useInput(
     previousEducation ? previousEducation : "",
@@ -284,6 +293,7 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         updateBy: userId,
         studentId: id + "",
       };
+
       dispatchFormState({
         type: "SUBMIT_LOADING",
       });
