@@ -28,8 +28,7 @@ import CustomSnackBar from "../components/ui/paper/CustomSnackBar";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 
 const HomeScreen = ({ route }) => {
-  // console.log({ params: route?.params });
-  const isRecordUpdated = route?.params?.updated;
+  const isRecordUpdated = route?.params?.submittedTimeStamp;
   const appCtx = useContext(AppContext);
   const [isLocationFetching, setIsLocationFetching] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -167,6 +166,7 @@ const HomeScreen = ({ route }) => {
             filterValue={filterValue}
             onChangeValue={onChangeFilterValue}
           />
+
           <FlatList
             data={filteredStudentDataList}
             contentContainerStyle={{
@@ -179,8 +179,9 @@ const HomeScreen = ({ route }) => {
           />
         </View>
       ) : (
-        error && <NoDataFound />
+        <NoDataFound />
       )}
+
       <CustomSnackBar
         onDismissSnackBar={onDismissSnackBar}
         visible={visible}

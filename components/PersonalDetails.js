@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import { List, Card } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
@@ -8,8 +8,11 @@ import CustomRadio from "./ui/paper/CustomRadio";
 import CustomDropdown from "./ui/paper/CustomDropdown";
 import CustomDatePicker from "./ui/CustomDatePicker";
 import ImagePicker from "./ui/ImagePicker";
+import CustomModal from "./ui/paper/CustomModal";
+import { useState } from "react";
 
 const PersonalDetails = ({
+  id,
   studentNameInputData,
   fatherNameInputData,
   fatherOccupationDropDownData,
@@ -31,6 +34,11 @@ const PersonalDetails = ({
   signImagePickerData,
   formList,
 }) => {
+  const [modalStatus, setModalStatus] = useState({ visible: false, uri: "" });
+  const showModal = (uri) =>
+    setModalStatus((prevState) => ({ ...prevState, visible: true, uri: uri }));
+  const hideModal = (uri) =>
+    setModalStatus((prevState) => ({ ...prevState, visible: false, uri: uri }));
   const {
     value: studentName,
     hasError: studentNameHasError,
@@ -146,16 +154,25 @@ const PersonalDetails = ({
     value: photo,
     hasError: photoHasError,
     valueChangeHandler: photoChangeHandler,
+    errorValueHandler: photoErrorHandler,
+    uploadedImageHasError: uploadedPhotoHasErr,
   } = photoImagePickerData;
 
   const {
     value: sign,
     hasError: signHasError,
     valueChangeHandler: signChangeHandler,
+    errorValueHandler: signErrorHandler,
+    uploadedImageHasError: uploadedSignHasErr,
   } = signImagePickerData;
 
   return (
     <Card mode="elevated" style={styles.container}>
+      <CustomModal
+        visible={modalStatus.visible}
+        pickedImage={modalStatus.uri}
+        hideModal={hideModal}
+      />
       <List.Accordion
         id="one"
         titleStyle={[styles.accordionText]}
@@ -347,25 +364,36 @@ const PersonalDetails = ({
           numberkeyBoard={true}
         />
 
-        <ImagePicker
-          style={[styles.inputContainer, { marginBottom: 40 }]}
-          label={"Upload Photo"}
-          lottieImageType={"pic"}
-          pickedImage={photo}
-          takeImageHandler={photoChangeHandler}
-          hasError={photoHasError}
-          errorText={"Image is required"}
-        />
-
-        <ImagePicker
-          style={[styles.inputContainer, { marginBottom: 40 }]}
-          label={"Upload Sign"}
-          lottieImageType={"sign"}
-          pickedImage={sign}
-          takeImageHandler={signChangeHandler}
-          hasError={signHasError}
-          errorText={"Sign is required"}
-        />
+        <Pressable onPress={() => photo && showModal(photo)}>
+          <ImagePicker
+            style={[styles.inputContainer, { marginBottom: 40 }]}
+            label={"Upload Photo"}
+            lottieImageType={"pic"}
+            pickedImage={photo}
+            takeImageHandler={() =>
+              photoChangeHandler(`upload-photo/?student_id=${id}`)
+            }
+            hasError={photoHasError}
+            errorText={"Photo is required"}
+            uploadedImageErr={uploadedPhotoHasErr}
+            errorValueHandler={photoErrorHandler}
+          />
+        </Pressable>
+        <Pressable onPress={() => photo && showModal(sign)}>
+          <ImagePicker
+            style={[styles.inputContainer, { marginBottom: 40 }]}
+            label={"Upload Sign"}
+            lottieImageType={"sign"}
+            pickedImage={sign}
+            takeImageHandler={() =>
+              signChangeHandler(`upload-sign/?student_id=${id}`)
+            }
+            hasError={signHasError}
+            errorText={"Sign is required"}
+            uploadedImageErr={uploadedSignHasErr}
+            errorValueHandler={signErrorHandler}
+          />
+        </Pressable>
       </List.Accordion>
     </Card>
   );

@@ -1,8 +1,9 @@
 import { Image, Platform, StyleSheet, View } from "react-native";
 import Button from "./Button";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import LottieView from "lottie-react-native";
 import { HelperText } from "react-native-paper";
+import { Colors } from "../../constants/styles";
+import { useState } from "react";
 
 const ImagePicker = ({
   style,
@@ -12,28 +13,51 @@ const ImagePicker = ({
   takeImageHandler,
   hasError,
   errorText,
+  uploadedImageErr,
+  errorValueHandler,
 }) => {
-  let imagePreview = (
-    <LottieView
-      style={styles.image}
-      source={
-        (lottieImageType === "pic" &&
-          require(`../../assets/lottie-animations/image-preview.json`)) ||
-        (lottieImageType === "sign" &&
-          require(`../../assets/lottie-animations/sign-preview.json`))
-      }
-      autoPlay
-    />
-  );
-  if (pickedImage && !hasError) {
-    imagePreview = <Image style={styles.image} source={{ uri: pickedImage }} />;
-  }
   return (
     <View style={[styles.container, style]}>
       <View style={styles.innerContainer}>
-        <View style={styles.imagePreview}>{imagePreview}</View>
-        <Button onPress={takeImageHandler} icon={"camera-outline"}>
-          {label}
+        <View style={styles.imagePreview}>
+          {hasError ? (
+            <LottieView
+              style={styles.image}
+              source={
+                (lottieImageType === "pic" &&
+                  require(`../../assets/lottie-animations/image-preview.json`)) ||
+                (lottieImageType === "sign" &&
+                  require(`../../assets/lottie-animations/sign-preview.json`))
+              }
+              autoPlay
+            />
+          ) : (
+            <Image
+              style={styles.image}
+              source={{ uri: pickedImage }}
+              onError={() => errorValueHandler(true)}
+            />
+          )}
+        </View>
+        <Button
+          style={{
+            backgroundColor: hasError
+              ? Colors.primary800
+              : uploadedImageErr
+              ? Colors.error800
+              : Colors.success,
+          }}
+          onPress={takeImageHandler}
+          icon={
+            hasError
+              ? "camera-outline"
+              : uploadedImageErr
+              ? "close-circle-outline"
+              : "checkmark-circle-outline"
+          }
+          size={18}
+        >
+          {hasError ? label : uploadedImageErr ? "Try Again" : "Uploaded"}
         </Button>
       </View>
       <HelperText type="error" visible={hasError}>

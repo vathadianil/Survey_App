@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { ActivityIndicator, List } from "react-native-paper";
 import PersonalDetails from "./PersonalDetails";
 import EducationDetails from "./EducationDetails";
-import { useContext, useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import useInput from "../util/hooks/useInput";
 import Button from "../components/ui/Button";
 import axios from "../util/axios";
@@ -17,6 +17,7 @@ const initialState = {
   isSuccess: false,
   submitted: false,
   loading: false,
+  message: "",
 };
 
 const formSubmitReducer = (state = initialState, action) => {
@@ -26,18 +27,21 @@ const formSubmitReducer = (state = initialState, action) => {
         ...state,
         submitted: true,
         loading: true,
+        message: "",
       };
     case "SUCCESS":
       return {
         ...state,
         isSuccess: true,
         loading: false,
+        message: action.message ? action.message : "",
       };
     case "FAILURE":
       return {
         ...state,
         isSuccess: false,
         loading: false,
+        message: action.message,
       };
     default:
       return state;
@@ -65,7 +69,7 @@ function validateText(text) {
 function getInitialValue(list, value) {
   if (!value) {
     return "";
-  } else if (list.findIndex((item) => item.value === value) === -1) {
+  } else if (list?.findIndex((item) => item.value === value) === -1) {
     return "Other";
   } else {
     return value;
@@ -114,7 +118,7 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     subCasteList,
   } = formList;
 
-  const { agentId } = loginData;
+  const { agentId, userId } = loginData;
 
   const studentNameInputData = useInput(studentName, validateText);
   const fatherNameInputData = useInput(fatherName, validateText);
@@ -159,9 +163,16 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     dob ? convertDateStringToDate(dob) : new Date(),
     validateText
   );
-  const aadharNoInputData = useInput(aadharNo ? aadharNo : "", validateText);
-  const photoImagePickerData = useImage("", validateText);
-  const signImagePickerData = useImage("", validateText);
+  const aadharNoInputData = useInput(
+    aadharNo ? aadharNo + "" : "",
+    validateText
+  );
+  const photoImagePickerData = useImage(
+    `http://13.232.201.89:8001/get-photo/${id}`
+  );
+  const signImagePickerData = useImage(
+    `http://13.232.201.89:8001/get-sign/${id}`
+  );
 
   const previousEducationDropdownData = useInput(
     previousEducation ? previousEducation : "",
@@ -190,29 +201,31 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   if (isVisitedSwitchOn && !isInterestSwitchOn) {
     formIsValid = true;
   } else if (
-    (studentNameInputData,
+    studentNameInputData.isValid &&
     fatherNameInputData.isValid &&
-      fatherOccupationDropDownData.isValid &&
-      motherNameInputData.isValid &&
-      motherOccupationDropDownData.isValid &&
-      genderRadioData.isValid &&
-      physicallyChallengedRadioData.isValid &&
-      religionDropDownData.isValid &&
-      motherTongueInputData.isValid &&
-      casteDropDownData.isValid &&
-      subCasteDropDownData.isValid &&
-      mobileNumberInputData.isValid &&
-      dateOfBirthDateData.isValid &&
-      aadharNoInputData.isValid &&
-      photoImagePickerData.isValid &&
-      signImagePickerData.isValid &&
-      previousEducationDropdownData.isValid &&
-      hallTicketInputData.isValid &&
-      schoolOrCollegeNameInputData.isValid &&
-      admissionCategoryDropDownData.isValid &&
-      courseOrGroupDropDownData.isValid &&
-      mediumDropDownData.isValid &&
-      registrationFeePaidRadioData.isValid)
+    fatherOccupationDropDownData.isValid &&
+    motherNameInputData.isValid &&
+    motherOccupationDropDownData.isValid &&
+    genderRadioData.isValid &&
+    physicallyChallengedRadioData.isValid &&
+    religionDropDownData.isValid &&
+    motherTongueInputData.isValid &&
+    casteDropDownData.isValid &&
+    subCasteDropDownData.isValid &&
+    mobileNumberInputData.isValid &&
+    dateOfBirthDateData.isValid &&
+    aadharNoInputData.isValid &&
+    !photoImagePickerData.isValid &&
+    !photoImagePickerData.uploadedImageHasError &&
+    !signImagePickerData.isValid &&
+    !signImagePickerData.uploadedImageHasError &&
+    previousEducationDropdownData.isValid &&
+    hallTicketInputData.isValid &&
+    schoolOrCollegeNameInputData.isValid &&
+    admissionCategoryDropDownData.isValid &&
+    courseOrGroupDropDownData.isValid &&
+    mediumDropDownData.isValid &&
+    registrationFeePaidRadioData.isValid
   ) {
     if (
       (fatherOccupationDropDownData.value === "Other" &&
@@ -225,34 +238,6 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
       formIsValid = true;
     }
   }
-
-  async function uploadImage(imageUrl) {
-    const fileName = imageUrl?.split("/").pop();
-    const fileType = fileName.split(".").pop();
-    console.log({ fileName, fileType });
-    const formData = new FormData();
-    formData.append("photo", {
-      uri: imageUrl,
-      name: fileName,
-      type: `image/${fileType}`,
-    });
-    console.log({ formData });
-    console.log({ id });
-
-    const { data } = await axios({
-      method: "post",
-      url: `/upload-photo/?student_id=${id}`,
-      data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    console.log({ data });
-  }
-
-  useEffect(() => {
-    if (photoImagePickerData.value) {
-      uploadImage(photoImagePickerData.value);
-    }
-  }, [photoImagePickerData.value]);
 
   const handleSubmit = async () => {
     try {
@@ -278,26 +263,26 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         alternateMNo: alternateMobileNoInputData.value,
         dob: convertDateToString(dateOfBirthDateData.value),
         aadharNo: aadharNoInputData.value,
-        studentImage: photoImagePickerData?.value,
-        signImage: signImagePickerData?.value,
+        // studentImage: photoImagePickerData?.value,
+        // signImage: signImagePickerData?.value,
         previousEducation: previousEducationDropdownData.value,
         hallTicketNo: hallTicketInputData.value,
         lastStudiedAt: schoolOrCollegeNameInputData.value,
         admissionCategory: admissionCategoryDropDownData.value,
         courseGroup: courseOrGroupDropDownData.value,
         medium: mediumDropDownData.value,
-        registrationFeePaid: registrationFeePaidRadioData.value,
+        // registrationFeePaid: registrationFeePaidRadioData.value,
         visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
         intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
         passedOutYear: "",
         studentRegNo: "",
-        registrationFee: "",
-        registrationFeeStatus: "",
+        registrationFee: "1000",
+        registrationFeeStatus: registrationFeePaidRadioData.value,
         registrationFeeReceipt: "",
-        agentID: agentId,
+        agentID: agentId + "",
         insertBy: "admin",
-        updateBy: "admin",
-        id: id + "",
+        updateBy: userId,
+        studentId: id + "",
       };
       dispatchFormState({
         type: "SUBMIT_LOADING",
@@ -310,11 +295,17 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
       ) {
         dispatchFormState({
           type: "SUCCESS",
+          message: "Data Submitted Successfully",
         });
-        navigation.navigate("Home", { updated: true });
+        onToggleSnackBar();
+        navigation.navigate("Home", {
+          submittedTimeStamp: new Date().getTime(),
+        });
       } else {
         dispatchFormState({
           type: "FAILURE",
+          message:
+            "Something went wrong, Unable to Submit the Details. Please Try Again!",
         });
       }
       onToggleSnackBar();
@@ -322,6 +313,8 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
       console.log(error);
       dispatchFormState({
         type: "FAILURE",
+        message:
+          "Something went wrong, Unable to Submit the Details. Please Try Again!",
       });
       onToggleSnackBar();
     }
@@ -332,6 +325,7 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
       {isVisitedSwitchOn && isInterestSwitchOn && (
         <List.AccordionGroup>
           <PersonalDetails
+            id={id}
             studentNameInputData={studentNameInputData}
             fatherNameInputData={fatherNameInputData}
             fatherOccupationDropDownData={fatherOccupationDropDownData}
@@ -390,9 +384,7 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
           <CustomSnackBar
             onDismissSnackBar={onDismissSnackBar}
             visible={visible}
-            message={
-              "Something went wrong, Unable to Submit the Details. Please Try Again!"
-            }
+            message={formState.message}
           />
         </View>
       )}

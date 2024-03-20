@@ -16,8 +16,8 @@ const LoginScreen = () => {
   async function loginHndlr({ email, password }) {
     setIsAuthenticating(true);
     try {
-      const token = await login(email, password);
-      appCtx.authenticate(token);
+      const loginData = await login(email, password);
+      appCtx.authenticate(loginData);
     } catch (error) {
       console.log(error);
       onToggleSnackBar();

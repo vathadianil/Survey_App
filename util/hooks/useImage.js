@@ -4,31 +4,31 @@ import {
   useCameraPermissions,
   PermissionStatus,
 } from "expo-image-picker";
-import { Alert } from "react-native";
+import axios from "../axios";
 
-const useImage = (initialValue, validateValue) => {
+const useImage = (initialValue) => {
   const [pickedImage, setPickedImage] = useState(initialValue);
+  const [hasError, setHasError] = useState(false);
+  const [uploadedImageHasError, setUploadedImageHasError] = useState(false);
   const [camerPermissionInfo, requestPermission] = useCameraPermissions();
-  const [isTouched, setIsTouched] = useState(false);
-  const valueIsValid = validateValue(pickedImage.base64Image);
-  const hasError = !valueIsValid && isTouched;
+  const valueIsValid = hasError;
 
   const verifyPermission = async () => {
     if (camerPermissionInfo.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermission();
       return permissionResponse.granted;
     }
-    if (camerPermissionInfo.status === PermissionStatus.DENIED) {
-      Alert.alert(
-        "Insufficient Permission!",
-        "You need to Grant camera permission to use this App"
-      );
-      return false;
-    }
+    // if (camerPermissionInfo.status === PermissionStatus.DENIED) {
+    //   Alert.alert(
+    //     "Insufficient Permission!",
+    //     "You need to Grant camera permission to use this App"
+    //   );
+    //   return false;
+    // }
     return true;
   };
 
-  const valueChangeHandler = async () => {
+  const valueChangeHandler = async (url) => {
     const hasPermission = await verifyPermission();
     if (!hasPermission) {
       return;
@@ -37,16 +37,42 @@ const useImage = (initialValue, validateValue) => {
       allowsEditing: true,
       aspect: [16, 9],
       quality: 0.5,
-      base64: true,
     });
-
     setPickedImage(image?.assets[0]?.uri);
-    inputBlurHandler();
+    errorValueHandler(false);
+    uploadImage(image?.assets[0]?.uri, url);
   };
 
-  const inputBlurHandler = () => {
-    setIsTouched(true);
+  const errorValueHandler = (value) => {
+    setHasError(value);
   };
+
+  async function uploadImage(imageUrl, url) {
+    try {
+      const fileName = imageUrl?.split("/").pop();
+      const fileType = fileName.split(".").pop();
+      const formData = new FormData();
+      formData.append("photo", {
+        uri: imageUrl,
+        name: fileName,
+        type: `image/${fileType}`,
+      });
+      const { data } = await axios({
+        method: "post",
+        url: url,
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (data.returnCode === 1 && data.returnMessage === "Success") {
+        setUploadedImageHasError(false);
+      } else {
+        setUploadedImageHasError(true);
+      }
+    } catch (error) {
+      console.log({ error });
+      setUploadedImageHasError(true);
+    }
+  }
 
   const reset = () => {
     setPickedImage("");
@@ -57,8 +83,9 @@ const useImage = (initialValue, validateValue) => {
     value: pickedImage,
     isValid: valueIsValid,
     hasError,
+    uploadedImageHasError,
+    errorValueHandler,
     valueChangeHandler,
-    inputBlurHandler,
     reset,
   };
 };
