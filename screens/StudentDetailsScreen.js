@@ -27,11 +27,12 @@ const StudentDetailsScreen = ({ navigation }) => {
     visitedStatus,
     intrestedStatus,
   } = studentData;
+
   const [isVisitedSwitchOn, setIsVisitedSwitchOn] = useState(
-    visitedStatus === "NO" ? false : true
+    visitedStatus?.toLowerCase() === "no" ? false : true
   );
   const [isInterestSwitchOn, setIsInterestSwitchOn] = useState(
-    intrestedStatus === "NO" ? false : true
+    intrestedStatus?.toLowerCase() === "no" ? false : true
   );
 
   const onToggleVisitedSwitch = () => {
