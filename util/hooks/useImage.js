@@ -40,11 +40,7 @@ const useImage = (initialValue, validateValue) => {
       base64: true,
     });
 
-    setPickedImage((prevState) => ({
-      ...prevState,
-      uriImage: image?.assets[0]?.uri,
-      base64Image: image?.assets[0]?.base64,
-    }));
+    setPickedImage(image?.assets[0]?.uri);
     inputBlurHandler();
   };
 
@@ -53,11 +49,7 @@ const useImage = (initialValue, validateValue) => {
   };
 
   const reset = () => {
-    setPickedImage((prevState) => ({
-      ...prevState,
-      uriImage: initialValue.uriImage,
-      base64Image: initialValue.base64Image,
-    }));
+    setPickedImage("");
     setIsTouched(false);
   };
 

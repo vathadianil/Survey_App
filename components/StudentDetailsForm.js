@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { ActivityIndicator, List } from "react-native-paper";
 import PersonalDetails from "./PersonalDetails";
 import EducationDetails from "./EducationDetails";
-import { useContext, useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import useInput from "../util/hooks/useInput";
 import Button from "../components/ui/Button";
 import axios from "../util/axios";
@@ -44,6 +44,19 @@ const formSubmitReducer = (state = initialState, action) => {
   }
 };
 
+const convertDateToString = (date) => {
+  const day = date?.getDate();
+  const month = date?.getMonth() + 1;
+  const year = date?.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
+const convertDateStringToDate = (dateString) => {
+  const dateArray = dateString.split("-");
+  const date = new Date(dateArray[2], dateArray[1] - 1, dateArray[0]);
+  return date;
+};
+
 function validateText(text) {
   const isValid = !!String(text)?.trim();
   return isValid;
@@ -62,7 +75,7 @@ function getInitialValue(list, value) {
 const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   const navigation = useNavigation();
   const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
-  const { formList, studentData } = useContext(AppContext);
+  const { formList, studentData, loginData } = useContext(AppContext);
   const [formState, dispatchFormState] = useReducer(
     formSubmitReducer,
     initialState
@@ -100,6 +113,8 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     casteList,
     subCasteList,
   } = formList;
+
+  const { agentId } = loginData;
 
   const studentNameInputData = useInput(studentName, validateText);
   const fatherNameInputData = useInput(fatherName, validateText);
@@ -140,16 +155,13 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     alternateMNo ? alternateMNo : "",
     validateText
   );
-  const dateOfBirthDateData = useInput(dob ? dob : new Date(), validateText);
+  const dateOfBirthDateData = useInput(
+    dob ? convertDateStringToDate(dob) : new Date(),
+    validateText
+  );
   const aadharNoInputData = useInput(aadharNo ? aadharNo : "", validateText);
-  const photoImagePickerData = useImage(
-    { uriImage: "", base64Image: "" },
-    validateText
-  );
-  const signImagePickerData = useImage(
-    { uriImage: "", base64Image: "" },
-    validateText
-  );
+  const photoImagePickerData = useImage("", validateText);
+  const signImagePickerData = useImage("", validateText);
 
   const previousEducationDropdownData = useInput(
     previousEducation ? previousEducation : "",
@@ -192,8 +204,8 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
       mobileNumberInputData.isValid &&
       dateOfBirthDateData.isValid &&
       aadharNoInputData.isValid &&
-      // photoImagePickerData.isValid &&
-      // signImagePickerData.isValid &&
+      photoImagePickerData.isValid &&
+      signImagePickerData.isValid &&
       previousEducationDropdownData.isValid &&
       hallTicketInputData.isValid &&
       schoolOrCollegeNameInputData.isValid &&
@@ -214,12 +226,33 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     }
   }
 
-  const convertDateToString = (date) => {
-    const day = date?.getDate();
-    const month = date?.getMonth() + 1;
-    const year = date?.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
+  async function uploadImage(imageUrl) {
+    const fileName = imageUrl?.split("/").pop();
+    const fileType = fileName.split(".").pop();
+    console.log({ fileName, fileType });
+    const formData = new FormData();
+    formData.append("photo", {
+      uri: imageUrl,
+      name: fileName,
+      type: `image/${fileType}`,
+    });
+    console.log({ formData });
+    console.log({ id });
+
+    const { data } = await axios({
+      method: "post",
+      url: `/upload-photo/?student_id=${id}`,
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    console.log({ data });
+  }
+
+  useEffect(() => {
+    if (photoImagePickerData.value) {
+      uploadImage(photoImagePickerData.value);
+    }
+  }, [photoImagePickerData.value]);
 
   const handleSubmit = async () => {
     try {
@@ -245,8 +278,8 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         alternateMNo: alternateMobileNoInputData.value,
         dob: convertDateToString(dateOfBirthDateData.value),
         aadharNo: aadharNoInputData.value,
-        studentImage: photoImagePickerData?.value?.base64Image,
-        signImage: signImagePickerData?.value?.base64Image,
+        studentImage: photoImagePickerData?.value,
+        signImage: signImagePickerData?.value,
         previousEducation: previousEducationDropdownData.value,
         hallTicketNo: hallTicketInputData.value,
         lastStudiedAt: schoolOrCollegeNameInputData.value,
@@ -261,7 +294,7 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         registrationFee: "",
         registrationFeeStatus: "",
         registrationFeeReceipt: "",
-        agentID: "2",
+        agentID: agentId,
         insertBy: "admin",
         updateBy: "admin",
         id: id + "",
@@ -270,6 +303,7 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         type: "SUBMIT_LOADING",
       });
       const result = await axios.post("/updateStudentDetails", formValues);
+
       if (
         result?.data.returnCode === 1 &&
         result.data.returnMessage === "Success"
@@ -277,7 +311,7 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         dispatchFormState({
           type: "SUCCESS",
         });
-        navigation.navigate("Home");
+        navigation.navigate("Home", { updated: true });
       } else {
         dispatchFormState({
           type: "FAILURE",

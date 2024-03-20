@@ -25,10 +25,14 @@ import {
 import { AppContext } from "../store/app-context";
 import useSnackBar from "../util/hooks/useSnackBar";
 import CustomSnackBar from "../components/ui/paper/CustomSnackBar";
+import LoadingOverlay from "../components/ui/LoadingOverlay";
 
-const HomeScreen = () => {
+const HomeScreen = ({ route }) => {
+  // console.log({ params: route?.params });
+  const isRecordUpdated = route?.params?.updated;
   const appCtx = useContext(AppContext);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLocationFetching, setIsLocationFetching] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
   const {
@@ -108,12 +112,12 @@ const HomeScreen = () => {
   };
 
   const fechLocation = async () => {
-    setIsLoading(true);
+    setIsLocationFetching(true);
     const storedLocation = await AsyncStorage.getItem("location");
     if (storedLocation) {
       appCtx.addLocation(storedLocation);
     }
-    setIsLoading(false);
+    setIsLocationFetching(false);
   };
 
   useEffect(() => {
@@ -125,11 +129,19 @@ const HomeScreen = () => {
     if (appCtx.location) {
       getStudentDetails(appCtx.location);
     }
-  }, [appCtx.location]);
+  }, [appCtx.location, isRecordUpdated]);
+
+  if (isLocationFetching) {
+    return (
+      <SafeAreaView style={[styles.container, { paddingBottom: 0 }]}>
+        <LoadingOverlay />
+      </SafeAreaView>
+    );
+  }
 
   if (!appCtx.location && !isLoading) {
     return (
-      <SafeAreaView style={[styles.container, { padding: 0 }]}>
+      <SafeAreaView style={[styles.container, { paddingBottom: 0 }]}>
         <NoLocation />
       </SafeAreaView>
     );
@@ -167,7 +179,7 @@ const HomeScreen = () => {
           />
         </View>
       ) : (
-        <NoDataFound />
+        error && <NoDataFound />
       )}
       <CustomSnackBar
         onDismissSnackBar={onDismissSnackBar}

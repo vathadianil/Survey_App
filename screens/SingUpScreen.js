@@ -19,7 +19,6 @@ const SingUpScreen = () => {
     setIsAuthenticating(true);
     try {
       const token = await createUser(email, password);
-      console.log(token);
       appCtx.authenticate(token);
     } catch (error) {
       onToggleSnackBar();

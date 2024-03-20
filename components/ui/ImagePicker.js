@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 8,
     overflow: Platform.select({ android: "hidden" }),
+    marginRight: 12,
   },
   image: {
     width: "100%",

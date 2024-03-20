@@ -27,9 +27,16 @@ async function authenticate(mode, username, password) {
     username,
     password,
   });
-  console.log(data);
-  const token = data.access_token;
-  return token;
+
+  const loginData = {
+    token: data?.access_token,
+    agentId: data?.agent_id,
+    userId: data?.user_id,
+    firstName: data?.fname,
+    lastName: data?.lname,
+    isActive: data?.is_active,
+  };
+  return loginData;
 }
 
 // export async function createUser(email, password) {

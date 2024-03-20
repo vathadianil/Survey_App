@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useState } from "react";
 
 export const AppContext = createContext({
-  token: "",
+  loginData: {},
   location: "",
   isAuthenticated: false,
   formList: {
@@ -25,7 +25,7 @@ export const AppContext = createContext({
 });
 
 function AppContextProvider({ children }) {
-  const [authToken, setAuthToken] = useState();
+  const [loginData, setLoginData] = useState({});
   const [location, setLocation] = useState("");
   const [studentData, setStudentData] = useState([]);
   const [formList, setFormList] = useState({
@@ -40,14 +40,14 @@ function AppContextProvider({ children }) {
     admissionCategoryList: [],
   });
 
-  function authenticate(token) {
-    setAuthToken(token);
-    AsyncStorage.setItem("token", token);
+  function authenticate(loginData) {
+    setLoginData(loginData);
+    AsyncStorage.setItem("loginData", JSON.stringify(loginData));
   }
 
   function logout() {
-    setAuthToken(null);
-    AsyncStorage.removeItem("token");
+    setLoginData({});
+    AsyncStorage.removeItem("loginData");
     // setLocation("");
     // AsyncStorage.removeItem("location");
   }
@@ -66,8 +66,8 @@ function AppContextProvider({ children }) {
   }
 
   const value = {
-    token: authToken,
-    isAuthenticated: !!authToken,
+    loginData: loginData,
+    isAuthenticated: !!loginData.token,
     location: location,
     formList: formList,
     studentData: studentData,

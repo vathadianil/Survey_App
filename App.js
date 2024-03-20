@@ -25,9 +25,10 @@ function Root() {
   useEffect(() => {
     async function fetchToken() {
       setIsTokenFetching(true);
-      const storedToken = await AsyncStorage.getItem("token");
-      if (storedToken) {
-        appCtx.authenticate(storedToken);
+      const storedData = await AsyncStorage.getItem("loginData");
+      const loginData = await JSON.parse(storedData);
+      if (loginData?.token) {
+        appCtx.authenticate(loginData);
       }
       setIsTokenFetching(false);
     }

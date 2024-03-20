@@ -347,25 +347,25 @@ const PersonalDetails = ({
           numberkeyBoard={true}
         />
 
-        {/* <ImagePicker
+        <ImagePicker
           style={[styles.inputContainer, { marginBottom: 40 }]}
-          label={"Take Pic"}
+          label={"Upload Photo"}
           lottieImageType={"pic"}
-          pickedImage={photo.uriImage}
+          pickedImage={photo}
           takeImageHandler={photoChangeHandler}
           hasError={photoHasError}
           errorText={"Image is required"}
-        /> */}
+        />
 
-        {/* <ImagePicker
+        <ImagePicker
           style={[styles.inputContainer, { marginBottom: 40 }]}
-          label={"Take Sign"}
+          label={"Upload Sign"}
           lottieImageType={"sign"}
-          pickedImage={sign.uriImage}
+          pickedImage={sign}
           takeImageHandler={signChangeHandler}
           hasError={signHasError}
           errorText={"Sign is required"}
-        /> */}
+        />
       </List.Accordion>
     </Card>
   );
