@@ -11,7 +11,7 @@ import ImagePicker from "../ui/ImagePicker";
 import CustomModal from "../ui/paper/CustomModal";
 import { useState } from "react";
 
-const PersonalDetails = ({
+const PersonalForm = ({
   id,
   studentNameInputData,
   fatherNameInputData,
@@ -399,7 +399,7 @@ const PersonalDetails = ({
   );
 };
 
-export default PersonalDetails;
+export default PersonalForm;
 
 const styles = StyleSheet.create({
   container: {

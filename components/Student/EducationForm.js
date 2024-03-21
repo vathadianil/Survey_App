@@ -4,21 +4,19 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/styles";
 import CustomInput from "../ui/paper/CustomInput";
 import CustomDropdown from "../ui/paper/CustomDropdown";
-import CustomRadio from "../ui/paper/CustomRadio";
 
 const courseOrGroupList = [
   { label: "Engineering", value: "Engineering" },
   { label: "Inter", value: "Inter" },
 ];
 
-const EducationDetails = ({
+const EducationForm = ({
   previousEducationDropdownData,
   hallTicketInputData,
   schoolOrCollegeNameInputData,
   admissionCategoryDropDownData,
   courseOrGroupDropDownData,
   mediumDropDownData,
-  registrationFeePaidRadioData,
   formList,
 }) => {
   const {
@@ -62,11 +60,6 @@ const EducationDetails = ({
     valueChangeHandler: mediumChangeHandler,
     inputBlurHandler: mediumBlurHandler,
   } = mediumDropDownData;
-
-  const {
-    value: registrationFeePaid,
-    valueChangeHandler: registrationFeePaidChangeHandler,
-  } = registrationFeePaidRadioData;
 
   return (
     <Card mode="elevated" style={styles.container}>
@@ -141,24 +134,12 @@ const EducationDetails = ({
           onValueChange={mediumChangeHandler}
           hasError={mediumHasError}
         />
-
-        {/* <CustomRadio
-          label={"Registration Fee Paid"}
-          style={[styles.inputContainer, { marginBottom: 30 }]}
-          value={registrationFeePaid}
-          onValueChange={registrationFeePaidChangeHandler}
-          data={[
-            { value: "yes", displayText: "Yes" },
-            { value: "no", displayText: "No" },
-          ]}
-          radioGroupAlignVertical={true}
-        /> */}
       </List.Accordion>
     </Card>
   );
 };
 
-export default EducationDetails;
+export default EducationForm;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { ActivityIndicator, List } from "react-native-paper";
-import PersonalDetails from "./PersonalDetails";
-import EducationDetails from "./EducationDetails";
+import PersonalForm from "./PersonalForm";
+import EducationForm from "./EducationForm";
 import { useContext, useReducer } from "react";
 import useInput from "../../util/hooks/useInput";
 import Button from "../ui/Button";
@@ -334,7 +334,7 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     <View>
       {isVisitedSwitchOn && isInterestSwitchOn && (
         <List.AccordionGroup>
-          <PersonalDetails
+          <PersonalForm
             id={id}
             studentNameInputData={studentNameInputData}
             fatherNameInputData={fatherNameInputData}
@@ -357,7 +357,7 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
             signImagePickerData={signImagePickerData}
             formList={formList}
           />
-          <EducationDetails
+          <EducationForm
             previousEducationDropdownData={previousEducationDropdownData}
             hallTicketInputData={hallTicketInputData}
             schoolOrCollegeNameInputData={schoolOrCollegeNameInputData}
