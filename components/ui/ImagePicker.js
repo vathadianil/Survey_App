@@ -3,7 +3,6 @@ import Button from "./Button";
 import LottieView from "lottie-react-native";
 import { HelperText } from "react-native-paper";
 import { Colors } from "../../constants/styles";
-import { useState } from "react";
 
 const ImagePicker = ({
   style,
@@ -34,7 +33,7 @@ const ImagePicker = ({
           ) : (
             <Image
               style={styles.image}
-              source={{ uri: pickedImage }}
+              source={{ uri: pickedImage, cache: "reload" }}
               onError={() => errorValueHandler(true)}
             />
           )}
@@ -57,7 +56,7 @@ const ImagePicker = ({
           }
           size={18}
         >
-          {hasError ? label : uploadedImageErr ? "Try Again" : "Uploaded"}
+          {hasError ? label : uploadedImageErr ? "Try Again" : "Retake"}
         </Button>
       </View>
       <HelperText type="error" visible={hasError}>

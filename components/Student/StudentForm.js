@@ -180,8 +180,12 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     aadharNo ? aadharNo + "" : "",
     validateText
   );
-  const photoImagePickerData = useImage(`${baseURL}/get-photo/${id}`);
-  const signImagePickerData = useImage(`${baseURL}/get-sign/${id}`);
+  const photoImagePickerData = useImage(
+    `${baseURL}/get-photo/${id}?random=${new Date().getTime()}`
+  );
+  const signImagePickerData = useImage(
+    `${baseURL}/get-sign/${id}?random=${new Date().getTime()}`
+  );
 
   const previousEducationDropdownData = useInput(
     previousEducation ? previousEducation : "",
