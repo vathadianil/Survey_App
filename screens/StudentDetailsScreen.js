@@ -13,7 +13,7 @@ import { Colors } from "../constants/styles";
 import { Linking } from "react-native";
 import { useContext, useState } from "react";
 import CustomSwitch from "../components/ui/paper/CustomSwitch";
-import StudentDetailsForm from "../components/Student/StudentDetailsForm";
+import StudentForm from "../components/Student/StudentForm";
 import { AppContext } from "../store/app-context";
 
 const StudentDetailsScreen = ({ navigation }) => {
@@ -130,7 +130,7 @@ const StudentDetailsScreen = ({ navigation }) => {
             />
           )}
         </View>
-        <StudentDetailsForm
+        <StudentForm
           isVisitedSwitchOn={isVisitedSwitchOn}
           isInterestSwitchOn={isInterestSwitchOn}
         />

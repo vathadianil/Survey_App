@@ -77,7 +77,7 @@ function getInitialValue(list, value) {
   }
 }
 
-const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
+const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   const navigation = useNavigation();
   const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
   const { formList, studentData, loginData } = useContext(AppContext);
@@ -402,7 +402,7 @@ const StudentDetailsForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   );
 };
 
-export default StudentDetailsForm;
+export default StudentForm;
 
 const styles = StyleSheet.create({
   btnContainer: {
