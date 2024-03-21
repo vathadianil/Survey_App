@@ -83,8 +83,7 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 16,
     marginHorizontal: 16,
-    paddingHorizontal: 4,
-    paddingBottom: 16,
+    paddingHorizontal: 8,
     borderRadius: 8,
     overflow: "hidden",
     backgroundColor: Colors.white,
@@ -94,7 +93,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 8,
     overflow: Platform.select({ android: "hidden" }),
-    position: "relative",
   },
 
   title: {
