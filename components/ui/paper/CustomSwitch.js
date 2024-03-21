@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginHorizontal: 8,
-    marginBottom: Platform.select({ ios: 12 }),
+    marginVertical: Platform.select({ ios: 12 }),
   },
   switchText: {
     fontFamily: "medium",
