@@ -7,10 +7,10 @@ import {
   FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../constants/styles";
+import { Colors } from "../../constants/styles";
 import { useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { AppContext } from "../store/app-context";
+import { AppContext } from "../../store/app-context";
 
 const LocationList = ({ locationList }) => {
   const appCtx = useContext(AppContext);

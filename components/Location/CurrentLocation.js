@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../constants/styles";
+import { Colors } from "../../constants/styles";
 import { useNavigation } from "@react-navigation/native";
 
 const CurrentLocation = () => {

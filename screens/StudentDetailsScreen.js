@@ -13,7 +13,7 @@ import { Colors } from "../constants/styles";
 import { Linking } from "react-native";
 import { useContext, useState } from "react";
 import CustomSwitch from "../components/ui/paper/CustomSwitch";
-import StudentDetailsForm from "../components/StudentDetailsForm";
+import StudentDetailsForm from "../components/Student/StudentDetailsForm";
 import { AppContext } from "../store/app-context";
 
 const StudentDetailsScreen = ({ navigation }) => {

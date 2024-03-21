@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../constants/styles";
+import { Colors } from "../../constants/styles";
 
-const SurveyorAnalytics = ({
+const AgentAnalytics = ({
   iconName,
   completed,
   total,
@@ -42,7 +42,7 @@ const SurveyorAnalytics = ({
   );
 };
 
-export default SurveyorAnalytics;
+export default AgentAnalytics;
 
 const styles = StyleSheet.create({
   surveyProgressContainer: {

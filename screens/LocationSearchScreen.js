@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import LocationList from "../components/LocationList";
+import LocationList from "../components/Location/LocationList";
 import axios from "../util/axios";
 import LocationSearchSkelton from "../components/ui/skelton/LocationSearchSkelton";
 import NoDataFound from "../components/ui/NoDataFound";

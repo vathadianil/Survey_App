@@ -5,7 +5,7 @@ import LottieView from "lottie-react-native";
 import Button from "../components/ui/Button";
 import { Colors } from "../constants/styles";
 import { Ionicons } from "@expo/vector-icons";
-import SurveyorAnalytics from "../components/SurveyorAnalytics";
+import AgentAnalytics from "../components/Agent/AgentAnalytics";
 import { AppContext } from "../store/app-context";
 
 const data = [
@@ -78,7 +78,7 @@ const ProfileScreen = ({ navigation }) => {
           <Text style={styles.analyticsHeaderText}>Analytics</Text>
 
           {data.map((item) => (
-            <SurveyorAnalytics {...item} key={item.sectionName} />
+            <AgentAnalytics {...item} key={item.sectionName} />
           ))}
         </View>
       </View>

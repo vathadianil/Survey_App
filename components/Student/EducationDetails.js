@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
 import { List, Card } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../constants/styles";
-import CustomInput from "./ui/paper/CustomInput";
-import CustomDropdown from "./ui/paper/CustomDropdown";
-import CustomRadio from "./ui/paper/CustomRadio";
+import { Colors } from "../../constants/styles";
+import CustomInput from "../ui/paper/CustomInput";
+import CustomDropdown from "../ui/paper/CustomDropdown";
+import CustomRadio from "../ui/paper/CustomRadio";
 
 const courseOrGroupList = [
   { label: "Engineering", value: "Engineering" },

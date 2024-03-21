@@ -1,14 +1,14 @@
 import { Pressable, StyleSheet } from "react-native";
 import { List, Card } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../constants/styles";
+import { Colors } from "../../constants/styles";
 
-import CustomInput from "./ui/paper/CustomInput";
-import CustomRadio from "./ui/paper/CustomRadio";
-import CustomDropdown from "./ui/paper/CustomDropdown";
-import CustomDatePicker from "./ui/CustomDatePicker";
-import ImagePicker from "./ui/ImagePicker";
-import CustomModal from "./ui/paper/CustomModal";
+import CustomInput from "../ui/paper/CustomInput";
+import CustomRadio from "../ui/paper/CustomRadio";
+import CustomDropdown from "../ui/paper/CustomDropdown";
+import CustomDatePicker from "../ui/CustomDatePicker";
+import ImagePicker from "../ui/ImagePicker";
+import CustomModal from "../ui/paper/CustomModal";
 import { useState } from "react";
 
 const PersonalDetails = ({

@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import LottieView from "lottie-react-native";
-import Button from "./ui/Button";
+import Button from "../ui/Button";
 import { useNavigation } from "@react-navigation/native";
-import { Colors } from "../constants/styles";
+import { Colors } from "../../constants/styles";
 
 const NoLocation = () => {
   const navigation = useNavigation();
@@ -14,7 +14,7 @@ const NoLocation = () => {
       <View style={styles.imageContainer}>
         <LottieView
           style={styles.image}
-          source={require(`../assets/lottie-animations/location.json`)}
+          source={require(`../../assets/lottie-animations/location.json`)}
           autoPlay
         />
       </View>

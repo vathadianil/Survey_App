@@ -3,16 +3,16 @@ import { ActivityIndicator, List } from "react-native-paper";
 import PersonalDetails from "./PersonalDetails";
 import EducationDetails from "./EducationDetails";
 import { useContext, useReducer } from "react";
-import useInput from "../util/hooks/useInput";
-import Button from "../components/ui/Button";
-import axios from "../util/axios";
-import useImage from "../util/hooks/useImage";
-import { AppContext } from "../store/app-context";
+import useInput from "../../util/hooks/useInput";
+import Button from "../ui/Button";
+import axios from "../../util/axios";
+import useImage from "../../util/hooks/useImage";
+import { AppContext } from "../../store/app-context";
 import { useNavigation } from "@react-navigation/native";
-import { Colors } from "../constants/styles";
-import CustomSnackBar from "./ui/paper/CustomSnackBar";
-import useSnackBar from "../util/hooks/useSnackBar";
-import { baseURL } from "../util/axios";
+import { Colors } from "../../constants/styles";
+import CustomSnackBar from "../ui/paper/CustomSnackBar";
+import useSnackBar from "../../util/hooks/useSnackBar";
+import { baseURL } from "../../util/axios";
 
 const initialState = {
   isSuccess: false,
