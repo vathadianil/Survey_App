@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import StudentDetailsScreen from "../screens/StudentDetailsScreen";
 import LocationSearchScreen from "../screens/LocationSearchScreen";
 import AuthenticatedTabNavigation from "./AuthenticatedTabNavigation";
+import StudentFormScreen from "../screens/StudentFormScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,13 @@ export default function AuthenticatedStack() {
       <Stack.Screen
         name="StudentDetail"
         component={StudentDetailsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="StudentForm"
+        component={StudentFormScreen}
         options={{
           headerShown: false,
         }}

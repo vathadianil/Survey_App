@@ -11,10 +11,9 @@ import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 import { Linking } from "react-native";
-import { useContext, useState } from "react";
-import CustomSwitch from "../components/ui/paper/CustomSwitch";
-import StudentForm from "../components/Student/StudentForm";
+import { useContext } from "react";
 import { AppContext } from "../store/app-context";
+import Button from "../components/ui/Button";
 
 const StudentDetailsScreen = ({ navigation }) => {
   const { studentData } = useContext(AppContext);
@@ -24,24 +23,7 @@ const StudentDetailsScreen = ({ navigation }) => {
     mobileNumber,
     fatherMobileNumber,
     permanentAddress,
-    visitedStatus,
-    intrestedStatus,
   } = studentData;
-
-  const [isVisitedSwitchOn, setIsVisitedSwitchOn] = useState(
-    visitedStatus?.toLowerCase() === "no" ? false : true
-  );
-  const [isInterestSwitchOn, setIsInterestSwitchOn] = useState(
-    intrestedStatus?.toLowerCase() === "no" ? false : true
-  );
-
-  const onToggleVisitedSwitch = () => {
-    setIsVisitedSwitchOn((prevState) => !prevState);
-  };
-
-  const onToggleInterestSwitch = () => {
-    setIsInterestSwitchOn((prevState) => !prevState);
-  };
 
   async function phoneNumberPressHndlr(mobileNumber) {
     const isSupported = await Linking.canOpenURL(`tel:${mobileNumber}`);
@@ -117,23 +99,15 @@ const StudentDetailsScreen = ({ navigation }) => {
             <Ionicons name="location" size={12} style={styles.icon} />
             <Text style={[styles.detailText]}>{permanentAddress}</Text>
           </View>
-          <CustomSwitch
-            label={"Visited Status"}
-            isSwitchOn={isVisitedSwitchOn}
-            onValueChange={onToggleVisitedSwitch}
-          />
-          {isVisitedSwitchOn && (
-            <CustomSwitch
-              label={"Interested To Join"}
-              isSwitchOn={isInterestSwitchOn}
-              onValueChange={onToggleInterestSwitch}
-            />
-          )}
+          <View style={[styles.editBtnContainer]}>
+            <Button
+              onPress={() => navigation.navigate("StudentForm")}
+              icon={"create-outline"}
+            >
+              Edit
+            </Button>
+          </View>
         </View>
-        <StudentForm
-          isVisitedSwitchOn={isVisitedSwitchOn}
-          isInterestSwitchOn={isInterestSwitchOn}
-        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -163,6 +137,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 8,
     overflow: Platform.select({ android: "hidden" }),
+    position: "relative",
+  },
+
+  editBtnContainer: {
+    position: "absolute",
+    top: 15,
+    right: 15,
   },
 
   title: {
