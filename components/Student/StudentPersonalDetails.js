@@ -37,7 +37,10 @@ const StudentPersonalDetails = () => {
     <View style={styles.container}>
       <View style={[styles.editBtnContainer]}>
         <Button
-          onPress={() => navigation.navigate("StudentForm")}
+          onPress={() => {
+            navigation.navigate("StudentForm");
+            console.log("clicked");
+          }}
           icon={"create-outline"}
         >
           Edit
