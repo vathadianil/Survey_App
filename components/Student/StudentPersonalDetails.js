@@ -5,7 +5,7 @@ import { AppContext } from "../../store/app-context";
 import { useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/styles";
-// import Button from "../ui/Button";
+import Button from "../ui/Button";
 import { useNavigation } from "@react-navigation/native";
 import StudentRow from "./StudentRow";
 
@@ -36,15 +36,15 @@ const StudentPersonalDetails = () => {
   return (
     <View style={styles.container}>
       <View style={[styles.editBtnContainer]}>
-        <Pressable
+        <Button
           onPress={() => {
             navigation.navigate("StudentForm");
             console.log("clicked");
           }}
-          // icon={"create-outline"}
+          icon={"create-outline"}
         >
-          <Text> Edit</Text>
-        </Pressable>
+          Edit
+        </Button>
       </View>
       <View style={styles.innerContainer}>
         <View style={styles.imageContainer}>
@@ -163,9 +163,9 @@ const styles = StyleSheet.create({
   },
 
   editBtnContainer: {
-    position: "absolute",
-    top: 15,
-    right: 15,
+    // position: "absolute",
+    // top: 15,
+    // right: 15,
   },
   innerContainer: { alignItems: "center" },
   imageContainer: {
