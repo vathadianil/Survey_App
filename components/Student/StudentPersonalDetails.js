@@ -1,11 +1,11 @@
-import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import LottieView from "lottie-react-native";
 import { Linking } from "react-native";
 import { AppContext } from "../../store/app-context";
 import { useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/styles";
-import Button from "../ui/Button";
+// import Button from "../ui/Button";
 import { useNavigation } from "@react-navigation/native";
 import StudentRow from "./StudentRow";
 
@@ -36,15 +36,15 @@ const StudentPersonalDetails = () => {
   return (
     <View style={styles.container}>
       <View style={[styles.editBtnContainer]}>
-        <Button
+        <Pressable
           onPress={() => {
             navigation.navigate("StudentForm");
             console.log("clicked");
           }}
-          icon={"create-outline"}
+          // icon={"create-outline"}
         >
-          Edit
-        </Button>
+          <Text> Edit</Text>
+        </Pressable>
       </View>
       <View style={styles.innerContainer}>
         <View style={styles.imageContainer}>
