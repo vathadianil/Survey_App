@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import LottieView from "lottie-react-native";
 import { Linking } from "react-native";
 import { AppContext } from "../../store/app-context";
@@ -15,13 +15,22 @@ const StudentPersonalDetails = () => {
     studentName,
     gender,
     mobileNumber,
+    alternateMNo,
     fatherMobileNumber,
     permanentAddress,
     fatherName,
     fOccupation,
     motherName,
     mOccupation,
+    motherTounge,
+    dob,
+    religion,
+    caste,
+    subCaste,
+    aadharNo,
+    disability,
   } = studentData;
+  console.log(studentData);
 
   async function phoneNumberPressHndlr(mobileNumber) {
     const isSupported = await Linking.canOpenURL(`tel:${mobileNumber}`);
@@ -60,6 +69,23 @@ const StudentPersonalDetails = () => {
               {mobileNumber ? mobileNumber : "Not Available"}
             </Text>
           </Pressable>
+          {alternateMNo && (
+            <Pressable
+              onPress={phoneNumberPressHndlr.bind(this, alternateMNo)}
+              style={styles.textContainer}
+            >
+              <Ionicons
+                name="call"
+                size={12}
+                color={Colors.primary800}
+                style={styles.icon}
+              />
+              <Text style={[styles.detailText, styles.mobileText]}>
+                {alternateMNo ? alternateMNo : "Not Available"}
+              </Text>
+              <Text style={[styles.detailText]}> (Alternate)</Text>
+            </Pressable>
+          )}
           {fatherMobileNumber && (
             <Pressable
               style={styles.textContainer}
@@ -89,7 +115,7 @@ const StudentPersonalDetails = () => {
         <StudentRow
           label={"Father Name"}
           data={fatherName}
-          icon={"male"}
+          icon={"man-outline"}
           type={"ionicons"}
         />
       )}
@@ -105,7 +131,7 @@ const StudentPersonalDetails = () => {
         <StudentRow
           label={"Mother Name"}
           data={motherName}
-          icon={"female"}
+          icon={"woman-outline"}
           type={"ionicons"}
         />
       )}
@@ -114,6 +140,70 @@ const StudentPersonalDetails = () => {
           label={"Mother Occupation"}
           data={mOccupation}
           icon={"briefcase-outline"}
+          type={"ionicons"}
+        />
+      )}
+      {gender && (
+        <StudentRow
+          label={"Gender"}
+          data={gender}
+          icon={gender.toLowerCase() === "male" ? "male" : "female"}
+          type={"ionicons"}
+        />
+      )}
+      {dob && (
+        <StudentRow
+          label={"Date Of Birth"}
+          data={dob}
+          icon={"calendar-outline"}
+          type={"ionicons"}
+        />
+      )}
+      {motherTounge && (
+        <StudentRow
+          label={"Mother Tongue"}
+          data={motherTounge}
+          icon={"language-outline"}
+          type={"ionicons"}
+        />
+      )}
+      {religion && (
+        <StudentRow
+          label={"Religion"}
+          data={religion}
+          icon={"book-outline"}
+          type={"ionicons"}
+        />
+      )}
+      {caste && (
+        <StudentRow
+          label={"Caste"}
+          data={caste}
+          icon={"cog-outline"}
+          type={"ionicons"}
+        />
+      )}
+      {subCaste && (
+        <StudentRow
+          label={"Sub Caste"}
+          data={subCaste}
+          icon={"bookmark-outline"}
+          type={"ionicons"}
+        />
+      )}
+      {aadharNo && (
+        <StudentRow
+          label={"Aadhar Number"}
+          data={aadharNo}
+          icon={"card-outline"}
+          type={"ionicons"}
+        />
+      )}
+      {disability && (
+        <StudentRow
+          label={"Physically Disabled"}
+          data={disability}
+          icon={"walk-outline"}
           type={"ionicons"}
         />
       )}
@@ -131,13 +221,14 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   container: {
-    // marginVertical: 16,
+    marginVertical: 16,
     marginHorizontal: 16,
+    marginBottom: 100,
     // paddingHorizontal: 4,
-    // paddingBottom: 16,
-    // borderRadius: 8,
+    paddingBottom: 32,
+    borderRadius: 8,
     // overflow: "hidden",
-    // backgroundColor: Colors.white,
+    backgroundColor: Colors.white,
     // elevation: 4,
     // shadowColor: Colors.black,
     // shadowOffset: { width: 0, height: 10 },

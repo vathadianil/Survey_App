@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginHorizontal: 16,
-    marginTop: 12,
+    marginVertical: 12,
   },
 });
