@@ -179,7 +179,7 @@ const HomeScreen = ({ route }) => {
           />
         </View>
       ) : (
-        <NoDataFound />
+        error && <NoDataFound />
       )}
 
       <CustomSnackBar
