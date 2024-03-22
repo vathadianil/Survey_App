@@ -152,7 +152,7 @@ const HomeScreen = ({ route }) => {
 
   return (
     <SafeAreaView style={[styles.container, isLoading && { paddingBottom: 0 }]}>
-      {appCtx.location && <CurrentLocation />}
+      {appCtx.location && <CurrentLocation location={appCtx.location} />}
 
       {isLoading ? (
         <StudentOverViewSkelton />

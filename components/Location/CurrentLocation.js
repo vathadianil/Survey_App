@@ -3,12 +3,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/styles";
 import { useNavigation } from "@react-navigation/native";
 
-const CurrentLocation = () => {
+const CurrentLocation = ({ location }) => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.appBar}>
-      <Text style={styles.location}>Andhra Pradesh</Text>
+      <Text style={styles.location}>{location && location?.split(" ")[0]}</Text>
       <Pressable onPress={() => navigation.navigate("LocationSearch")}>
         <Ionicons name="location-outline" size={24} />
       </Pressable>
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   },
   location: {
     fontFamily: "semibold",
+    textTransform: "capitalize",
     fontSize: 12,
     color: Colors.gray,
   },
