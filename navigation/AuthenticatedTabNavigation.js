@@ -93,7 +93,7 @@ const AuthenticatedTabNavigation = () => {
           tabBarIcon: ({ focused }) => (
             <View style={{ alignItems: "center", justifyContent: "center" }}>
               <Ionicons
-                name={focused ? "person" : "person-outline"}
+                name={focused ? "man" : "man-outline"}
                 size={24}
                 color={focused ? Colors.primary800 : Colors.gray}
               />
