@@ -68,9 +68,7 @@ const EducationForm = ({
         titleStyle={styles.accordionText}
         rippleColor={Colors.primary400}
         title="Education Details"
-        left={(props) => (
-          <Ionicons {...props} name="person-add-outline" size={20} />
-        )}
+        left={(props) => <Ionicons {...props} name="book-outline" size={20} />}
       >
         <CustomDropdown
           label={"Previous Education"}

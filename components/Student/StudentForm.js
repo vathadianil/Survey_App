@@ -13,6 +13,7 @@ import { Colors } from "../../constants/styles";
 import CustomSnackBar from "../ui/paper/CustomSnackBar";
 import useSnackBar from "../../util/hooks/useSnackBar";
 import { baseURL } from "../../util/axios";
+import AddressForm from "./AddressForm";
 
 const initialState = {
   isSuccess: false,
@@ -189,6 +190,10 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     `${baseURL}/get-sign/${id}?random=${new Date().getTime()}`
   );
 
+  const mandalInputData = useInput("", validateText);
+  const districtInputData = useInput("", validateText);
+  const stateInputData = useInput("", validateText);
+
   const previousEducationDropdownData = useInput(
     previousEducation ? previousEducation : "",
     validateText
@@ -244,104 +249,119 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   ) {
     if (
       (fatherOccupationDropDownData.value === "Other" &&
-        fatherOccupationInputnData.isValid) ||
+        !fatherOccupationInputnData.isValid) ||
       (motherOccupationDropDownData.value === "Other" &&
-        motherOccupationInputnData.isValid)
+        !motherOccupationInputnData.isValid)
     ) {
       formIsValid = false;
     } else {
-      formIsValid = true;
+      if (
+        !isEditing &&
+        (!mandalInputData.isValid ||
+          !districtInputData.isValid ||
+          !stateInputData.isValid)
+      ) {
+        formIsValid = false;
+      } else {
+        formIsValid = true;
+      }
     }
   }
 
   const handleSubmit = async () => {
-    // try {
-    const formValues = {
-      studentName: studentNameInputData.value,
-      fatherName: fatherNameInputData.value,
-      fOccupation:
-        fatherOccupationDropDownData.value === "Other"
-          ? fatherOccupationInputnData.value
-          : fatherOccupationDropDownData.value,
-      motherName: motherNameInputData.value,
-      mOccupation:
-        motherOccupationDropDownData.value === "Other"
-          ? motherOccupationInputnData.value
-          : motherOccupationDropDownData.value,
-      gender: genderRadioData.value,
-      disability: physicallyChallengedRadioData.value,
-      religion: religionDropDownData.value,
-      motherTounge: motherTongueInputData.value,
-      caste: casteDropDownData.value,
-      subCaste: subCasteDropDownData.value,
-      mobileNumber: mobileNumberInputData.value,
-      alternateMNo: alternateMobileNoInputData.value,
-      dob: convertDateToString(dateOfBirthDateData.value),
-      aadharNo: aadharNoInputData.value,
-      previousEducation: previousEducationDropdownData.value,
-      hallTicketNo: hallTicketInputData.value,
-      lastStudiedAt: schoolOrCollegeNameInputData.value,
-      admissionCategory: admissionCategoryDropDownData.value,
-      courseGroup: courseOrGroupDropDownData.value,
-      medium: mediumDropDownData.value,
-      // registrationFeePaid: registrationFeePaidRadioData.value,
-      visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
-      intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
-      passedOutYear: "",
-      studentRegNo: "",
-      registrationFee: "1000",
-      registrationFeeStatus: registrationFeePaidRadioData.value,
-      registrationFeeReceipt: "",
-      agentID: agentId + "",
-      insertBy: "admin",
-      updateBy: userId,
-      studentId: id + "",
-    };
-    navigation.navigate("UploadPhoto", {
-      studentId: "1",
-    });
-    // dispatchFormState({
-    //   type: "SUBMIT_LOADING",
-    // });
-    // const result = isEditing
-    //   ? await axios.post("/updateStudentDetails", formValues)
-    //   : await axios.post("/addStudentDetails", formValues);
+    try {
+      let formValues = {
+        studentName: studentNameInputData.value,
+        fatherName: fatherNameInputData.value,
+        fOccupation:
+          fatherOccupationDropDownData.value === "Other"
+            ? fatherOccupationInputnData.value
+            : fatherOccupationDropDownData.value,
+        motherName: motherNameInputData.value,
+        mOccupation:
+          motherOccupationDropDownData.value === "Other"
+            ? motherOccupationInputnData.value
+            : motherOccupationDropDownData.value,
+        gender: genderRadioData.value,
+        disability: physicallyChallengedRadioData.value,
+        religion: religionDropDownData.value,
+        motherTounge: motherTongueInputData.value,
+        caste: casteDropDownData.value,
+        subCaste: subCasteDropDownData.value,
+        mobileNumber: mobileNumberInputData.value,
+        alternateMNo: alternateMobileNoInputData.value,
+        dob: convertDateToString(dateOfBirthDateData.value),
+        aadharNo: aadharNoInputData.value,
+        previousEducation: previousEducationDropdownData.value,
+        hallTicketNo: hallTicketInputData.value,
+        lastStudiedAt: schoolOrCollegeNameInputData.value,
+        admissionCategory: admissionCategoryDropDownData.value,
+        courseGroup: courseOrGroupDropDownData.value,
+        medium: mediumDropDownData.value,
+        // registrationFeePaid: registrationFeePaidRadioData.value,
+        visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
+        intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
+        passedOutYear: "",
+        studentRegNo: "",
+        registrationFee: "1000",
+        registrationFeeStatus: registrationFeePaidRadioData.value,
+        registrationFeeReceipt: "",
+        agentID: agentId + "",
+        insertBy: "admin",
+        updateBy: userId,
+        studentId: id + "",
+      };
+      if (!isEditing) {
+        formValues = {
+          ...formValues,
+          mondal: mandalInputData.value,
+          distrcit: districtInputData.value,
+          state: stateInputData.value,
+        };
+      }
 
-    //   if (
-    //     result?.data.returnCode === 1 &&
-    //     result.data.returnMessage === "Success"
-    //   ) {
-    //     dispatchFormState({
-    //       type: "SUCCESS",
-    //       message: "Data Submitted Successfully",
-    //     });
-    //     onToggleSnackBar();
-    //     if (isEditing) {
-    //       navigation.navigate("Home", {
-    //         submittedTimeStamp: new Date().getTime(),
-    //       });
-    //     } else {
-    //       navigation.navigate("UploadPhoto", {
-    //         studentId: "1",
-    //       });
-    //     }
-    //   } else {
-    //     dispatchFormState({
-    //       type: "FAILURE",
-    //       message:
-    //         "Something went wrong, Unable to Submit the Details. Please Try Again!",
-    //     });
-    //   }
-    //   onToggleSnackBar();
-    // } catch (error) {
-    //   console.log(error);
-    //   dispatchFormState({
-    //     type: "FAILURE",
-    //     message:
-    //       "Something went wrong, Unable to Submit the Details. Please Try Again!",
-    //   });
-    //   onToggleSnackBar();
-    // }
+      dispatchFormState({
+        type: "SUBMIT_LOADING",
+      });
+      const result = isEditing
+        ? await axios.post("/updateStudentDetails", formValues)
+        : await axios.post("/addStudentDetails", formValues);
+
+      if (
+        result?.data?.returnCode === 1 &&
+        result?.data?.returnMessage === "Success"
+      ) {
+        dispatchFormState({
+          type: "SUCCESS",
+          message: "Data Submitted Successfully",
+        });
+        onToggleSnackBar();
+        if (isEditing) {
+          navigation.navigate("Home", {
+            submittedTimeStamp: new Date().getTime(),
+          });
+        } else {
+          navigation.navigate("UploadPhoto", {
+            studentId: result?.data?.studentId,
+          });
+        }
+      } else {
+        dispatchFormState({
+          type: "FAILURE",
+          message:
+            "Something went wrong, Unable to Submit the Details. Please Try Again!",
+        });
+      }
+      onToggleSnackBar();
+    } catch (error) {
+      console.log(error);
+      dispatchFormState({
+        type: "FAILURE",
+        message:
+          "Something went wrong, Unable to Submit the Details. Please Try Again!",
+      });
+      onToggleSnackBar();
+    }
   };
 
   return (
@@ -372,6 +392,13 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
             formList={formList}
             isEditing={isEditing}
           />
+          {!isEditing && (
+            <AddressForm
+              mandalInputData={mandalInputData}
+              districtInputData={districtInputData}
+              stateInputData={stateInputData}
+            />
+          )}
           <EducationForm
             previousEducationDropdownData={previousEducationDropdownData}
             hallTicketInputData={hallTicketInputData}
