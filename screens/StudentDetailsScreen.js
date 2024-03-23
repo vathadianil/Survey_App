@@ -17,7 +17,9 @@ const StudentDetailsScreen = ({ navigation }) => {
         </Pressable>
         <View style={[styles.editBtnContainer]}>
           <Button
-            onPress={() => navigation.navigate("StudentForm")}
+            onPress={() =>
+              navigation.navigate("StudentForm", { isEditing: true })
+            }
             icon={"create-outline"}
           >
             Edit

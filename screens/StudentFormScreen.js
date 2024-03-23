@@ -14,7 +14,8 @@ import { AppContext } from "../store/app-context";
 import CustomSwitch from "../components/ui/paper/CustomSwitch";
 import StudentForm from "../components/Student/StudentForm";
 
-const StudentFormScreen = ({ navigation }) => {
+const StudentFormScreen = ({ navigation, route }) => {
+  console.log(route);
   const { studentData } = useContext(AppContext);
   const { studentName, visitedStatus, intrestedStatus } = studentData;
 

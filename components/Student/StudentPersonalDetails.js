@@ -30,7 +30,6 @@ const StudentPersonalDetails = () => {
     aadharNo,
     disability,
   } = studentData;
-  console.log(studentData);
 
   async function phoneNumberPressHndlr(mobileNumber) {
     const isSupported = await Linking.canOpenURL(`tel:${mobileNumber}`);

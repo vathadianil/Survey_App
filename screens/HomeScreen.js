@@ -196,6 +196,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 164,
+    paddingBottom: 180,
   },
 });
