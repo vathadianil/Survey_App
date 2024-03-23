@@ -7,11 +7,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/styles";
 
 import StudentRow from "./StudentRow";
+import CustomImage from "../ui/CustomImage";
+import useImage from "../../util/hooks/useImage";
+import { baseURL } from "../../util/axios";
 
 const StudentPersonalDetails = () => {
   const { studentData } = useContext(AppContext);
 
   const {
+    id,
     studentName,
     gender,
     mobileNumber,
@@ -31,6 +35,10 @@ const StudentPersonalDetails = () => {
     disability,
   } = studentData;
 
+  const photoImagePickerData = useImage(
+    `${baseURL}/get-photo/${id}?random=${new Date().getTime()}`
+  );
+
   async function phoneNumberPressHndlr(mobileNumber) {
     const isSupported = await Linking.canOpenURL(`tel:${mobileNumber}`);
     if (isSupported) {
@@ -40,18 +48,22 @@ const StudentPersonalDetails = () => {
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <View style={styles.imageContainer}>
-          <LottieView
-            style={styles.image}
-            source={
-              gender === "Female"
-                ? require(`../../assets/lottie-animations/female1.json`)
-                : require(`../../assets/lottie-animations/male1.json`)
-            }
-            autoPlay
-            loop={false}
-          />
-        </View>
+        <CustomImage
+          hasError={photoImagePickerData.hasError}
+          pickedImage={photoImagePickerData.value}
+          errorValueHandler={photoImagePickerData.errorValueHandler}
+          source={
+            gender === "Female"
+              ? require(`../../assets/lottie-animations/female1.json`)
+              : require(`../../assets/lottie-animations/male1.json`)
+          }
+          style={{
+            borderRadius: 75,
+            marginVertical: 12,
+            backgroundColor: Colors.white,
+          }}
+          loop={false}
+        />
         <Text style={styles.studentName}>{studentName}</Text>
         <View>
           <Pressable

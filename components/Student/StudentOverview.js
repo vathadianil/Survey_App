@@ -5,12 +5,24 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
 import { AppContext } from "../../store/app-context";
+import { baseURL } from "../../util/axios";
+import useImage from "../../util/hooks/useImage";
+import CustomImage from "../ui/CustomImage";
 
 const StudentOverview = ({ studentData }) => {
-  const { gender, mobileNumber, permanentAddress, studentName, visitedStatus } =
-    studentData;
+  const {
+    id,
+    gender,
+    mobileNumber,
+    permanentAddress,
+    studentName,
+    visitedStatus,
+  } = studentData;
   const navigation = useNavigation();
   const appCtx = useContext(AppContext);
+  const photoImagePickerData = useImage(
+    `${baseURL}/get-photo/${id}?random=${new Date().getTime()}`
+  );
   return (
     <View style={[styles.student]}>
       <View style={styles.statusContainer}>
@@ -35,7 +47,7 @@ const StudentOverview = ({ studentData }) => {
         }}
       >
         <View style={[styles.innerContainer]}>
-          <View style={styles.imageContainer}>
+          {/* <View style={styles.imageContainer}>
             <LottieView
               style={styles.image}
               source={
@@ -46,7 +58,24 @@ const StudentOverview = ({ studentData }) => {
               autoPlay
               loop={false}
             />
-          </View>
+          </View> */}
+          <CustomImage
+            hasError={photoImagePickerData.hasError}
+            pickedImage={photoImagePickerData.value}
+            errorValueHandler={photoImagePickerData.errorValueHandler}
+            source={
+              gender === "Female"
+                ? require(`../../assets/lottie-animations/female1.json`)
+                : require(`../../assets/lottie-animations/male1.json`)
+            }
+            style={{
+              height: 70,
+              borderRadius: 35,
+              backgroundColor: Colors.white,
+              margin: 10,
+            }}
+            loop={false}
+          />
           <View>
             <View style={styles.studentNameContainer}>
               <Text style={styles.studentName}>{studentName}</Text>

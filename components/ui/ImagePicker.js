@@ -1,10 +1,8 @@
-import { Image, Platform, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import Button from "./Button";
-import LottieView from "lottie-react-native";
 import { HelperText } from "react-native-paper";
 import { Colors } from "../../constants/styles";
-import { useState } from "react";
-import LoadingOverlay from "./LoadingOverlay";
+import CustomImage from "./CustomImage";
 
 const ImagePicker = ({
   style,
@@ -17,37 +15,22 @@ const ImagePicker = ({
   uploadedImageErr,
   errorValueHandler,
 }) => {
-  const [loading, setLoading] = useState(false);
   return (
     <View style={[styles.container, style]}>
       <View style={styles.innerContainer}>
-        <View style={styles.imagePreview}>
-          {loading && (
-            <View style={styles.loadingContainer}>
-              <LoadingOverlay />
-            </View>
-          )}
-          {hasError ? (
-            <LottieView
-              style={styles.image}
-              source={
-                (lottieImageType === "pic" &&
-                  require(`../../assets/lottie-animations/image-preview.json`)) ||
-                (lottieImageType === "sign" &&
-                  require(`../../assets/lottie-animations/sign-preview.json`))
-              }
-              autoPlay
-            />
-          ) : (
-            <Image
-              style={styles.image}
-              source={{ uri: pickedImage, cache: "reload" }}
-              onLoadStart={() => setLoading(true)}
-              onLoadEnd={() => setLoading(false)}
-              onError={() => errorValueHandler(true)}
-            />
-          )}
-        </View>
+        <CustomImage
+          hasError={hasError}
+          pickedImage={pickedImage}
+          errorValueHandler={errorValueHandler}
+          source={
+            (lottieImageType === "pic" &&
+              require(`../../assets/lottie-animations/image-preview.json`)) ||
+            (lottieImageType === "sign" &&
+              require(`../../assets/lottie-animations/sign-preview.json`))
+          }
+          style={{ marginRight: 10 }}
+        />
+
         <Button
           style={{
             backgroundColor: hasError
@@ -86,33 +69,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  imagePreview: {
-    width: "50%",
-    aspectRatio: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 8,
-    overflow: "hidden",
-    backgroundColor: Colors.white,
-    elevation: 6,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    overflow: Platform.select({ android: "hidden" }),
-    marginRight: 12,
-    position: "relative",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-  },
-  loadingContainer: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
   },
 });
