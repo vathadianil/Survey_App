@@ -33,6 +33,7 @@ const PersonalForm = ({
   photoImagePickerData,
   signImagePickerData,
   formList,
+  isEditing,
 }) => {
   const [modalStatus, setModalStatus] = useState({ visible: false, uri: "" });
   const showModal = (uri) =>
@@ -364,36 +365,49 @@ const PersonalForm = ({
           numberkeyBoard={true}
         />
 
-        <Pressable onPress={() => photo && showModal(photo)}>
-          <ImagePicker
-            style={[styles.inputContainer, { marginBottom: 40 }]}
-            label={"Upload Photo"}
-            lottieImageType={"pic"}
-            pickedImage={photo}
-            takeImageHandler={() =>
-              photoChangeHandler(`upload-photo/?student_id=${id}`)
-            }
-            hasError={photoHasError}
-            errorText={"Photo is required"}
-            uploadedImageErr={uploadedPhotoHasErr}
-            errorValueHandler={photoErrorHandler}
-          />
-        </Pressable>
-        <Pressable onPress={() => photo && showModal(sign)}>
-          <ImagePicker
-            style={[styles.inputContainer, { marginBottom: 40 }]}
-            label={"Upload Sign"}
-            lottieImageType={"sign"}
-            pickedImage={sign}
-            takeImageHandler={() =>
-              signChangeHandler(`upload-sign/?student_id=${id}`)
-            }
-            hasError={signHasError}
-            errorText={"Sign is required"}
-            uploadedImageErr={uploadedSignHasErr}
-            errorValueHandler={signErrorHandler}
-          />
-        </Pressable>
+        {isEditing && (
+          <Pressable
+            android_ripple={{ color: Colors.shadowColor }}
+            style={({ pressed }) => pressed && styles.pressedBtn}
+            onPress={() => photo && showModal(photo)}
+          >
+            <ImagePicker
+              style={[styles.inputContainer, { marginBottom: 40 }]}
+              label={"Upload Photo"}
+              lottieImageType={"pic"}
+              pickedImage={photo}
+              takeImageHandler={() =>
+                photoChangeHandler(`upload-photo/?student_id=${id}`)
+              }
+              hasError={photoHasError}
+              errorText={"Photo is required"}
+              uploadedImageErr={uploadedPhotoHasErr}
+              errorValueHandler={photoErrorHandler}
+            />
+          </Pressable>
+        )}
+
+        {isEditing && (
+          <Pressable
+            android_ripple={{ color: Colors.shadowColor }}
+            style={({ pressed }) => pressed && styles.pressedBtn}
+            onPress={() => photo && showModal(sign)}
+          >
+            <ImagePicker
+              style={[styles.inputContainer, { marginBottom: 40 }]}
+              label={"Upload Sign"}
+              lottieImageType={"sign"}
+              pickedImage={sign}
+              takeImageHandler={() =>
+                signChangeHandler(`upload-sign/?student_id=${id}`)
+              }
+              hasError={signHasError}
+              errorText={"Sign is required"}
+              uploadedImageErr={uploadedSignHasErr}
+              errorValueHandler={signErrorHandler}
+            />
+          </Pressable>
+        )}
       </List.Accordion>
     </Card>
   );
@@ -418,5 +432,8 @@ const styles = StyleSheet.create({
 
   textInputContent: {
     fontFamily: "regular",
+  },
+  pressedBtn: {
+    opacity: 0.25,
   },
 });

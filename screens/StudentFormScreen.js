@@ -1,21 +1,13 @@
-import {
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Platform, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 import { useContext, useState } from "react";
 import { AppContext } from "../store/app-context";
 import CustomSwitch from "../components/ui/paper/CustomSwitch";
 import StudentForm from "../components/Student/StudentForm";
+import AppBar from "../components/ui/AppBar";
 
-const StudentFormScreen = ({ navigation, route }) => {
-  console.log(route);
+const StudentFormScreen = ({ navigation }) => {
   const { studentData } = useContext(AppContext);
   const { studentName, visitedStatus, intrestedStatus } = studentData;
 
@@ -36,17 +28,10 @@ const StudentFormScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView>
-      <View style={styles.appBar}>
-        <Pressable
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Ionicons name="chevron-back-circle" size={32} />
-        </Pressable>
-        <Text style={styles.title}>{studentName}</Text>
-        <View></View>
-      </View>
+      <AppBar
+        onPress={() => navigation.goBack()}
+        title={studentName ? studentName : "Add Details"}
+      />
       <ScrollView>
         <View style={styles.container}>
           <CustomSwitch
@@ -74,13 +59,6 @@ const StudentFormScreen = ({ navigation, route }) => {
 export default StudentFormScreen;
 
 const styles = StyleSheet.create({
-  appBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginHorizontal: 16,
-    marginTop: 12,
-  },
   container: {
     marginVertical: 16,
     marginHorizontal: 16,
@@ -94,12 +72,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 8,
     overflow: Platform.select({ android: "hidden" }),
-  },
-
-  title: {
-    fontFamily: "semibold",
-    fontSize: 16,
-    color: Colors.gray,
-    textTransform: "capitalize",
   },
 });

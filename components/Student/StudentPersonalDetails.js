@@ -55,8 +55,13 @@ const StudentPersonalDetails = () => {
         <Text style={styles.studentName}>{studentName}</Text>
         <View>
           <Pressable
+            android_ripple={{ color: Colors.shadowColor }}
+            style={[
+              ({ pressed }) => pressed && styles.pressedBtn,
+              styles.textContainer,
+            ]}
             onPress={phoneNumberPressHndlr.bind(this, mobileNumber)}
-            style={styles.textContainer}
+            // style={styles.textContainer}
           >
             <Ionicons
               name="call"
@@ -70,8 +75,12 @@ const StudentPersonalDetails = () => {
           </Pressable>
           {alternateMNo && (
             <Pressable
+              android_ripple={{ color: Colors.shadowColor }}
+              style={[
+                ({ pressed }) => pressed && styles.pressedBtn,
+                styles.textContainer,
+              ]}
               onPress={phoneNumberPressHndlr.bind(this, alternateMNo)}
-              style={styles.textContainer}
             >
               <Ionicons
                 name="call"
@@ -87,7 +96,11 @@ const StudentPersonalDetails = () => {
           )}
           {fatherMobileNumber && (
             <Pressable
-              style={styles.textContainer}
+              android_ripple={{ color: Colors.shadowColor }}
+              style={[
+                ({ pressed }) => pressed && styles.pressedBtn,
+                styles.textContainer,
+              ]}
               onPress={phoneNumberPressHndlr.bind(this, fatherMobileNumber)}
             >
               <Ionicons
@@ -272,4 +285,5 @@ const styles = StyleSheet.create({
     borderColor: Colors.primary500,
     borderRadius: 6,
   },
+  pressedBtn: { opacity: 0.25 },
 });

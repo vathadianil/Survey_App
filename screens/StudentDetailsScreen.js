@@ -3,12 +3,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import StudentPersonalDetails from "../components/Student/StudentPersonalDetails";
 import Button from "../components/ui/Button";
+import { Colors } from "../constants/styles";
 
 const StudentDetailsScreen = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View style={styles.appBar}>
         <Pressable
+          android_ripple={{ color: Colors.shadowColor }}
+          style={({ pressed }) => pressed && styles.pressedBtn}
           onPress={() => {
             navigation.goBack();
           }}
@@ -43,4 +46,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginVertical: 12,
   },
+  pressedBtn: { opacity: 0.25 },
 });

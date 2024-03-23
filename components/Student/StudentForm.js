@@ -8,7 +8,7 @@ import Button from "../ui/Button";
 import axios from "../../util/axios";
 import useImage from "../../util/hooks/useImage";
 import { AppContext } from "../../store/app-context";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Colors } from "../../constants/styles";
 import CustomSnackBar from "../ui/paper/CustomSnackBar";
 import useSnackBar from "../../util/hooks/useSnackBar";
@@ -79,6 +79,8 @@ function getInitialValue(list, value) {
 
 const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   const navigation = useNavigation();
+  const { params } = useRoute();
+  const { isEditing } = params;
   const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
   const { formList, studentData, loginData } = useContext(AppContext);
   const [formState, dispatchFormState] = useReducer(
@@ -228,10 +230,10 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     mobileNumberInputData.isValid &&
     dateOfBirthDateData.isValid &&
     aadharNoInputData.isValid &&
-    !photoImagePickerData.isValid &&
-    !photoImagePickerData.uploadedImageHasError &&
-    !signImagePickerData.isValid &&
-    !signImagePickerData.uploadedImageHasError &&
+    (!isEditing || !photoImagePickerData.isValid) &&
+    (!isEditing || !photoImagePickerData.uploadedImageHasError) &&
+    (!isEditing || !signImagePickerData.isValid) &&
+    (!isEditing || !signImagePickerData.uploadedImageHasError) &&
     previousEducationDropdownData.isValid &&
     hallTicketInputData.isValid &&
     schoolOrCollegeNameInputData.isValid &&
@@ -242,9 +244,9 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   ) {
     if (
       (fatherOccupationDropDownData.value === "Other" &&
-        !fatherOccupationInputnData.isValid) ||
+        fatherOccupationInputnData.isValid) ||
       (motherOccupationDropDownData.value === "Other" &&
-        !motherOccupationInputnData.isValid)
+        motherOccupationInputnData.isValid)
     ) {
       formIsValid = false;
     } else {
@@ -276,8 +278,6 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         alternateMNo: alternateMobileNoInputData.value,
         dob: convertDateToString(dateOfBirthDateData.value),
         aadharNo: aadharNoInputData.value,
-        // studentImage: photoImagePickerData?.value,
-        // signImage: signImagePickerData?.value,
         previousEducation: previousEducationDropdownData.value,
         hallTicketNo: hallTicketInputData.value,
         lastStudiedAt: schoolOrCollegeNameInputData.value,
@@ -301,7 +301,9 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
       dispatchFormState({
         type: "SUBMIT_LOADING",
       });
-      const result = await axios.post("/updateStudentDetails", formValues);
+      const result = isEditing
+        ? await axios.post("/updateStudentDetails", formValues)
+        : await axios.post("/addStudentDetails", formValues);
 
       if (
         result?.data.returnCode === 1 &&
@@ -312,9 +314,15 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
           message: "Data Submitted Successfully",
         });
         onToggleSnackBar();
-        navigation.navigate("Home", {
-          submittedTimeStamp: new Date().getTime(),
-        });
+        if (isEditing) {
+          navigation.navigate("Home", {
+            submittedTimeStamp: new Date().getTime(),
+          });
+        } else {
+          navigation.navigate("UploadPhoto", {
+            studentId: "1",
+          });
+        }
       } else {
         dispatchFormState({
           type: "FAILURE",
@@ -360,6 +368,7 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
             photoImagePickerData={photoImagePickerData}
             signImagePickerData={signImagePickerData}
             formList={formList}
+            isEditing={isEditing}
           />
           <EducationForm
             previousEducationDropdownData={previousEducationDropdownData}
