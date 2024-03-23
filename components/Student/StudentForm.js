@@ -255,91 +255,93 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   }
 
   const handleSubmit = async () => {
-    try {
-      const formValues = {
-        studentName: studentNameInputData.value,
-        fatherName: fatherNameInputData.value,
-        fOccupation:
-          fatherOccupationDropDownData.value === "Other"
-            ? fatherOccupationInputnData.value
-            : fatherOccupationDropDownData.value,
-        motherName: motherNameInputData.value,
-        mOccupation:
-          motherOccupationDropDownData.value === "Other"
-            ? motherOccupationInputnData.value
-            : motherOccupationDropDownData.value,
-        gender: genderRadioData.value,
-        disability: physicallyChallengedRadioData.value,
-        religion: religionDropDownData.value,
-        motherTounge: motherTongueInputData.value,
-        caste: casteDropDownData.value,
-        subCaste: subCasteDropDownData.value,
-        mobileNumber: mobileNumberInputData.value,
-        alternateMNo: alternateMobileNoInputData.value,
-        dob: convertDateToString(dateOfBirthDateData.value),
-        aadharNo: aadharNoInputData.value,
-        previousEducation: previousEducationDropdownData.value,
-        hallTicketNo: hallTicketInputData.value,
-        lastStudiedAt: schoolOrCollegeNameInputData.value,
-        admissionCategory: admissionCategoryDropDownData.value,
-        courseGroup: courseOrGroupDropDownData.value,
-        medium: mediumDropDownData.value,
-        // registrationFeePaid: registrationFeePaidRadioData.value,
-        visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
-        intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
-        passedOutYear: "",
-        studentRegNo: "",
-        registrationFee: "1000",
-        registrationFeeStatus: registrationFeePaidRadioData.value,
-        registrationFeeReceipt: "",
-        agentID: agentId + "",
-        insertBy: "admin",
-        updateBy: userId,
-        studentId: id + "",
-      };
+    // try {
+    const formValues = {
+      studentName: studentNameInputData.value,
+      fatherName: fatherNameInputData.value,
+      fOccupation:
+        fatherOccupationDropDownData.value === "Other"
+          ? fatherOccupationInputnData.value
+          : fatherOccupationDropDownData.value,
+      motherName: motherNameInputData.value,
+      mOccupation:
+        motherOccupationDropDownData.value === "Other"
+          ? motherOccupationInputnData.value
+          : motherOccupationDropDownData.value,
+      gender: genderRadioData.value,
+      disability: physicallyChallengedRadioData.value,
+      religion: religionDropDownData.value,
+      motherTounge: motherTongueInputData.value,
+      caste: casteDropDownData.value,
+      subCaste: subCasteDropDownData.value,
+      mobileNumber: mobileNumberInputData.value,
+      alternateMNo: alternateMobileNoInputData.value,
+      dob: convertDateToString(dateOfBirthDateData.value),
+      aadharNo: aadharNoInputData.value,
+      previousEducation: previousEducationDropdownData.value,
+      hallTicketNo: hallTicketInputData.value,
+      lastStudiedAt: schoolOrCollegeNameInputData.value,
+      admissionCategory: admissionCategoryDropDownData.value,
+      courseGroup: courseOrGroupDropDownData.value,
+      medium: mediumDropDownData.value,
+      // registrationFeePaid: registrationFeePaidRadioData.value,
+      visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
+      intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
+      passedOutYear: "",
+      studentRegNo: "",
+      registrationFee: "1000",
+      registrationFeeStatus: registrationFeePaidRadioData.value,
+      registrationFeeReceipt: "",
+      agentID: agentId + "",
+      insertBy: "admin",
+      updateBy: userId,
+      studentId: id + "",
+    };
+    navigation.navigate("UploadPhoto", {
+      studentId: "1",
+    });
+    // dispatchFormState({
+    //   type: "SUBMIT_LOADING",
+    // });
+    // const result = isEditing
+    //   ? await axios.post("/updateStudentDetails", formValues)
+    //   : await axios.post("/addStudentDetails", formValues);
 
-      dispatchFormState({
-        type: "SUBMIT_LOADING",
-      });
-      const result = isEditing
-        ? await axios.post("/updateStudentDetails", formValues)
-        : await axios.post("/addStudentDetails", formValues);
-
-      if (
-        result?.data.returnCode === 1 &&
-        result.data.returnMessage === "Success"
-      ) {
-        dispatchFormState({
-          type: "SUCCESS",
-          message: "Data Submitted Successfully",
-        });
-        onToggleSnackBar();
-        if (isEditing) {
-          navigation.navigate("Home", {
-            submittedTimeStamp: new Date().getTime(),
-          });
-        } else {
-          navigation.navigate("UploadPhoto", {
-            studentId: "1",
-          });
-        }
-      } else {
-        dispatchFormState({
-          type: "FAILURE",
-          message:
-            "Something went wrong, Unable to Submit the Details. Please Try Again!",
-        });
-      }
-      onToggleSnackBar();
-    } catch (error) {
-      console.log(error);
-      dispatchFormState({
-        type: "FAILURE",
-        message:
-          "Something went wrong, Unable to Submit the Details. Please Try Again!",
-      });
-      onToggleSnackBar();
-    }
+    //   if (
+    //     result?.data.returnCode === 1 &&
+    //     result.data.returnMessage === "Success"
+    //   ) {
+    //     dispatchFormState({
+    //       type: "SUCCESS",
+    //       message: "Data Submitted Successfully",
+    //     });
+    //     onToggleSnackBar();
+    //     if (isEditing) {
+    //       navigation.navigate("Home", {
+    //         submittedTimeStamp: new Date().getTime(),
+    //       });
+    //     } else {
+    //       navigation.navigate("UploadPhoto", {
+    //         studentId: "1",
+    //       });
+    //     }
+    //   } else {
+    //     dispatchFormState({
+    //       type: "FAILURE",
+    //       message:
+    //         "Something went wrong, Unable to Submit the Details. Please Try Again!",
+    //     });
+    //   }
+    //   onToggleSnackBar();
+    // } catch (error) {
+    //   console.log(error);
+    //   dispatchFormState({
+    //     type: "FAILURE",
+    //     message:
+    //       "Something went wrong, Unable to Submit the Details. Please Try Again!",
+    //   });
+    //   onToggleSnackBar();
+    // }
   };
 
   return (

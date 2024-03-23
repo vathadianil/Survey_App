@@ -1,8 +1,7 @@
 import * as React from "react";
 import { Modal, View, StyleSheet, Image } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import Button from "../Button";
 import { Colors } from "../../../constants/styles";
+import AppBar from "../AppBar";
 
 const CustomModal = ({ pickedImage, visible, hideModal }) => {
   return (
@@ -10,21 +9,7 @@ const CustomModal = ({ pickedImage, visible, hideModal }) => {
       <Modal animationType="slide" transparent={true} visible={visible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <View
-              style={{
-                width: "90%",
-                margin: 10,
-                flexDirection: "row",
-                justifyContent: "flex-end",
-              }}
-            >
-              <Button
-                style={[styles.button, { backgroundColor: Colors.black }]}
-                onPress={() => hideModal()}
-              >
-                <Ionicons name="close-circle-outline" size={24} />
-              </Button>
-            </View>
+            <AppBar onPress={() => hideModal()} style={{ marginBottom: 12 }} />
 
             <View style={styles.imagePreview}>
               <Image style={styles.image} source={{ uri: pickedImage }} />
@@ -48,7 +33,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 15,
     padding: 10,
-    alignItems: "center",
+    alignItems: "flex-start",
     shadowColor: Colors.black,
     shadowOffset: {
       width: 0,

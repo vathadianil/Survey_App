@@ -2,9 +2,9 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../constants/styles";
 import { Ionicons } from "@expo/vector-icons";
 
-const AppBar = ({ onPress, title }) => {
+const AppBar = ({ onPress, title, style }) => {
   return (
-    <View style={styles.appBar}>
+    <View style={[styles.appBar, style]}>
       <Pressable
         onPress={onPress}
         android_ripple={{ color: Colors.shadowColor }}
