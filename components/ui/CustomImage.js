@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import LoadingOverlay from "./LoadingOverlay";
 import LottieView from "lottie-react-native";
 import { Card } from "react-native-paper";
+import { Colors } from "../../constants/styles";
 
 const CustomImage = ({
   hasError,
@@ -14,7 +15,7 @@ const CustomImage = ({
 }) => {
   const [loading, setLoading] = useState(false);
   return (
-    <Card style={[styles.imagePreview, style]}>
+    <Card mode="elevated" style={[styles.imagePreview, style]}>
       {loading && (
         <View style={styles.loadingContainer}>
           <LoadingOverlay />
@@ -45,6 +46,8 @@ const styles = StyleSheet.create({
     height: 150,
     aspectRatio: 1,
     overflow: Platform.select({ android: "hidden" }),
+    borderWidth: 4,
+    borderColor: Colors.white,
     position: "relative",
   },
   image: {

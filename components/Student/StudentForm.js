@@ -112,6 +112,7 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     admissionCategory,
     courseGroup,
     medium,
+    insertBy,
   } = studentData;
 
   const {
@@ -302,30 +303,33 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
         intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
         passedOutYear: "",
-        studentRegNo: "",
+        // studentRegNo: "",
         registrationFee: "1000",
         registrationFeeStatus: registrationFeePaidRadioData.value,
         registrationFeeReceipt: "",
         agentID: agentId + "",
-        insertBy: "admin",
+        insertBy: insertBy,
         updateBy: userId,
-        studentId: id + "",
+        studentId: id + "" ? id + "" : "",
       };
       if (!isEditing) {
         formValues = {
           ...formValues,
-          mondal: mandalInputData.value,
-          distrcit: districtInputData.value,
-          state: stateInputData.value,
+          photoPath: "",
+          signPath: "",
+          fatherMobileNo: "",
+          insertBy: userId,
+          permanentAddress: `${mandalInputData.value} ${districtInputData.value} ${stateInputData.value}`,
         };
       }
-
+      console.log({ formValues });
       dispatchFormState({
         type: "SUBMIT_LOADING",
       });
       const result = isEditing
         ? await axios.post("/updateStudentDetails", formValues)
         : await axios.post("/addStudentDetails", formValues);
+      console.log({ result });
 
       if (
         result?.data?.returnCode === 1 &&

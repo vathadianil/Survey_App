@@ -47,18 +47,6 @@ const StudentOverview = ({ studentData }) => {
         }}
       >
         <View style={[styles.innerContainer]}>
-          {/* <View style={styles.imageContainer}>
-            <LottieView
-              style={styles.image}
-              source={
-                gender === "Female"
-                  ? require(`../../assets/lottie-animations/female1.json`)
-                  : require(`../../assets/lottie-animations/male1.json`)
-              }
-              autoPlay
-              loop={false}
-            />
-          </View> */}
           <CustomImage
             hasError={photoImagePickerData.hasError}
             pickedImage={photoImagePickerData.value}
