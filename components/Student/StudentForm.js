@@ -310,7 +310,6 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         agentID: agentId + "",
         insertBy: insertBy,
         updateBy: userId,
-        studentId: id + "" ? id + "" : "",
       };
       if (!isEditing) {
         formValues = {
@@ -321,15 +320,15 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
           insertBy: userId,
           permanentAddress: `${mandalInputData.value} ${districtInputData.value} ${stateInputData.value}`,
         };
+      } else {
+        formValues = { ...formValues, studentId: id + "" ? id + "" : "" };
       }
-      console.log({ formValues });
       dispatchFormState({
         type: "SUBMIT_LOADING",
       });
       const result = isEditing
         ? await axios.post("/updateStudentDetails", formValues)
         : await axios.post("/addStudentDetails", formValues);
-      console.log({ result });
 
       if (
         result?.data?.returnCode === 1 &&

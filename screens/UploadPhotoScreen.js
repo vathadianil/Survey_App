@@ -9,9 +9,50 @@ import ImagePicker from "../components/ui/ImagePicker";
 import useImage from "../util/hooks/useImage";
 import { baseURL } from "../util/axios";
 import CustomModal from "../components/ui/paper/CustomModal";
-import { useState } from "react";
+import { useReducer, useState } from "react";
+import useSnackBar from "../util/hooks/useSnackBar";
+
+const initialState = {
+  isSuccess: false,
+  submitted: false,
+  loading: false,
+  message: "",
+};
+
+const formSubmitReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "SUBMIT_LOADING":
+      return {
+        ...state,
+        submitted: true,
+        loading: true,
+        message: "",
+      };
+    case "SUCCESS":
+      return {
+        ...state,
+        isSuccess: true,
+        loading: false,
+        message: action.message ? action.message : "",
+      };
+    case "FAILURE":
+      return {
+        ...state,
+        isSuccess: false,
+        loading: false,
+        message: action.message,
+      };
+    default:
+      return state;
+  }
+};
 
 const UploadPhotoScreen = ({ navigation, route }) => {
+  const [formState, dispatchFormState] = useReducer(
+    formSubmitReducer,
+    initialState
+  );
+  const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
   const [modalStatus, setModalStatus] = useState({ visible: false, uri: "" });
   const showModal = (uri) =>
     setModalStatus((prevState) => ({ ...prevState, visible: true, uri: uri }));
@@ -25,6 +66,19 @@ const UploadPhotoScreen = ({ navigation, route }) => {
   const signImagePickerData = useImage(
     `${baseURL}/get-sign/${studentId}?random=${new Date().getTime()}`
   );
+
+  let formIsValid = false;
+
+  if (
+    !photoImagePickerData.isValid &&
+    !photoImagePickerData.uploadedImageHasError &&
+    !signImagePickerData.isValid &&
+    !signImagePickerData.uploadedImageHasError
+  ) {
+    formIsValid = true;
+  } else {
+    formIsValid = false;
+  }
 
   const {
     value: photo,
@@ -41,6 +95,20 @@ const UploadPhotoScreen = ({ navigation, route }) => {
     errorValueHandler: signErrorHandler,
     uploadedImageHasError: uploadedSignHasErr,
   } = signImagePickerData;
+
+  const handleSubmit = async () => {
+    dispatchFormState({
+      type: "SUBMIT_LOADING",
+    });
+
+    dispatchFormState({
+      type: "SUCCESS",
+      message: "Data Submitted Successfully",
+    });
+    navigation.navigate("Home", {
+      submittedTimeStamp: new Date().getTime(),
+    });
+  };
   return (
     <SafeAreaView>
       <CustomModal
@@ -93,8 +161,8 @@ const UploadPhotoScreen = ({ navigation, route }) => {
       <View style={styles.btnContainer}>
         <Button
           style={styles.btn}
-          // disabled={!formIsValid || formState.loading}
-          // onPress={handleSubmit}
+          disabled={!formIsValid || formState.loading}
+          onPress={handleSubmit}
         >
           <View
             style={{
@@ -103,17 +171,17 @@ const UploadPhotoScreen = ({ navigation, route }) => {
               alignItems: "center",
             }}
           >
-            {/* {formState.submitted && formState.loading && ( */}
-            <ActivityIndicator animating={true} color={Colors.black} />
-            {/* )} */}
+            {formState.submitted && formState.loading && (
+              <ActivityIndicator animating={true} color={Colors.black} />
+            )}
             <Text style={{ color: Colors.white, marginLeft: 10 }}>Submit</Text>
           </View>
         </Button>
-        {/* <CustomSnackBar
+        <CustomSnackBar
           onDismissSnackBar={onDismissSnackBar}
           visible={visible}
           message={formState.message}
-        /> */}
+        />
       </View>
     </SafeAreaView>
   );
