@@ -53,7 +53,7 @@ const html = `<!DOCTYPE html>
 const CheckoutScreen = ({ navigation }) => {
   const ref = useRef(null);
   const run = `
-   const sessionId="session_tY4w27w4X1Jdc22MPquMxCR7kZlZofYFzNaKY4feLmpoz0HhLyFdBRZTlyvfO93PsQnsGDKX6w5HcvDdkYEpcGKlNVbwUyVwy_B8rWQPmqdc";
+   const sessionId="session_6kD4ZP7Q-isW0k_VFBixo9K8B4wpXFp52q5BguNetJrPkhl5qA6LA6_yvUIDjzvGPhdmXxGtWiH_LXtC3r9UN9tJKXCl9H92le38HDVPXBlv";
   `;
 
   setTimeout(() => {
