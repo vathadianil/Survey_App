@@ -184,7 +184,7 @@ const PersonalForm = ({
         )}
       >
         <CustomInput
-          label={"Student Name(As Per SSC)"}
+          label={"Student Name(As Per SSC) *"}
           errorText={"Student Name is Required"}
           style={styles.inputContainer}
           value={studentName}
@@ -194,7 +194,7 @@ const PersonalForm = ({
         />
 
         <CustomInput
-          label={"Father Name"}
+          label={"Father Name *"}
           style={styles.inputContainer}
           errorText={"Father Name is Required"}
           value={fatherName}
@@ -204,7 +204,7 @@ const PersonalForm = ({
         />
 
         <CustomDropdown
-          label={"Father Occupation"}
+          label={"Father Occupation *"}
           style={styles.inputContainer}
           errorText={"Father Occupation selection is required"}
           data={formList?.fatherOccupationList}
@@ -227,7 +227,7 @@ const PersonalForm = ({
         )}
 
         <CustomInput
-          label={"Mother Name"}
+          label={"Mother Name *"}
           style={styles.inputContainer}
           errorText={"Mother Name is Required"}
           value={motherName}
@@ -237,7 +237,7 @@ const PersonalForm = ({
         />
 
         <CustomDropdown
-          label={"Mother Occupation"}
+          label={"Mother Occupation *"}
           style={styles.inputContainer}
           errorText={"Mother Occupation selection is required"}
           data={formList?.motherOccupationList}
@@ -260,7 +260,7 @@ const PersonalForm = ({
         )}
 
         <CustomRadio
-          label={"Gender"}
+          label={"Gender *"}
           style={[styles.inputContainer, { marginBottom: 30 }]}
           value={gender}
           onValueChange={genderChangeHandler}
@@ -271,7 +271,7 @@ const PersonalForm = ({
         />
 
         <CustomRadio
-          label={"Physically Challanged"}
+          label={"Physically Challanged *"}
           style={[styles.inputContainer, { marginBottom: 30 }]}
           value={physicallyChallenged}
           onValueChange={physicallyChallengedChangeHandler}
@@ -283,7 +283,7 @@ const PersonalForm = ({
         />
 
         <CustomDropdown
-          label={"Religion"}
+          label={"Religion *"}
           style={styles.inputContainer}
           errorText={"Religion selection is required"}
           data={formList?.religionList}
@@ -294,7 +294,7 @@ const PersonalForm = ({
         />
 
         <CustomInput
-          label={"Mother Tongue"}
+          label={"Mother Tongue *"}
           style={styles.inputContainer}
           errorText={"Mother Tongue is Required"}
           value={motherTongue}
@@ -304,7 +304,7 @@ const PersonalForm = ({
         />
 
         <CustomDropdown
-          label={"Caste"}
+          label={"Caste *"}
           style={styles.inputContainer}
           errorText={"Caste selection is required"}
           data={formList?.casteList}
@@ -315,7 +315,7 @@ const PersonalForm = ({
         />
 
         <CustomDropdown
-          label={"Sub Caste"}
+          label={"Sub Caste *"}
           style={styles.inputContainer}
           errorText={"Sub Caste selection is required"}
           data={formList?.subCasteList}
@@ -326,9 +326,9 @@ const PersonalForm = ({
         />
 
         <CustomInput
-          label={"Mobile"}
+          label={"Mobile *"}
           style={styles.inputContainer}
-          errorText={"Mobile Number is Required"}
+          errorText={"Invalid mobile number"}
           value={mobileNumber}
           numberkeyBoard={true}
           onBlurHanlder={mobileNumberBlurHandler}
@@ -346,7 +346,7 @@ const PersonalForm = ({
         <CustomDatePicker
           label={"Date Of Birth"}
           style={styles.inputContainer}
-          errorText={"Date of Birth is Required"}
+          errorText={"Age Should be Greathan 14"}
           value={dateOfBirth}
           onBlurHanlder={dateOfBirthBlurHandler}
           onValueChange={dateOfBirthChangeHandler}

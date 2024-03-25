@@ -20,7 +20,6 @@ const CustomDatePicker = ({
   const onChange = () => {
     setShow(false);
   };
-
   return (
     <View style={[style]}>
       <TextInput

@@ -68,6 +68,25 @@ function validateText(text) {
   return isValid;
 }
 
+function validateMobileNo(text) {
+  const regExp = /^(\d{3})[- ]?(\d{3})[- ]?(\d{4})$/;
+  if (regExp.test(text)) {
+    return true;
+  }
+  return false;
+}
+
+function validateDateOfBirth(birthday) {
+  // birthday is a date
+  const ageDifMs = Date.now() - birthday;
+  const ageDate = new Date(ageDifMs); // miliseconds from epoch
+  const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+  if (+age >= 14) {
+    return true;
+  }
+  return false;
+}
+
 function getInitialValue(list, value) {
   if (!value) {
     return "";
@@ -170,15 +189,16 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   );
   const mobileNumberInputData = useInput(
     mobileNumber ? mobileNumber : "",
-    validateText
+    validateMobileNo
   );
   const alternateMobileNoInputData = useInput(
     alternateMNo ? alternateMNo : "",
-    validateText
+    validateMobileNo
   );
   const dateOfBirthDateData = useInput(
     dob ? convertDateStringToDate(dob) : new Date(),
-    validateText
+    validateDateOfBirth,
+    "dob"
   );
   const aadharNoInputData = useInput(
     aadharNo ? aadharNo + "" : "",

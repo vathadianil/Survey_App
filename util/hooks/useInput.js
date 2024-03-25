@@ -1,10 +1,15 @@
 import { useState } from "react";
 
-const useInput = (initialValue, validateValue) => {
+const useInput = (initialValue, validateValue, type) => {
   const [enteredValue, setEnteredValue] = useState(initialValue);
   const [isTouched, setIsTouched] = useState(false);
   const valueIsValid = validateValue(enteredValue);
-  const hasError = !valueIsValid && isTouched;
+  let hasError = false;
+  if (type === "dob") {
+    hasError = !valueIsValid;
+  } else {
+    hasError = !valueIsValid && isTouched;
+  }
 
   const valueChangeHandler = (value) => {
     setEnteredValue(value);
