@@ -51,15 +51,6 @@ const html = `<!DOCTYPE html>
 `;
 
 const CheckoutScreen = ({ navigation }) => {
-  const getUrl = async () => {
-    const result = await Linking.canOpenURL("http://EduNexus://Home");
-    Linking.openURL("http://EduNexus://Home");
-    console.log(result);
-  };
-  useEffect(() => {
-    getUrl();
-  }, []);
-
   const ref = useRef(null);
   const run = `
    const sessionId="session_tY4w27w4X1Jdc22MPquMxCR7kZlZofYFzNaKY4feLmpoz0HhLyFdBRZTlyvfO93PsQnsGDKX6w5HcvDdkYEpcGKlNVbwUyVwy_B8rWQPmqdc";
@@ -67,7 +58,7 @@ const CheckoutScreen = ({ navigation }) => {
 
   setTimeout(() => {
     ref.current?.injectJavaScript(run);
-  }, 5000);
+  }, 100);
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
