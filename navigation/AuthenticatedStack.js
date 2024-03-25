@@ -4,6 +4,7 @@ import LocationSearchScreen from "../screens/LocationSearchScreen";
 import AuthenticatedTabNavigation from "./AuthenticatedTabNavigation";
 import StudentFormScreen from "../screens/StudentFormScreen";
 import UploadPhotoScreen from "../screens/UploadPhotoScreen";
+import CheckoutScreen from "../screens/CheckoutScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,14 @@ export default function AuthenticatedStack() {
       <Stack.Screen
         name="UploadPhoto"
         component={UploadPhotoScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="Checkout"
+        component={CheckoutScreen}
         options={{
           headerShown: false,
         }}

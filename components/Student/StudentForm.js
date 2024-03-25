@@ -360,9 +360,10 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         });
         onToggleSnackBar();
         if (isEditing) {
-          navigation.navigate("Home", {
-            submittedTimeStamp: new Date().getTime(),
-          });
+          //   navigation.navigate("Home", {
+          //     submittedTimeStamp: new Date().getTime(),
+          //   });
+          navigation.navigate("Checkout");
         } else {
           navigation.navigate("UploadPhoto", {
             studentId: result?.data?.studentId,

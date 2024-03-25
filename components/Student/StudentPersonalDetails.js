@@ -1,5 +1,4 @@
-import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
-import LottieView from "lottie-react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Linking } from "react-native";
 import { AppContext } from "../../store/app-context";
 import { useContext } from "react";
