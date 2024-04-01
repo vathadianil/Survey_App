@@ -14,6 +14,7 @@ const ImagePicker = ({
   errorText,
   uploadedImageErr,
   errorValueHandler,
+  gender,
 }) => {
   return (
     <View style={[styles.container, style]}>
@@ -24,11 +25,17 @@ const ImagePicker = ({
           errorValueHandler={errorValueHandler}
           source={
             (lottieImageType === "pic" &&
-              require(`../../assets/lottie-animations/image-preview.json`)) ||
+              gender === "Female" &&
+              require(`../../assets/lottie-animations/female1.json`)) ||
+            (lottieImageType === "pic" &&
+              gender === "Male" &&
+              require(`../../assets/lottie-animations/male1.json`)) ||
             (lottieImageType === "sign" &&
               require(`../../assets/lottie-animations/sign-preview.json`))
           }
-          style={{ marginRight: 10 }}
+          style={{
+            margin: 10,
+          }}
         />
 
         <Button

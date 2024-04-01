@@ -12,6 +12,7 @@ import { baseURL } from "../../util/axios";
 
 const StudentPersonalDetails = () => {
   const { studentData } = useContext(AppContext);
+  console.log({ studentData });
 
   const {
     id,

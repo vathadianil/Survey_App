@@ -375,6 +375,7 @@ const PersonalForm = ({
               style={[styles.inputContainer, { marginBottom: 40 }]}
               label={"Upload Photo"}
               lottieImageType={"pic"}
+              gender={gender}
               pickedImage={photo}
               takeImageHandler={() =>
                 photoChangeHandler(`upload-photo/?student_id=${id}`)
