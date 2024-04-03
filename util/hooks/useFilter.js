@@ -42,11 +42,10 @@ const useFilter = (initialInputValue, initialFilterValue, filterTerms) => {
       filteredData = data;
     } else {
       data.filter((item) => {
-        if (
-          item?.[filterTerms[1]]
-            ?.toLowerCase()
-            .includes(filterValue?.toLowerCase())
-        ) {
+        const vistedStatus = item?.[filterTerms[1]]
+          ? item?.[filterTerms[1]]
+          : "NO";
+        if (vistedStatus?.toLowerCase().includes(filterValue?.toLowerCase())) {
           filteredData.push(item);
         }
       });
