@@ -17,6 +17,7 @@ const StudentPersonalDetails = () => {
   const {
     id,
     studentName,
+    school,
     gender,
     mobileNumber,
     alternateMNo,
@@ -46,53 +47,35 @@ const StudentPersonalDetails = () => {
     }
   }
   return (
-    <View style={styles.container}>
-      <View style={styles.innerContainer}>
-        <CustomImage
-          hasError={photoImagePickerData.hasError}
-          pickedImage={photoImagePickerData.value}
-          errorValueHandler={photoImagePickerData.errorValueHandler}
-          source={
-            gender === "Female"
-              ? require(`../../assets/lottie-animations/female1.json`)
-              : require(`../../assets/lottie-animations/male1.json`)
-          }
-          style={{
-            borderRadius: 75,
-            marginVertical: 12,
-            backgroundColor: Colors.white,
-          }}
-          loop={false}
-        />
-        <Text style={styles.studentName}>{studentName}</Text>
-        <View>
-          <Pressable
-            android_ripple={{ color: Colors.shadowColor }}
-            style={[
-              ({ pressed }) => pressed && styles.pressedBtn,
-              styles.textContainer,
-            ]}
-            onPress={phoneNumberPressHndlr.bind(this, mobileNumber)}
-            // style={styles.textContainer}
-          >
-            <Ionicons
-              name="call"
-              size={12}
-              color={Colors.primary800}
-              style={styles.icon}
-            />
-            <Text style={[styles.detailText, styles.mobileText]}>
-              {mobileNumber ? mobileNumber : "Not Available"}
-            </Text>
-          </Pressable>
-          {alternateMNo && (
+    <View style={styles.wrapper}>
+      <View style={styles.container}>
+        <View style={styles.innerContainer}>
+          <CustomImage
+            hasError={photoImagePickerData.hasError}
+            pickedImage={photoImagePickerData.value}
+            errorValueHandler={photoImagePickerData.errorValueHandler}
+            source={
+              gender === "Female"
+                ? require(`../../assets/lottie-animations/female1.json`)
+                : require(`../../assets/lottie-animations/male1.json`)
+            }
+            style={{
+              borderRadius: 75,
+              marginVertical: 12,
+              backgroundColor: Colors.white,
+            }}
+            loop={false}
+          />
+          <Text style={styles.studentName}>{studentName}</Text>
+          <View>
             <Pressable
               android_ripple={{ color: Colors.shadowColor }}
               style={[
                 ({ pressed }) => pressed && styles.pressedBtn,
                 styles.textContainer,
               ]}
-              onPress={phoneNumberPressHndlr.bind(this, alternateMNo)}
+              onPress={phoneNumberPressHndlr.bind(this, mobileNumber)}
+              // style={styles.textContainer}
             >
               <Ionicons
                 name="call"
@@ -101,136 +84,167 @@ const StudentPersonalDetails = () => {
                 style={styles.icon}
               />
               <Text style={[styles.detailText, styles.mobileText]}>
-                {alternateMNo ? alternateMNo : "Not Available"}
+                {mobileNumber ? mobileNumber : "Not Available"}
               </Text>
-              <Text style={[styles.detailText]}> (Alternate)</Text>
             </Pressable>
-          )}
-          {fatherMobileNumber && (
-            <Pressable
-              android_ripple={{ color: Colors.shadowColor }}
-              style={[
-                ({ pressed }) => pressed && styles.pressedBtn,
-                styles.textContainer,
-              ]}
-              onPress={phoneNumberPressHndlr.bind(this, fatherMobileNumber)}
-            >
-              <Ionicons
-                name="call"
-                size={12}
-                color={Colors.primary800}
-                style={styles.icon}
-              />
-              <Text style={[styles.detailText, styles.mobileText]}>
-                {fatherMobileNumber}
-              </Text>
+            {alternateMNo && (
+              <Pressable
+                android_ripple={{ color: Colors.shadowColor }}
+                style={[
+                  ({ pressed }) => pressed && styles.pressedBtn,
+                  styles.textContainer,
+                ]}
+                onPress={phoneNumberPressHndlr.bind(this, alternateMNo)}
+              >
+                <Ionicons
+                  name="call"
+                  size={12}
+                  color={Colors.primary800}
+                  style={styles.icon}
+                />
+                <Text style={[styles.detailText, styles.mobileText]}>
+                  {alternateMNo ? alternateMNo : "Not Available"}
+                </Text>
+                <Text style={[styles.detailText]}> (Alternate)</Text>
+              </Pressable>
+            )}
+            {fatherMobileNumber && (
+              <Pressable
+                android_ripple={{ color: Colors.shadowColor }}
+                style={[
+                  ({ pressed }) => pressed && styles.pressedBtn,
+                  styles.textContainer,
+                ]}
+                onPress={phoneNumberPressHndlr.bind(this, fatherMobileNumber)}
+              >
+                <Ionicons
+                  name="call"
+                  size={12}
+                  color={Colors.primary800}
+                  style={styles.icon}
+                />
+                <Text style={[styles.detailText, styles.mobileText]}>
+                  {fatherMobileNumber}
+                </Text>
 
-              <Text style={[styles.detailText]}> (Guardian)</Text>
-            </Pressable>
-          )}
+                <Text style={[styles.detailText]}> (Guardian)</Text>
+              </Pressable>
+            )}
+          </View>
         </View>
-      </View>
-      <View style={[styles.textContainer, styles.locationContainer]}>
-        <Ionicons name="location" size={12} style={styles.icon} />
-        <Text style={[styles.detailText]}>{permanentAddress}</Text>
-      </View>
 
-      {fatherName && (
-        <StudentRow
-          label={"Father Name"}
-          data={fatherName}
-          icon={"man-outline"}
-          type={"ionicons"}
-        />
-      )}
-      {fOccupation && (
-        <StudentRow
-          label={"Father Occupation"}
-          data={fOccupation}
-          icon={"briefcase-outline"}
-          type={"ionicons"}
-        />
-      )}
-      {motherName && (
-        <StudentRow
-          label={"Mother Name"}
-          data={motherName}
-          icon={"woman-outline"}
-          type={"ionicons"}
-        />
-      )}
-      {mOccupation && (
-        <StudentRow
-          label={"Mother Occupation"}
-          data={mOccupation}
-          icon={"briefcase-outline"}
-          type={"ionicons"}
-        />
-      )}
-      {gender && (
-        <StudentRow
-          label={"Gender"}
-          data={gender}
-          icon={gender.toLowerCase() === "male" ? "male" : "female"}
-          type={"ionicons"}
-        />
-      )}
-      {dob && (
-        <StudentRow
-          label={"Date Of Birth"}
-          data={dob}
-          icon={"calendar-outline"}
-          type={"ionicons"}
-        />
-      )}
-      {motherTounge && (
-        <StudentRow
-          label={"Mother Tongue"}
-          data={motherTounge}
-          icon={"language-outline"}
-          type={"ionicons"}
-        />
-      )}
-      {religion && (
-        <StudentRow
-          label={"Religion"}
-          data={religion}
-          icon={"book-outline"}
-          type={"ionicons"}
-        />
-      )}
-      {caste && (
-        <StudentRow
-          label={"Caste"}
-          data={caste}
-          icon={"cog-outline"}
-          type={"ionicons"}
-        />
-      )}
-      {subCaste && (
-        <StudentRow
-          label={"Sub Caste"}
-          data={subCaste}
-          icon={"bookmark-outline"}
-          type={"ionicons"}
-        />
-      )}
-      {aadharNo && (
-        <StudentRow
-          label={"Aadhar Number"}
-          data={aadharNo}
-          icon={"card-outline"}
-          type={"ionicons"}
-        />
-      )}
-      {disability && (
-        <StudentRow
-          label={"Physically Disabled"}
-          data={disability}
-          icon={"walk-outline"}
-          type={"ionicons"}
-        />
-      )}
+        <View style={[styles.textContainer, styles.locationContainer]}>
+          <Ionicons name="location" size={12} style={styles.icon} />
+          <Text style={[styles.detailText]}>{permanentAddress}</Text>
+        </View>
+        {fatherName && (
+          <StudentRow
+            label={"Father Name"}
+            data={fatherName}
+            icon={"man-outline"}
+            type={"ionicons"}
+          />
+        )}
+        {fOccupation && (
+          <StudentRow
+            label={"Father Occupation"}
+            data={fOccupation}
+            icon={"briefcase-outline"}
+            type={"ionicons"}
+          />
+        )}
+        {motherName && (
+          <StudentRow
+            label={"Mother Name"}
+            data={motherName}
+            icon={"woman-outline"}
+            type={"ionicons"}
+          />
+        )}
+        {mOccupation && (
+          <StudentRow
+            label={"Mother Occupation"}
+            data={mOccupation}
+            icon={"briefcase-outline"}
+            type={"ionicons"}
+          />
+        )}
+        {gender && (
+          <StudentRow
+            label={"Gender"}
+            data={gender}
+            icon={gender.toLowerCase() === "male" ? "male" : "female"}
+            type={"ionicons"}
+          />
+        )}
+        {dob && (
+          <StudentRow
+            label={"Date Of Birth"}
+            data={dob}
+            icon={"calendar-outline"}
+            type={"ionicons"}
+          />
+        )}
+        {motherTounge && (
+          <StudentRow
+            label={"Mother Tongue"}
+            data={motherTounge}
+            icon={"language-outline"}
+            type={"ionicons"}
+          />
+        )}
+        {religion && (
+          <StudentRow
+            label={"Religion"}
+            data={religion}
+            icon={"book-outline"}
+            type={"ionicons"}
+          />
+        )}
+        {caste && (
+          <StudentRow
+            label={"Caste"}
+            data={caste}
+            icon={"cog-outline"}
+            type={"ionicons"}
+          />
+        )}
+        {subCaste && (
+          <StudentRow
+            label={"Sub Caste"}
+            data={subCaste}
+            icon={"bookmark-outline"}
+            type={"ionicons"}
+          />
+        )}
+        {aadharNo && (
+          <StudentRow
+            label={"Aadhar Number"}
+            data={aadharNo}
+            icon={"card-outline"}
+            type={"ionicons"}
+          />
+        )}
+        {disability && (
+          <StudentRow
+            label={"Physically Disabled"}
+            data={disability}
+            icon={"walk-outline"}
+            type={"ionicons"}
+          />
+        )}
+      </View>
+      <View style={styles.container}>
+        <Text style={styles.title}>Education Details</Text>
+        {school && (
+          <StudentRow
+            label={"School"}
+            data={school}
+            icon={"school-outline"}
+            type={"ionicons"}
+          />
+        )}
+      </View>
     </View>
   );
 };
@@ -244,21 +258,15 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     marginBottom: 8,
   },
+  wrapper: {
+    marginBottom: 100,
+  },
   container: {
     marginVertical: 16,
     marginHorizontal: 16,
-    marginBottom: 100,
-    // paddingHorizontal: 4,
-    paddingBottom: 32,
+    paddingBottom: 16,
     borderRadius: 8,
-    // overflow: "hidden",
     backgroundColor: Colors.white,
-    // elevation: 4,
-    // shadowColor: Colors.black,
-    // shadowOffset: { width: 0, height: 10 },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 8,
-    // overflow: Platform.select({ android: "hidden" }),
   },
 
   innerContainer: { alignItems: "center" },
@@ -289,6 +297,12 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     color: Colors.gray,
   },
+  schoolText: {
+    fontSize: 16,
+    fontFamily: "semibold",
+    textTransform: "uppercase",
+    color: Colors.gray,
+  },
   locationContainer: {
     marginHorizontal: 8,
     padding: 16,
@@ -296,6 +310,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.primary500,
     borderRadius: 6,
+  },
+  title: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    fontSize: 18,
+    fontFamily: "semibold",
+    color: Colors.gray,
   },
   pressedBtn: { opacity: 0.25 },
 });

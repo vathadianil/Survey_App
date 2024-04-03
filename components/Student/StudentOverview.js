@@ -16,6 +16,7 @@ const StudentOverview = ({ studentData }) => {
     mobileNumber,
     permanentAddress,
     studentName,
+    school,
     visitedStatus,
   } = studentData;
   const navigation = useNavigation();
@@ -27,12 +28,13 @@ const StudentOverview = ({ studentData }) => {
     <View style={[styles.student]}>
       <View style={styles.statusContainer}>
         <Text style={styles.stutusText}>
-          {visitedStatus === "NO" ? "Not Visited" : "Visited"}
+          {visitedStatus === "NO" || !visitedStatus ? "Not Visited" : "Visited"}
         </Text>
+
         <View
           style={[
             styles.statusIndicator,
-            visitedStatus === "NO"
+            visitedStatus === "NO" || !visitedStatus
               ? { backgroundColor: Colors.error800 }
               : { backgroundColor: Colors.success },
           ]}
@@ -75,6 +77,15 @@ const StudentOverview = ({ studentData }) => {
                 {mobileNumber ? mobileNumber : "Not Available"}
               </Text>
             </View>
+
+            {school && (
+              <View style={styles.detailContainer}>
+                <Ionicons name="school" size={12} style={styles.icon} />
+                <Text style={[styles.detailText, styles.schoolText]}>
+                  {school}
+                </Text>
+              </View>
+            )}
 
             <View style={styles.detailContainer}>
               <Ionicons name="location" size={12} style={styles.icon} />
@@ -167,7 +178,7 @@ const styles = StyleSheet.create({
     fontFamily: "light",
     textTransform: "capitalize",
   },
-
+  schoolText: { textTransform: "uppercase" },
   pressedBtn: {
     opacity: 0.25,
   },
