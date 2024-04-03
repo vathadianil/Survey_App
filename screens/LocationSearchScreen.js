@@ -23,11 +23,7 @@ const LocationSearchScreen = () => {
     setEnteredInput(enteredValue);
     let filteredData = [];
     locationList.filter((item) => {
-      if (
-        item?.permanentAddress
-          .toLowerCase()
-          .includes(enteredValue?.toLowerCase())
-      ) {
+      if (item?.villege.toLowerCase().includes(enteredValue?.toLowerCase())) {
         filteredData.push(item);
       }
     });

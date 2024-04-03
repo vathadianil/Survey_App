@@ -19,7 +19,7 @@ const LocationList = ({ locationList }) => {
   function renderLocation({ item }) {
     const locationData = {
       id: item.id,
-      location: item.permanentAddress,
+      location: item.villege,
     };
 
     return (
