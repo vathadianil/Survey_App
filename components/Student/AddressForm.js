@@ -8,7 +8,7 @@ import { Colors } from "../../constants/styles";
 const AddressForm = ({
   mandalInputData,
   districtInputData,
-  stateInputData,
+  vallageInputData,
 }) => {
   const {
     value: mandal,
@@ -25,11 +25,11 @@ const AddressForm = ({
   } = districtInputData;
 
   const {
-    value: state,
-    hasError: stateHasError,
-    valueChangeHandler: stateChangeHandler,
-    inputBlurHandler: stateBlurHandler,
-  } = stateInputData;
+    value: village,
+    hasError: villageHasError,
+    valueChangeHandler: villageChangeHandler,
+    inputBlurHandler: villageBlurHandler,
+  } = vallageInputData;
 
   return (
     <Card mode="elevated" style={styles.container}>
@@ -43,6 +43,15 @@ const AddressForm = ({
         )}
       >
         <CustomInput
+          label={"District"}
+          style={styles.inputContainer}
+          errorText={"District is Required"}
+          value={district}
+          onBlurHanlder={districtBlurHandler}
+          onValueChange={districtChangeHandler}
+          hasError={districtHasError}
+        />
+        <CustomInput
           label={"Mandal"}
           style={styles.inputContainer}
           errorText={"Mandal is Required"}
@@ -53,23 +62,13 @@ const AddressForm = ({
         />
 
         <CustomInput
-          label={"District"}
+          label={"Village"}
           style={styles.inputContainer}
-          errorText={"District is Required"}
-          value={district}
-          onBlurHanlder={districtBlurHandler}
-          onValueChange={districtChangeHandler}
-          hasError={districtHasError}
-        />
-
-        <CustomInput
-          label={"State"}
-          style={styles.inputContainer}
-          errorText={"State is Required"}
-          value={state}
-          onBlurHanlder={stateBlurHandler}
-          onValueChange={stateChangeHandler}
-          hasError={stateHasError}
+          errorText={"village is Required"}
+          value={village}
+          onBlurHanlder={villageBlurHandler}
+          onValueChange={villageChangeHandler}
+          hasError={villageHasError}
         />
       </List.Accordion>
     </Card>

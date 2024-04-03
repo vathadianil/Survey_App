@@ -16,7 +16,7 @@ const StudentOverview = ({ studentData }) => {
     mobileNumber,
     permanentAddress,
     studentName,
-    school,
+    lastStudiedAt,
     visitedStatus,
   } = studentData;
   const navigation = useNavigation();
@@ -78,11 +78,13 @@ const StudentOverview = ({ studentData }) => {
               </Text>
             </View>
 
-            {school && (
+            {lastStudiedAt && (
               <View style={styles.detailContainer}>
                 <Ionicons name="school" size={12} style={styles.icon} />
                 <Text style={[styles.detailText, styles.schoolText]}>
-                  {school}
+                  {lastStudiedAt?.length > 25
+                    ? lastStudiedAt?.slice(0, 25) + "..."
+                    : lastStudiedAt}
                 </Text>
               </View>
             )}

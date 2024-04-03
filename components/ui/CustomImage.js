@@ -22,7 +22,12 @@ const CustomImage = ({
         </View>
       )}
       {hasError ? (
-        <LottieView style={styles.image} source={source} autoPlay loop={loop} />
+        <LottieView
+          style={[styles.image]}
+          source={source}
+          autoPlay
+          loop={loop}
+        />
       ) : (
         <Image
           style={styles.image}

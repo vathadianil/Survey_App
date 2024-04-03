@@ -213,7 +213,7 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
 
   const mandalInputData = useInput("", validateText);
   const districtInputData = useInput("", validateText);
-  const stateInputData = useInput("", validateText);
+  const vallageInputData = useInput("", validateText);
 
   const previousEducationDropdownData = useInput(
     previousEducation ? previousEducation : "",
@@ -280,7 +280,7 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         !isEditing &&
         (!mandalInputData.isValid ||
           !districtInputData.isValid ||
-          !stateInputData.isValid)
+          !vallageInputData.isValid)
       ) {
         formIsValid = false;
       } else {
@@ -323,12 +323,15 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
         intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
         passedOutYear: "",
+        district: districtInputData.value,
+        mandal: mandalInputData.value,
+        villege: vallageInputData.value,
         // studentRegNo: "",
         registrationFee: "1000",
         registrationFeeStatus: registrationFeePaidRadioData.value,
         registrationFeeReceipt: "",
         agentID: agentId + "",
-        insertBy: insertBy,
+        insertBy: insertBy ? insertBy : "",
         updateBy: userId,
       };
       if (!isEditing) {
@@ -338,7 +341,7 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
           signPath: "",
           fatherMobileNo: "",
           insertBy: userId,
-          permanentAddress: `${mandalInputData.value} ${districtInputData.value} ${stateInputData.value}`,
+          permanentAddress: `${vallageInputData.value} ${mandalInputData.value} ${districtInputData.value}`,
         };
       } else {
         formValues = { ...formValues, studentId: id + "" ? id + "" : "" };
@@ -349,7 +352,6 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
       const result = isEditing
         ? await axios.post("/updateStudentDetails", formValues)
         : await axios.post("/addStudentDetails", formValues);
-
       if (
         result?.data?.returnCode === 1 &&
         result?.data?.returnMessage === "Success"
@@ -420,7 +422,7 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
             <AddressForm
               mandalInputData={mandalInputData}
               districtInputData={districtInputData}
-              stateInputData={stateInputData}
+              vallageInputData={vallageInputData}
             />
           )}
           <EducationForm

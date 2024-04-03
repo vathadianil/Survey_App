@@ -12,12 +12,10 @@ import { baseURL } from "../../util/axios";
 
 const StudentPersonalDetails = () => {
   const { studentData } = useContext(AppContext);
-  console.log({ studentData });
-
   const {
     id,
     studentName,
-    school,
+    lastStudiedAt,
     gender,
     mobileNumber,
     alternateMNo,
@@ -34,6 +32,8 @@ const StudentPersonalDetails = () => {
     subCaste,
     aadharNo,
     disability,
+    passedOutYear,
+    medium,
   } = studentData;
 
   const photoImagePickerData = useImage(
@@ -236,11 +236,27 @@ const StudentPersonalDetails = () => {
       </View>
       <View style={styles.container}>
         <Text style={styles.title}>Education Details</Text>
-        {school && (
+        {lastStudiedAt && (
           <StudentRow
             label={"School"}
-            data={school}
+            data={lastStudiedAt}
             icon={"school-outline"}
+            type={"ionicons"}
+          />
+        )}
+        {passedOutYear && (
+          <StudentRow
+            label={"Passed Out Year"}
+            data={passedOutYear}
+            icon={"calendar-number-outline"}
+            type={"ionicons"}
+          />
+        )}
+        {medium && (
+          <StudentRow
+            label={"Medium"}
+            data={medium}
+            icon={"text-outline"}
             type={"ionicons"}
           />
         )}
