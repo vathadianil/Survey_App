@@ -17,6 +17,8 @@ import PaymentForm from "../components/Student/PaymentForm";
 import useInput from "../util/hooks/useInput";
 import { Colors } from "../constants/styles";
 import { ActivityIndicator } from "react-native-paper";
+import useSnackBar from "../util/hooks/useSnackBar";
+import CustomSnackBar from "../components/ui/paper/CustomSnackBar";
 
 const initialState = {
   isSuccess: false,
@@ -65,6 +67,8 @@ const PaymentCompleteScreen = ({ navigation }) => {
   );
   const { width } = useWindowDimensions();
   const { studentData, loginData } = useContext(AppContext);
+  const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
+
   const { id } = studentData;
   const { agentId } = loginData;
 
@@ -103,16 +107,15 @@ const PaymentCompleteScreen = ({ navigation }) => {
       });
       const result = await axios.post("/update_registration", formValues);
 
-      if (
-        result?.data?.returnCode === 1 &&
-        result?.data?.returnMessage === "Success"
-      ) {
+      if (result?.data?.Registration_Fee_Status === "Yes") {
         dispatchFormState({
           type: "SUCCESS",
           message: "Registration Details Submitted Successfully",
         });
         onToggleSnackBar();
-        navigation.navigate("RegistrationDetails");
+        navigation.navigate("RegistrationDetails", {
+          registrationData: result.data,
+        });
       } else {
         dispatchFormState({
           type: "FAILURE",
@@ -178,6 +181,11 @@ const PaymentCompleteScreen = ({ navigation }) => {
               <Text style={{ color: Colors.white }}>Submit</Text>
             </View>
           </Button>
+          <CustomSnackBar
+            onDismissSnackBar={onDismissSnackBar}
+            visible={visible}
+            message={formState.message}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
