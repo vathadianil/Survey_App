@@ -34,11 +34,13 @@ const ImagePicker = ({
               !gender &&
               require(`../../assets/lottie-animations/male1.json`)) ||
             (lottieImageType === "sign" &&
-              require(`../../assets/lottie-animations/sign-preview.json`))
+              require(`../../assets/lottie-animations/sign-preview.json`)) ||
+            (lottieImageType === "receipt" &&
+              require(`../../assets/lottie-animations/receipt.json`))
           }
           style={{
             margin: 10,
-            height: 130,
+            height: 150,
           }}
         />
 

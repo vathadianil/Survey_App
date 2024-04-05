@@ -286,13 +286,6 @@ const styles = StyleSheet.create({
   },
 
   innerContainer: { alignItems: "center" },
-  imageContainer: {
-    height: 150,
-    aspectRatio: 1,
-  },
-  image: {
-    flex: 1,
-  },
 
   textContainer: {
     flexDirection: "row",

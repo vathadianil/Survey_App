@@ -452,11 +452,13 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
               }}
             >
               {formState.submitted && formState.loading && (
-                <ActivityIndicator animating={true} color={Colors.black} />
+                <ActivityIndicator
+                  animating={true}
+                  color={Colors.black}
+                  style={{ marginLeft: 10 }}
+                />
               )}
-              <Text style={{ color: Colors.white, marginLeft: 10 }}>
-                Submit
-              </Text>
+              <Text style={{ color: Colors.white }}>Submit</Text>
             </View>
           </Button>
           <CustomSnackBar

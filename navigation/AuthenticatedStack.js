@@ -5,6 +5,8 @@ import AuthenticatedTabNavigation from "./AuthenticatedTabNavigation";
 import StudentFormScreen from "../screens/StudentFormScreen";
 import UploadPhotoScreen from "../screens/UploadPhotoScreen";
 import CheckoutScreen from "../screens/CheckoutScreen";
+import PaymentCompleteScreen from "../screens/PaymentCompleteScreen";
+import RegistrationDetailsScreen from "../screens/RegistrationDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +46,21 @@ export default function AuthenticatedStack() {
       <Stack.Screen
         name="Checkout"
         component={CheckoutScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="PaymentComplete"
+        component={PaymentCompleteScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="RegistrationDetails"
+        component={RegistrationDetailsScreen}
         options={{
           headerShown: false,
         }}

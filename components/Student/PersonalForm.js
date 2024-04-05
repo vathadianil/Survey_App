@@ -344,7 +344,7 @@ const PersonalForm = ({
           numberkeyBoard={true}
         />
         <CustomDatePicker
-          label={"Date Of Birth"}
+          label={"Date Of Birth *"}
           style={styles.inputContainer}
           errorText={"Age Should be Greathan 14"}
           value={dateOfBirth}
@@ -355,7 +355,7 @@ const PersonalForm = ({
           showIcon={true}
         />
         <CustomInput
-          label={"Aadhar Number"}
+          label={"Aadhar Number *"}
           style={styles.inputContainer}
           errorText={"Aadhar Number is Required"}
           value={aadharNo}
@@ -392,7 +392,7 @@ const PersonalForm = ({
           <Pressable
             android_ripple={{ color: Colors.shadowColor }}
             style={({ pressed }) => pressed && styles.pressedBtn}
-            onPress={() => photo && showModal(sign)}
+            onPress={() => sign && showModal(sign)}
           >
             <ImagePicker
               style={[styles.inputContainer, { marginBottom: 40 }]}
