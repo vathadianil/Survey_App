@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import axios from "../util/axios";
 import CustomSnackBar from "../components/ui/paper/CustomSnackBar";
 import useSnackBar from "../util/hooks/useSnackBar";
+import { POST_SMS } from "../util/apiRequests";
 
 const convertDateToString = (date) => {
   const day = date?.getDate();
@@ -43,7 +44,7 @@ const RegistrationDetailsScreen = ({ navigation, route }) => {
       )}\nOrder ID: ${orderId}\nReceipt: ${Registration_Fee_Receipt}\nFee: ${Registration_Fee}`;
       const to = `+919985225558`;
       // const to = `+918074747801`;
-      const { data } = await axios.post(`/send-sms`, { to, body });
+      const { data } = await axios.post(POST_SMS, { to, body });
       if (data?.sid) {
         setMessage(data?.message);
         onToggleSnackBar();

@@ -19,6 +19,7 @@ import { Colors } from "../constants/styles";
 import { ActivityIndicator } from "react-native-paper";
 import useSnackBar from "../util/hooks/useSnackBar";
 import CustomSnackBar from "../components/ui/paper/CustomSnackBar";
+import { UPDATE_REGISTRATION_DETAILS } from "../util/apiRequests";
 
 const initialState = {
   isSuccess: false,
@@ -105,7 +106,7 @@ const PaymentCompleteScreen = ({ navigation }) => {
       dispatchFormState({
         type: "SUBMIT_LOADING",
       });
-      const result = await axios.post("/update_registration", formValues);
+      const result = await axios.post(UPDATE_REGISTRATION_DETAILS, formValues);
 
       if (result?.data?.Registration_Fee_Status === "Yes") {
         dispatchFormState({

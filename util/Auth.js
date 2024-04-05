@@ -1,6 +1,7 @@
 // import axios from "axios";
 // const API_KEY = "AIzaSyAjYpELwhv98kjn2HSuOMWW9csUgldjy_4";
 
+import { GET_TOKEN } from "./apiRequests";
 import axios from "./axios";
 
 // async function authenticate(mode, email, password) {
@@ -23,7 +24,7 @@ import axios from "./axios";
 // }
 
 async function authenticate(mode, username, password) {
-  const { data } = await axios.post("/token", {
+  const { data } = await axios.post(GET_TOKEN, {
     username,
     password,
   });

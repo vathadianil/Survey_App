@@ -14,6 +14,10 @@ import CustomSnackBar from "../ui/paper/CustomSnackBar";
 import useSnackBar from "../../util/hooks/useSnackBar";
 import { baseURL } from "../../util/axios";
 import AddressForm from "./AddressForm";
+import {
+  ADD_STUDENT_DETAILS,
+  UPDATE_STUDENT_DETAILS,
+} from "../../util/apiRequests";
 
 const initialState = {
   isSuccess: false,
@@ -166,7 +170,7 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     validateText
   );
   const motherOccupationInputnData = useInput(mOccupation, validateText);
-  const genderRadioData = useInput(gender, validateText);
+  const genderRadioData = useInput(gender ? gender : "", validateText);
   const physicallyChallengedRadioData = useInput(
     disability ? disability : "NO",
     validateText
@@ -350,8 +354,8 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         type: "SUBMIT_LOADING",
       });
       const result = isEditing
-        ? await axios.post("/updateStudentDetails", formValues)
-        : await axios.post("/addStudentDetails", formValues);
+        ? await axios.post(UPDATE_STUDENT_DETAILS, formValues)
+        : await axios.post(ADD_STUDENT_DETAILS, formValues);
       if (
         result?.data?.returnCode === 1 &&
         result?.data?.returnMessage === "Success"
@@ -362,9 +366,6 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         });
         onToggleSnackBar();
         if (isEditing) {
-          //   navigation.navigate("Home", {
-          //     submittedTimeStamp: new Date().getTime(),
-          //   });
           navigation.navigate("Checkout");
         } else {
           navigation.navigate("UploadPhoto", {
