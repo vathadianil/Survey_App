@@ -240,7 +240,6 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     validateText
   );
   const mediumDropDownData = useInput(medium ? medium : "", validateText);
-  const registrationFeePaidRadioData = useInput("no", validateText);
 
   let formIsValid = false;
   if (isVisitedSwitchOn && !isInterestSwitchOn) {
@@ -269,8 +268,7 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
     schoolOrCollegeNameInputData.isValid &&
     admissionCategoryDropDownData.isValid &&
     courseOrGroupDropDownData.isValid &&
-    mediumDropDownData.isValid &&
-    registrationFeePaidRadioData.isValid
+    mediumDropDownData.isValid
   ) {
     if (
       (fatherOccupationDropDownData.value === "Other" &&
@@ -323,17 +321,12 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
         admissionCategory: admissionCategoryDropDownData.value,
         courseGroup: courseOrGroupDropDownData.value,
         medium: mediumDropDownData.value,
-        // registrationFeePaid: registrationFeePaidRadioData.value,
         visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
         intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
         passedOutYear: "",
         district: districtInputData.value,
         mandal: mandalInputData.value,
         villege: vallageInputData.value,
-        // studentRegNo: "",
-        registrationFee: "1000",
-        registrationFeeStatus: registrationFeePaidRadioData.value,
-        registrationFeeReceipt: "",
         agentID: agentId + "",
         insertBy: insertBy ? insertBy : "",
         updateBy: userId,
@@ -433,7 +426,6 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
             admissionCategoryDropDownData={admissionCategoryDropDownData}
             courseOrGroupDropDownData={courseOrGroupDropDownData}
             mediumDropDownData={mediumDropDownData}
-            registrationFeePaidRadioData={registrationFeePaidRadioData}
             formList={formList}
           />
         </List.AccordionGroup>
