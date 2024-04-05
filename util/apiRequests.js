@@ -1,5 +1,5 @@
 export const GET_STUDENT_LIST = "/studentDetails?string=";
-export const GET_LOCATION_LIST = "/getAddressesList";
+export const GET_LOCATION_LIST = "/getVillegeList";
 export const GET_FATHER_OCCUPATION_LIST = "/getFatherOccupationList";
 export const GET_MOTHER_OCCUPATION_LIST = "/getMotherOccupationList";
 export const GET_CASTE_LIST = "/getCasteList";
