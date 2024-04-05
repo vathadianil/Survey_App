@@ -105,9 +105,7 @@ const UploadPhotoScreen = ({ navigation, route }) => {
       type: "SUCCESS",
       message: "Data Submitted Successfully",
     });
-    navigation.navigate("Home", {
-      submittedTimeStamp: new Date().getTime(),
-    });
+    navigation.navigate("Checkout");
   };
   return (
     <SafeAreaView>
