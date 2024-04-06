@@ -1,9 +1,9 @@
 import { StyleSheet, View } from "react-native";
 import { Snackbar } from "react-native-paper";
 
-const CustomSnackBar = ({ visible, message, onDismissSnackBar }) => {
+const CustomSnackBar = ({ visible, message, onDismissSnackBar, style }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Snackbar
         action={{
           label: "Ok",
@@ -23,7 +23,8 @@ export default CustomSnackBar;
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    // bottom: 100,
+    // justifyContent: "center",
+    // alignItems: "center",
   },
 });

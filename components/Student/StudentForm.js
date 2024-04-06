@@ -292,6 +292,14 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
   }
 
   const handleSubmit = async () => {
+    if (!studentNameInputData.value) {
+      dispatchFormState({
+        type: "FAILURE",
+        message: "Please Add required Details and Try Again!",
+      });
+      onToggleSnackBar();
+      return;
+    }
     try {
       let formValues = {
         studentName: studentNameInputData.value,
@@ -386,6 +394,12 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
 
   return (
     <View>
+      <CustomSnackBar
+        onDismissSnackBar={onDismissSnackBar}
+        visible={visible}
+        message={formState.message}
+        style={styles.snackBarStyle}
+      />
       {isVisitedSwitchOn && isInterestSwitchOn && (
         <List.AccordionGroup>
           <PersonalForm
@@ -454,11 +468,6 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
               <Text style={{ color: Colors.white }}>Submit</Text>
             </View>
           </Button>
-          <CustomSnackBar
-            onDismissSnackBar={onDismissSnackBar}
-            visible={visible}
-            message={formState.message}
-          />
         </View>
       )}
     </View>
@@ -474,5 +483,11 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: "30%",
+  },
+  snackBarStyle: {
+    position: "absolute",
+    bottom: -10,
+    left: 0,
+    right: 0,
   },
 });
