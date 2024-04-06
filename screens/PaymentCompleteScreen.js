@@ -86,6 +86,7 @@ const PaymentCompleteScreen = ({ navigation }) => {
   let formIsValid = false;
   if (
     !paymentScreenshotImagePickerData.isValid &&
+    !paymentScreenshotImagePickerData.uploadedImageHasError &&
     txnIdInputData.isValid &&
     registrationFeeInputData.isValid
   ) {

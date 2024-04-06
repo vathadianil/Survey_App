@@ -1,5 +1,6 @@
 import {
   Alert,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -140,16 +141,16 @@ const RegistrationDetailsScreen = ({ navigation, route }) => {
               <Pressable
                 android_ripple={{ color: Colors.shadowColor }}
                 style={({ pressed }) => pressed && styles.pressedBtn}
-                onPress={() =>
+                onPress={() => {
                   navigation.navigate("Home", {
                     submittedTimeStamp: new Date().getTime(),
-                  })
-                }
+                  });
+                }}
               >
-                <View style={[styles.btnInnerContainer, styles.shadow]}>
+                <View style={styles.innerBtnContainer}>
                   <Ionicons
-                    name={"home-outline"}
-                    size={24}
+                    name="home-outline"
+                    size={17}
                     color={Colors.white}
                   />
                 </View>
@@ -195,24 +196,24 @@ const styles = StyleSheet.create({
 
   btnContainer: {
     marginTop: 32,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: Platform.select({ android: "hidden" }),
   },
-  shadow: {
-    shadowColor: Colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 20,
-    elevation: 4,
-  },
-  btnInnerContainer: {
+  innerBtnContainer: {
     justifyContent: "center",
     alignItems: "center",
     width: 60,
-    height: 60,
+    aspectRatio: 1,
     borderRadius: 30,
     backgroundColor: Colors.primary800,
+    elevation: 4,
+    shadowColor: Colors.black,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
   },
-  pressedBtn: { opacity: 0.25 },
+  pressedBtn: {
+    opacity: 0.25,
+  },
 });
