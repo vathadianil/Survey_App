@@ -183,6 +183,7 @@ const HomeScreen = ({ route }) => {
       )}
 
       <CustomSnackBar
+      style={styles.snackBarStyle}
         onDismissSnackBar={onDismissSnackBar}
         visible={visible}
         message={"Something went wrong. Please Try Again!"}
@@ -197,5 +198,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingBottom: 180,
+  },
+  snackBarStyle: {
+    position: "absolute",
+    bottom: -10,
+    left: 0,
+    right: 0,
   },
 });

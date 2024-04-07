@@ -28,7 +28,7 @@ async function authenticate(mode, username, password) {
     username,
     password,
   });
-
+console.log({data})
   const loginData = {
     token: data?.access_token,
     agentId: data?.agent_id,

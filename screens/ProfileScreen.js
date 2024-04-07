@@ -1,4 +1,4 @@
-import { StyleSheet, View, Pressable, Text } from "react-native";
+import { StyleSheet, View, Pressable, Text, ScrollView } from "react-native";
 import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
@@ -10,78 +10,85 @@ import { AppContext } from "../store/app-context";
 
 const data = [
   {
+    sectionName: "Visited Students",
     iconName: "accessibility-outline",
     completed: 2,
     total: 4,
     avg: null,
-    sectionName: "Visited Students",
     progress: 50,
   },
   {
+    sectionName: "Completed Surveys",
     iconName: "checkmark-circle-outline",
     completed: 2,
     total: 4,
     avg: null,
-    sectionName: "Completed Surveys",
     progress: 50,
   },
   {
+    sectionName: "Average Completion Rate",
     iconName: "star-outline",
     completed: null,
     total: null,
     avg: 4,
-    sectionName: "Average Completion Rate",
     progress: null,
   },
 ];
 
 const ProfileScreen = ({ navigation }) => {
-  const appCtx = useContext(AppContext);
+  const { loginData, logout } = useContext(AppContext);
+  const { agentId, firstName, lastName, userId } = loginData;
+  console.log({ loginData });
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Pressable
-            android_ripple={{ color: Colors.shadowColor }}
-            style={({ pressed }) => pressed && styles.pressed}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <Ionicons name="chevron-back-circle" size={30} />
-          </Pressable>
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            <Pressable
+              android_ripple={{ color: Colors.shadowColor }}
+              style={({ pressed }) => pressed && styles.pressed}
+              onPress={() => {
+                navigation.goBack();
+              }}
+            >
+              <Ionicons name="chevron-back-circle" size={30} />
+            </Pressable>
 
-          <Button
-            onPress={() => {
-              appCtx.logout();
-            }}
-            style={styles.btn}
-          >
-            Log out
-          </Button>
-        </View>
-
-        <View style={styles.detailsContainer}>
-          <View style={styles.imageContainer}>
-            <LottieView
-              style={styles.image}
-              source={require(`../assets/lottie-animations/male1.json`)}
-              autoPlay
-              loop={false}
-            />
+            <Button
+              onPress={() => {
+                logout();
+              }}
+              style={styles.btn}
+            >
+              Log out
+            </Button>
           </View>
-          <Text style={styles.nameText}>Anil Kumar</Text>
-          <Text style={styles.loginIdText}>Login ID : 1142</Text>
-        </View>
 
-        <View style={styles.analyticsContainer}>
-          <Text style={styles.analyticsHeaderText}>Analytics</Text>
+          <View style={styles.detailsContainer}>
+            <View style={styles.imageContainer}>
+              <LottieView
+                style={styles.image}
+                source={require(`../assets/lottie-animations/male1.json`)}
+                autoPlay
+                loop={false}
+              />
+            </View>
+            <Text style={styles.nameText}>
+              {firstName} {lastName}
+            </Text>
+            <Text style={styles.loginText}>Login ID : {agentId}</Text>
+            <Text style={styles.loginText}>User Name : {userId}</Text>
+          </View>
 
-          {data.map((item) => (
-            <AgentAnalytics {...item} key={item.sectionName} />
-          ))}
+          <View style={styles.analyticsContainer}>
+            <Text style={styles.analyticsHeaderText}>Analytics</Text>
+
+            {data.map((item) => (
+              <AgentAnalytics {...item} key={item.sectionName} />
+            ))}
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -118,8 +125,9 @@ const styles = StyleSheet.create({
   nameText: {
     fontFamily: "semibold",
     fontSize: 28,
+    textTransform: "capitalize",
   },
-  loginIdText: {
+  loginText: {
     fontFamily: "medium",
     fontSize: 16,
     color: Colors.gray,

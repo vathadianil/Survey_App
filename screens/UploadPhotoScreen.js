@@ -179,6 +179,7 @@ const UploadPhotoScreen = ({ navigation, route }) => {
           onDismissSnackBar={onDismissSnackBar}
           visible={visible}
           message={formState.message}
+          style={styles.snackBarStyle}
         />
       </View>
     </SafeAreaView>
@@ -212,5 +213,11 @@ const styles = StyleSheet.create({
   },
   pressedBtn: {
     opacity: 0.25,
+  },
+  snackBarStyle: {
+    position: "absolute",
+    bottom: -10,
+    left: 0,
+    right: 0,
   },
 });

@@ -40,14 +40,15 @@ const LoginScreen = () => {
       </View>
       <View style={[styles.innerContainer, styles.formContainer]}>
         <AuthContent onAuthenticate={loginHndlr} isLogin={true} />
-        <CustomSnackBar
-          onDismissSnackBar={onDismissSnackBar}
-          visible={visible}
-          message={
-            "Could not Log you in. Please check your Credentials and Try Again!"
-          }
-        />
       </View>
+      <CustomSnackBar
+        style={styles.snackBarStyle}
+        onDismissSnackBar={onDismissSnackBar}
+        visible={visible}
+        message={
+          "Could not Log you in. Please check your Credentials and Try Again!"
+        }
+      />
     </ScrollView>
   );
 };
@@ -76,5 +77,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontFamily: "bold",
+  },
+  snackBarStyle: {
+    position: "absolute",
+    bottom: -10,
+    left: 0,
+    right: 0,
   },
 });
