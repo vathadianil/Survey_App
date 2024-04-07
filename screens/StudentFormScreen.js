@@ -9,6 +9,7 @@ import AppBar from "../components/ui/AppBar";
 
 const StudentFormScreen = ({ navigation }) => {
   const { studentData } = useContext(AppContext);
+  const [isFormSubmitted, setIsFormSubmitted]=useState(false)
   const { studentName, visitedStatus, intrestedStatus } = studentData;
 
   const [isVisitedSwitchOn, setIsVisitedSwitchOn] = useState(
@@ -26,10 +27,18 @@ const StudentFormScreen = ({ navigation }) => {
     setIsInterestSwitchOn((prevState) => !prevState);
   };
 
+  const onFormSubmitted = ()=>{
+    setIsFormSubmitted(true)
+  }
+
   return (
     <SafeAreaView>
       <AppBar
-        onPress={() => navigation.goBack()}
+        onPress={() => isFormSubmitted ? 
+          navigation.navigate('Home',{
+            submittedTimeStamp:new Date().getTime()
+          })
+      : navigation.goBack()}
         title={studentName ? studentName : "Add Details"}
       />
       <ScrollView>
@@ -50,6 +59,7 @@ const StudentFormScreen = ({ navigation }) => {
         <StudentForm
           isVisitedSwitchOn={isVisitedSwitchOn}
           isInterestSwitchOn={isInterestSwitchOn}
+          onFormSubmitted={onFormSubmitted}
         />
       </ScrollView>
     </SafeAreaView>

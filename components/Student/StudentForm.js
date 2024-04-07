@@ -101,7 +101,11 @@ function getInitialValue(list, value) {
   }
 }
 
-const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
+const StudentForm = ({
+  isVisitedSwitchOn,
+  isInterestSwitchOn,
+  onFormSubmitted,
+}) => {
   const navigation = useNavigation();
   const { params } = useRoute();
   const { isEditing } = params;
@@ -351,12 +355,15 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
       } else {
         formValues = { ...formValues, studentId: id + "" ? id + "" : "" };
       }
+
       dispatchFormState({
         type: "SUBMIT_LOADING",
       });
+      onFormSubmitted();
       const result = isEditing
         ? await axios.post(UPDATE_STUDENT_DETAILS, formValues)
         : await axios.post(ADD_STUDENT_DETAILS, formValues);
+
       if (
         result?.data?.returnCode === 1 &&
         result?.data?.returnMessage === "Success"
@@ -366,8 +373,15 @@ const StudentForm = ({ isVisitedSwitchOn, isInterestSwitchOn }) => {
           message: "Data Submitted Successfully",
         });
         onToggleSnackBar();
+
         if (isEditing) {
-          navigation.navigate("Checkout");
+          if (isInterestSwitchOn) {
+            navigation.navigate("Checkout");
+          } else {
+            navigation.navigate("Home", {
+              submittedTimeStamp: new Date().getTime(),
+            });
+          }
         } else {
           navigation.navigate("UploadPhoto", {
             studentId: result?.data?.studentId,
