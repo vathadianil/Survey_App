@@ -37,8 +37,8 @@ const data = [
 
 const ProfileScreen = ({ navigation }) => {
   const { loginData, logout } = useContext(AppContext);
-  const { agentId, firstName, lastName, userId } = loginData;
-  console.log({ loginData });
+  const { agentId, firstName, lastName, userId, collegeId, collegeName } =
+    loginData;
   return (
     <SafeAreaView>
       <ScrollView>
@@ -78,6 +78,7 @@ const ProfileScreen = ({ navigation }) => {
             </Text>
             <Text style={styles.loginText}>Login ID : {agentId}</Text>
             <Text style={styles.loginText}>User Name : {userId}</Text>
+            <Text style={styles.loginText}>College : {collegeId} - {collegeName}</Text>
           </View>
 
           <View style={styles.analyticsContainer}>
