@@ -1,48 +1,32 @@
-import {
-  Alert,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Alert, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../constants/styles";
-import LottieView from "lottie-react-native";
-import RegistrationDetailsRow from "../components/Student/RegistrationDetailsRow";
 import { useEffect, useState } from "react";
 import axios from "../util/axios";
 import CustomSnackBar from "../components/ui/paper/CustomSnackBar";
 import useSnackBar from "../util/hooks/useSnackBar";
 import { POST_SMS } from "../util/apiRequests";
-
-const convertDateToString = (date) => {
-  const day = date?.getDate();
-  const month = date?.getMonth() + 1;
-  const year = date?.getFullYear();
-  return `${day}/${month}/${year}`;
-};
+import StudentRegistrationDetails from "../components/Student/StudentRegistrationDetails";
+import useDate from "../util/hooks/useDate";
 
 const RegistrationDetailsScreen = ({ navigation, route }) => {
   const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
   const [message, setMessage] = useState();
+  const { convertDateToString } = useDate();
   const { registrationData } = route.params;
   const {
-    Payment_Order_Id,
-    Registration_Date,
-    Registration_Fee,
-    Student_Reg_No,
-    Registration_Fee_Receipt,
+    Payment_Order_Id: paymentOrderId,
+    Registration_Date: registrationDate,
+    Registration_Fee: registrationFee,
+    Student_Reg_No: studentRegistrationNo,
+    Registration_Fee_Receipt: registrationFeeReceipt,
   } = registrationData;
-  const orderId = `XXXXXX${Payment_Order_Id}`;
+  const orderId = paymentOrderId ? `XXXXXX${paymentOrderId}` : "";
 
   const sendSms = async () => {
     try {
-      const body = `Registration Successful! 🎉\nReg No: ${Student_Reg_No}\nReg Dt: ${convertDateToString(
-        new Date(Registration_Date)
-      )}\nOrder ID: ${orderId}\nReceipt: ${Registration_Fee_Receipt}\nFee: ${Registration_Fee}`;
+      const body = `Registration Successful! 🎉\nReg No: ${studentRegistrationNo}\nReg Dt: ${convertDateToString(
+        new Date(registrationDate)
+      )}\nOrder ID: ${orderId}\nReceipt: ${registrationFeeReceipt}\nFee: ${registrationFee}`;
       // const to = `+919985225558`;
       const to = `+918074747801`;
       const { data } = await axios.post(POST_SMS, { to, body });
@@ -95,69 +79,13 @@ const RegistrationDetailsScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.innerContainer}>
-            <View style={styles.imageContainer}>
-              <LottieView
-                style={styles.image}
-                source={require(`../assets/lottie-animations/payment-success.json`)}
-                autoPlay
-                loop={true}
-              />
-            </View>
-            <Text style={styles.infoText}>Registration Successful</Text>
-            {Student_Reg_No && (
-              <RegistrationDetailsRow
-                label={"Registration No"}
-                data={Student_Reg_No}
-              />
-            )}
-            {Registration_Date && (
-              <RegistrationDetailsRow
-                label={"Registration Date"}
-                data={convertDateToString(new Date(Registration_Date))}
-              />
-            )}
-
-            {Payment_Order_Id && (
-              <RegistrationDetailsRow label={"Order Id"} data={orderId} />
-            )}
-
-            {Registration_Fee_Receipt && (
-              <RegistrationDetailsRow
-                label={"Receipt No"}
-                data={Registration_Fee_Receipt}
-              />
-            )}
-
-            {Registration_Fee && (
-              <RegistrationDetailsRow
-                label={"Amount Paid"}
-                data={Registration_Fee}
-              />
-            )}
-
-            <View style={styles.btnContainer}>
-              <Pressable
-                android_ripple={{ color: Colors.shadowColor }}
-                style={({ pressed }) => pressed && styles.pressedBtn}
-                onPress={() => {
-                  navigation.navigate("Home", {
-                    submittedTimeStamp: new Date().getTime(),
-                  });
-                }}
-              >
-                <View style={styles.innerBtnContainer}>
-                  <Ionicons
-                    name="home-outline"
-                    size={17}
-                    color={Colors.white}
-                  />
-                </View>
-              </Pressable>
-            </View>
-          </View>
-        </View>
+        <StudentRegistrationDetails
+          orderId={orderId}
+          registrationDate={registrationData}
+          registrationFee={registrationFee}
+          registrationFeeReceipt={registrationFeeReceipt}
+          studentRegistrationNo={studentRegistrationNo}
+        />
         <CustomSnackBar
           onDismissSnackBar={onDismissSnackBar}
           visible={visible}
@@ -170,50 +98,4 @@ const RegistrationDetailsScreen = ({ navigation, route }) => {
 
 export default RegistrationDetailsScreen;
 
-const styles = StyleSheet.create({
-  container: {
-    marginVertical: 16,
-    marginHorizontal: 16,
-    paddingBottom: 16,
-    borderRadius: 8,
-    backgroundColor: Colors.white,
-  },
-
-  infoText: {
-    fontFamily: "semibold",
-    fontSize: 20,
-    textTransform: "capitalize",
-    marginBottom: 32,
-  },
-  innerContainer: { alignItems: "center" },
-  imageContainer: {
-    width: 200,
-    aspectRatio: 1,
-  },
-  image: {
-    flex: 1,
-  },
-
-  btnContainer: {
-    marginTop: 32,
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: Platform.select({ android: "hidden" }),
-  },
-  innerBtnContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: 60,
-    aspectRatio: 1,
-    borderRadius: 30,
-    backgroundColor: Colors.primary800,
-    elevation: 4,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.3,
-    shadowRadius: 20,
-  },
-  pressedBtn: {
-    opacity: 0.25,
-  },
-});
+const styles = StyleSheet.create({});

@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import StudentPersonalDetails from "../components/Student/StudentPersonalDetails";
 import Button from "../components/ui/Button";
 import { Colors } from "../constants/styles";
+import StudentEducationDetails from "../components/Student/StudentEducationDetails";
 
 const StudentDetailsScreen = ({ navigation }) => {
   return (
@@ -30,7 +31,10 @@ const StudentDetailsScreen = ({ navigation }) => {
         </View>
       </View>
       <ScrollView>
-        <StudentPersonalDetails />
+        <View style={styles.wrapper}>
+          <StudentPersonalDetails />
+          <StudentEducationDetails />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -45,6 +49,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 16,
     marginVertical: 12,
+  },
+  wrapper: {
+    marginBottom: 100,
   },
   pressedBtn: { opacity: 0.25 },
 });
