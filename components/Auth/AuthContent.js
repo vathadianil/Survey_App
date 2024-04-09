@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontFamily: "semibold",
-    marginBottom: 32,
+    marginVertical: 32,
   },
   flatBtnContainer: {
     marginTop: 24,

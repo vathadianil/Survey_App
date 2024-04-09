@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import { Colors } from "../constants/styles";
 import AuthContent from "../components/Auth/AuthContent";
@@ -28,15 +34,19 @@ const LoginScreen = () => {
     return <LoadingOverlay />;
   }
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      keyboardShouldPersistTaps="handled"
-    >
+    <View style={styles.container}>
       <View style={styles.innerContainer}>
         <Text style={styles.title}>WELCOME</Text>
       </View>
       <View style={[styles.innerContainer, styles.formContainer]}>
-        <AuthContent onAuthenticate={loginHndlr} isLogin={true} />
+        <KeyboardAvoidingView behavior="padding">
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{ flex: 1 }}
+          >
+            <AuthContent onAuthenticate={loginHndlr} isLogin={true} />
+          </ScrollView>
+        </KeyboardAvoidingView>
       </View>
       <CustomSnackBar
         style={styles.snackBarStyle}
@@ -46,7 +56,7 @@ const LoginScreen = () => {
           "Could not Log you in. Please check your Credentials and Try Again!"
         }
       />
-    </ScrollView>
+    </View>
   );
 };
 
