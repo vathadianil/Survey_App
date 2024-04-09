@@ -3,9 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-  KeyboardAvoidingView,
   useWindowDimensions,
-  Platform,
 } from "react-native";
 import React, { useContext, useReducer } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -142,9 +140,6 @@ const PaymentCompleteScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <AppBar onPress={() => navigation.goBack()} title={"Scan QR"} />
-      {/* <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      > */}
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <View style={styles.qrContainer}>
           <CustomImage
@@ -195,7 +190,6 @@ const PaymentCompleteScreen = ({ navigation }) => {
           />
         </View>
       </ScrollView>
-      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
 };
