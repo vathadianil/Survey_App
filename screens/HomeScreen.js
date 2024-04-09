@@ -51,6 +51,7 @@ const HomeScreen = ({ route }) => {
       studentDataChangeHandler(data?.data);
       setIsLoading(false);
     } catch (error) {
+      console.log(error);
       setError(true);
       onToggleSnackBar();
       setIsLoading(false);
@@ -183,7 +184,7 @@ const HomeScreen = ({ route }) => {
       )}
 
       <CustomSnackBar
-      style={styles.snackBarStyle}
+        style={styles.snackBarStyle}
         onDismissSnackBar={onDismissSnackBar}
         visible={visible}
         message={"Something went wrong. Please Try Again!"}

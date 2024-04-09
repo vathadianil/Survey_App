@@ -1,4 +1,4 @@
-export const GET_STUDENT_LIST = "/studentDetails?string=";
+export const GET_STUDENT_LIST = "/studentDetails?villege=";
 export const UPDATE_STUDENT_DETAILS = "/updateStudentDetails";
 export const ADD_STUDENT_DETAILS = "/addStudentDetails";
 export const GET_LOCATION_LIST = "/getVillegeList";
