@@ -6,8 +6,25 @@ import Button from "../components/ui/Button";
 import { Colors } from "../constants/styles";
 import StudentEducationDetails from "../components/Student/StudentEducationDetails";
 import StudentRegistrationDetails from "../components/Student/StudentRegistrationDetails";
+import { useContext } from "react";
+import { AppContext } from "../store/app-context";
+import useDate from "../util/hooks/useDate";
 
 const StudentDetailsScreen = ({ navigation }) => {
+  const { studentData } = useContext(AppContext);
+  const { convertDateToString } = useDate();
+  const {
+    paymentOrderId,
+    registrationFeeStatus,
+    registrationDate,
+    registrationFee,
+    registrationFeeReceipt,
+    studentRegNo,
+  } = studentData;
+  const orderId = paymentOrderId ? `XXXXXX${paymentOrderId}` : "";
+  const regDate = convertDateToString(new Date(registrationDate));
+  const regFee = `\u20B9 ${registrationFee}/-`;
+
   return (
     <SafeAreaView>
       <View style={styles.appBar}>
@@ -20,22 +37,33 @@ const StudentDetailsScreen = ({ navigation }) => {
         >
           <Ionicons name="chevron-back-circle" size={32} />
         </Pressable>
-        <View style={[styles.editBtnContainer]}>
-          <Button
-            onPress={() =>
-              navigation.navigate("StudentForm", { isEditing: true })
-            }
-            icon={"create-outline"}
-          >
-            Edit
-          </Button>
-        </View>
+
+        {registrationFeeStatus !== "Yes" && (
+          <View style={[styles.editBtnContainer]}>
+            <Button
+              onPress={() =>
+                navigation.navigate("StudentForm", { isEditing: true })
+              }
+              icon={"create-outline"}
+            >
+              Edit
+            </Button>
+          </View>
+        )}
       </View>
       <ScrollView>
         <View style={styles.wrapper}>
           <StudentPersonalDetails />
           <StudentEducationDetails />
-          <StudentRegistrationDetails />
+          {registrationFeeStatus === "Yes" && (
+            <StudentRegistrationDetails
+              orderId={orderId}
+              registrationDate={regDate}
+              registrationFee={regFee}
+              registrationFeeReceipt={registrationFeeReceipt}
+              studentRegistrationNo={studentRegNo}
+            />
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

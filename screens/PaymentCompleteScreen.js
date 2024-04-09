@@ -1,4 +1,5 @@
 import {
+  KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   Text,
@@ -140,56 +141,63 @@ const PaymentCompleteScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <AppBar onPress={() => navigation.goBack()} title={"Scan QR"} />
-      <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
-        <View style={styles.qrContainer}>
-          <CustomImage
-            hasError={qrImagePickerData.hasError}
-            pickedImage={qrImagePickerData.value}
-            errorValueHandler={qrImagePickerData.errorValueHandler}
-            source={require(`../assets/lottie-animations/Oops.json`)}
-            style={{
-              height: width - 100,
-            }}
-            loop={false}
-          />
-        </View>
-        <View style={styles.formContainer}>
-          <PaymentForm
-            paymentScreenshotImagePickerData={paymentScreenshotImagePickerData}
-            txnIdInputData={txnIdInputData}
-            registrationFeeInputData={registrationFeeInputData}
-            studentId={id}
-            agentId={agentId}
-          />
-          <Button
-            onPress={handleSubmit}
-            style={styles.btn}
-            disabled={!formIsValid || formState.loading}
-          >
-            <View
+      <KeyboardAvoidingView style={styles.safeAreaContainer}>
+        <ScrollView
+          style={styles.container}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.qrContainer}>
+            <CustomImage
+              hasError={qrImagePickerData.hasError}
+              pickedImage={qrImagePickerData.value}
+              errorValueHandler={qrImagePickerData.errorValueHandler}
+              source={require(`../assets/lottie-animations/Oops.json`)}
               style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
+                height: width - 100,
               }}
+              loop={false}
+            />
+          </View>
+          <View style={styles.formContainer}>
+            <PaymentForm
+              paymentScreenshotImagePickerData={
+                paymentScreenshotImagePickerData
+              }
+              txnIdInputData={txnIdInputData}
+              registrationFeeInputData={registrationFeeInputData}
+              studentId={id}
+              agentId={agentId}
+            />
+            <Button
+              onPress={handleSubmit}
+              style={styles.btn}
+              disabled={!formIsValid || formState.loading}
             >
-              {formState.submitted && formState.loading && (
-                <ActivityIndicator
-                  animating={true}
-                  color={Colors.black}
-                  style={{ marginRight: 10 }}
-                />
-              )}
-              <Text style={{ color: Colors.white }}>Submit</Text>
-            </View>
-          </Button>
-          <CustomSnackBar
-            onDismissSnackBar={onDismissSnackBar}
-            visible={visible}
-            message={formState.message}
-          />
-        </View>
-      </ScrollView>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {formState.submitted && formState.loading && (
+                  <ActivityIndicator
+                    animating={true}
+                    color={Colors.black}
+                    style={{ marginRight: 10 }}
+                  />
+                )}
+                <Text style={{ color: Colors.white }}>Submit</Text>
+              </View>
+            </Button>
+            <CustomSnackBar
+              onDismissSnackBar={onDismissSnackBar}
+              visible={visible}
+              message={formState.message}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
