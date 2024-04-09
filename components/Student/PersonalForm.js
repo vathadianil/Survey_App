@@ -343,6 +343,16 @@ const PersonalForm = ({
           onValueChange={alternateMobileNoChangeHandler}
           numberkeyBoard={true}
         />
+        <CustomInput
+          label={"Aadhar Number *"}
+          style={styles.inputContainer}
+          errorText={"Aadhar Number is Required"}
+          value={aadharNo}
+          onBlurHanlder={aadharNoBlurHandler}
+          onValueChange={aadharNoChangeHandler}
+          hasError={aadharNoHasError}
+          numberkeyBoard={true}
+        />
         <CustomDatePicker
           label={"Date Of Birth *"}
           style={styles.inputContainer}
@@ -353,16 +363,6 @@ const PersonalForm = ({
           hasError={dateOfBirthHasError}
           readOnly={true}
           showIcon={true}
-        />
-        <CustomInput
-          label={"Aadhar Number *"}
-          style={styles.inputContainer}
-          errorText={"Aadhar Number is Required"}
-          value={aadharNo}
-          onBlurHanlder={aadharNoBlurHandler}
-          onValueChange={aadharNoChangeHandler}
-          hasError={aadharNoHasError}
-          numberkeyBoard={true}
         />
 
         {isEditing && (
