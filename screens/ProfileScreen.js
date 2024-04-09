@@ -46,7 +46,8 @@ const ProfileScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
-  const { loginData, logout, location } = useContext(AppContext);
+  const { loginData, logout, location, formSubmittedTimeStamp } =
+    useContext(AppContext);
   const { agentId, firstName, lastName, userId, collegeId, collegeName } =
     loginData;
 
@@ -64,7 +65,7 @@ const ProfileScreen = ({ navigation }) => {
   };
   useEffect(() => {
     getAnalyticsData();
-  }, []);
+  }, [location, formSubmittedTimeStamp]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -88,7 +89,6 @@ const ProfileScreen = ({ navigation }) => {
           Log out
         </Button>
       </View>
-
       <View style={styles.detailsContainer}>
         <View style={styles.imageContainer}>
           <LottieView
@@ -107,7 +107,6 @@ const ProfileScreen = ({ navigation }) => {
           College : {collegeId} - {collegeName}
         </Text>
       </View>
-
       <View style={styles.analyticsContainer}>
         <View style={styles.analyticsHeaderContainer}>
           <Text style={styles.analyticsHeaderText}>Summary</Text>

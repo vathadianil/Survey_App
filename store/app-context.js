@@ -4,6 +4,7 @@ import { createContext, useState } from "react";
 export const AppContext = createContext({
   loginData: {},
   location: "",
+  formSubmittedTimeStamp: null,
   isAuthenticated: false,
   formList: {
     fatherOccupationList: [],
@@ -22,6 +23,7 @@ export const AppContext = createContext({
   addLocation: () => {},
   addStudentData: () => {},
   addFormList: () => {},
+  onFormSubmit: () => {},
 });
 
 function AppContextProvider({ children }) {
@@ -39,6 +41,7 @@ function AppContextProvider({ children }) {
     previousEducationList: [],
     admissionCategoryList: [],
   });
+  const [formSubmittedTimeStamp, setFormSubmittedTimeStamp] = useState(null);
 
   function authenticate(loginData) {
     setLoginData(loginData);
@@ -65,17 +68,23 @@ function AppContextProvider({ children }) {
     setFormList(formList);
   }
 
+  function onFormSubmit(timeStamp) {
+    setFormSubmittedTimeStamp(timeStamp);
+  }
+
   const value = {
     loginData: loginData,
     isAuthenticated: !!loginData.token,
     location: location,
     formList: formList,
     studentData: studentData,
+    formSubmittedTimeStamp: formSubmittedTimeStamp,
     authenticate: authenticate,
     logout: logout,
     addLocation: addLocation,
     addStudentData: addStudentData,
     addFormList: addFormList,
+    onFormSubmit: onFormSubmit,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

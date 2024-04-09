@@ -21,7 +21,6 @@ const StudentDetailsScreen = ({ navigation }) => {
     registrationFeeReceipt,
     studentRegNo,
   } = studentData;
-  console.log({ studentData });
   const orderId = paymentOrderId ? `XXXXXX${paymentOrderId}` : "";
   const regDate = convertDateToString(new Date(registrationDate));
   const regFee = `\u20B9 ${registrationFee}/-`;

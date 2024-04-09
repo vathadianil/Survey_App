@@ -16,30 +16,25 @@ const AgentAnalytics = ({
       <View style={styles.iconContainer}>
         <Ionicons name={iconName} size={24} />
       </View>
-
       <View style={styles.textWrapper}>
-        {completed && total && (
-          <Text style={styles.text1}>
-            {completed} of {total}
-          </Text>
-        )}
-        {/* {avg && <Text style={styles.text1}>{Math.round(avg * 100)}</Text>} */}
+        <Text style={styles.text1}>
+          {completed} of {total}
+        </Text>
         <Text style={styles.text2}>{sectionName}</Text>
       </View>
-      {progress && (
-        <View style={styles.progressIndicatorContainer}>
-          <View style={{ width: "100%" }}>
-            <ProgressBar
-              progress={progress / 100}
-              color={Colors.black}
-              style={{ borderRadius: 4 }}
-            />
-          </View>
-          <Text style={[styles.text2, { marginTop: 10 }]}>
-            {Math.round(progress)}%
-          </Text>
+
+      <View style={styles.progressIndicatorContainer}>
+        <View style={{ width: "100%" }}>
+          <ProgressBar
+            progress={progress / 100}
+            color={Colors.black}
+            style={{ borderRadius: 4 }}
+          />
         </View>
-      )}
+        <Text style={[styles.text2, { marginTop: 10 }]}>
+          {Math.round(progress)}%
+        </Text>
+      </View>
     </View>
   );
 };

@@ -14,7 +14,7 @@ import StudentForm from "../components/Student/StudentForm";
 import AppBar from "../components/ui/AppBar";
 
 const StudentFormScreen = ({ navigation }) => {
-  const { studentData } = useContext(AppContext);
+  const { studentData, onFormSubmit } = useContext(AppContext);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const { studentName, visitedStatus, intrestedStatus } = studentData;
 
@@ -35,6 +35,7 @@ const StudentFormScreen = ({ navigation }) => {
 
   const onFormSubmitted = () => {
     setIsFormSubmitted(true);
+    onFormSubmit(new Date().getTime());
   };
 
   return (
