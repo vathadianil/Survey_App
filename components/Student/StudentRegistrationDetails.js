@@ -16,6 +16,9 @@ const StudentRegistrationDetails = ({
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
+      {!isRegistrationPage && (
+        <Text style={styles.title}>Registration Details</Text>
+      )}
       <View style={styles.innerContainer}>
         {isRegistrationPage && (
           <View style={styles.imageContainer}>
@@ -122,6 +125,13 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
+  },
+  title: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    fontSize: 18,
+    fontFamily: "semibold",
+    color: Colors.gray,
   },
 
   btnContainer: {

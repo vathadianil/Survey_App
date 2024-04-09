@@ -5,6 +5,7 @@ import StudentPersonalDetails from "../components/Student/StudentPersonalDetails
 import Button from "../components/ui/Button";
 import { Colors } from "../constants/styles";
 import StudentEducationDetails from "../components/Student/StudentEducationDetails";
+import StudentRegistrationDetails from "../components/Student/StudentRegistrationDetails";
 
 const StudentDetailsScreen = ({ navigation }) => {
   return (
@@ -34,6 +35,7 @@ const StudentDetailsScreen = ({ navigation }) => {
         <View style={styles.wrapper}>
           <StudentPersonalDetails />
           <StudentEducationDetails />
+          <StudentRegistrationDetails />
         </View>
       </ScrollView>
     </SafeAreaView>
