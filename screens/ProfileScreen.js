@@ -9,6 +9,10 @@ import AgentAnalytics from "../components/Agent/AgentAnalytics";
 import { AppContext } from "../store/app-context";
 import { GET_ANALYTICS_DATA } from "../util/apiRequests";
 import axios from "../util/axios";
+import AnalyticsSkelton from "../components/ui/skelton/AnalyticsSkelton";
+import NoDataFound from "../components/ui/NoDataFound";
+import useSnackBar from "../util/hooks/useSnackBar";
+import CustomSnackBar from "../components/ui/paper/CustomSnackBar";
 
 const data = [
   {
@@ -38,9 +42,10 @@ const data = [
 ];
 
 const ProfileScreen = ({ navigation }) => {
-  const [analyticsData, setAnalyticsData] = useState();
+  const [analyticsData, setAnalyticsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setError] = useState(false);
+  const [error, setError] = useState(false);
+  const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
   const { loginData, logout, location } = useContext(AppContext);
   const { agentId, firstName, lastName, userId, collegeId, collegeName } =
     loginData;
@@ -62,60 +67,70 @@ const ProfileScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Pressable
-            android_ripple={{ color: Colors.shadowColor }}
-            style={({ pressed }) => pressed && styles.pressed}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <Ionicons name="chevron-back-circle" size={30} />
-          </Pressable>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Pressable
+          android_ripple={{ color: Colors.shadowColor }}
+          style={({ pressed }) => pressed && styles.pressed}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <Ionicons name="chevron-back-circle" size={30} />
+        </Pressable>
 
-          <Button
-            onPress={() => {
-              logout();
-            }}
-            style={styles.btn}
-          >
-            Log out
-          </Button>
+        <Button
+          onPress={() => {
+            logout();
+          }}
+          style={styles.btn}
+        >
+          Log out
+        </Button>
+      </View>
+
+      <View style={styles.detailsContainer}>
+        <View style={styles.imageContainer}>
+          <LottieView
+            style={styles.image}
+            source={require(`../assets/lottie-animations/male1.json`)}
+            autoPlay
+            loop={false}
+          />
         </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.detailsContainer}>
-            <View style={styles.imageContainer}>
-              <LottieView
-                style={styles.image}
-                source={require(`../assets/lottie-animations/male1.json`)}
-                autoPlay
-                loop={false}
-              />
-            </View>
-            <Text style={styles.nameText}>
-              {firstName} {lastName}
-            </Text>
-            <Text style={styles.loginText}>Login ID : {agentId}</Text>
-            <Text style={styles.loginText}>User Name : {userId}</Text>
-            <Text style={styles.loginText}>
-              College : {collegeId} - {collegeName}
-            </Text>
-          </View>
+        <Text style={styles.nameText}>
+          {firstName} {lastName}
+        </Text>
+        <Text style={styles.loginText}>Login ID : {agentId}</Text>
+        <Text style={styles.loginText}>User Name : {userId}</Text>
+        <Text style={styles.loginText}>
+          College : {collegeId} - {collegeName}
+        </Text>
+      </View>
 
-          <View style={styles.analyticsContainer}>
-            <View style={styles.analyticsHeaderContainer}>
-              <Text style={styles.analyticsHeaderText}>Summary</Text>
-              <Text style={styles.locationText}>{` (${location})`}</Text>
-            </View>
-
+      <View style={styles.analyticsContainer}>
+        <View style={styles.analyticsHeaderContainer}>
+          <Text style={styles.analyticsHeaderText}>Summary</Text>
+          <Text style={styles.locationText}>{` (${location})`}</Text>
+        </View>
+        {isLoading ? (
+          <AnalyticsSkelton />
+        ) : analyticsData.length > 0 && !error ? (
+          <ScrollView showsVerticalScrollIndicator={false}>
             {analyticsData?.map((item) => (
               <AgentAnalytics {...item} key={item.sectionName} />
             ))}
-          </View>
-        </ScrollView>
+          </ScrollView>
+        ) : (
+          <NoDataFound />
+        )}
       </View>
+      <CustomSnackBar
+        onDismissSnackBar={onDismissSnackBar}
+        visible={visible}
+        message={"Something went wrong. Please Try Again!"}
+        style={styles.snackBarStyle}
+      />
     </SafeAreaView>
   );
 };
@@ -124,6 +139,7 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     marginVertical: 16,
     marginHorizontal: 16,
   },
@@ -160,7 +176,7 @@ const styles = StyleSheet.create({
     color: Colors.gray,
   },
 
-  analyticsContainer: { marginTop: 16, marginBottom: 160 },
+  analyticsContainer: { flex: 1, marginTop: 16, marginBottom: 70 },
   analyticsHeaderContainer: { flexDirection: "row", alignItems: "center" },
   locationText: {
     fontFamily: "semibold",
@@ -175,5 +191,11 @@ const styles = StyleSheet.create({
 
   pressed: {
     opacity: 0.25,
+  },
+  snackBarStyle: {
+    position: "absolute",
+    bottom: 60,
+    left: 0,
+    right: 0,
   },
 });
