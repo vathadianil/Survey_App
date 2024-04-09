@@ -1,4 +1,10 @@
-import { Platform, ScrollView, StyleSheet, View } from "react-native";
+import {
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+  KeyboardAvoidingView,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/styles";
 import { useContext, useState } from "react";
@@ -32,26 +38,30 @@ const StudentFormScreen = ({ navigation }) => {
         onPress={() => navigation.goBack()}
         title={studentName ? studentName : "Add Details"}
       />
-      <ScrollView>
-        <View style={styles.container}>
-          <CustomSwitch
-            label={"Visited Status"}
-            isSwitchOn={isVisitedSwitchOn}
-            onValueChange={onToggleVisitedSwitch}
-          />
-          {isVisitedSwitchOn && (
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView keyboardShouldPersistTaps="handled">
+          <View style={styles.container}>
             <CustomSwitch
-              label={"Interested To Join"}
-              isSwitchOn={isInterestSwitchOn}
-              onValueChange={onToggleInterestSwitch}
+              label={"Visited Status"}
+              isSwitchOn={isVisitedSwitchOn}
+              onValueChange={onToggleVisitedSwitch}
             />
-          )}
-        </View>
-        <StudentForm
-          isVisitedSwitchOn={isVisitedSwitchOn}
-          isInterestSwitchOn={isInterestSwitchOn}
-        />
-      </ScrollView>
+            {isVisitedSwitchOn && (
+              <CustomSwitch
+                label={"Interested To Join"}
+                isSwitchOn={isInterestSwitchOn}
+                onValueChange={onToggleInterestSwitch}
+              />
+            )}
+          </View>
+          <StudentForm
+            isVisitedSwitchOn={isVisitedSwitchOn}
+            isInterestSwitchOn={isInterestSwitchOn}
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

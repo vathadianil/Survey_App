@@ -4,6 +4,7 @@ import {
   Text,
   View,
   ScrollView,
+  Platform,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { Colors } from "../constants/styles";
@@ -34,7 +35,13 @@ const LoginScreen = () => {
     return <LoadingOverlay />;
   }
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    // <KeyboardAvoidingView
+    //   behavior={Platform.OS === "ios" ? "padding" : "height"}
+    // >
+    <ScrollView
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="handled"
+    >
       <View style={styles.innerContainer}>
         <Text style={styles.title}>WELCOME</Text>
       </View>
@@ -49,6 +56,7 @@ const LoginScreen = () => {
         />
       </View>
     </ScrollView>
+    // </KeyboardAvoidingView>
   );
 };
 
