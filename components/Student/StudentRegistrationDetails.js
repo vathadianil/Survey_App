@@ -1,10 +1,9 @@
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../constants/styles";
-import RegistrationDetailsRow from "./RegistrationDetailsRow";
 import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
-import useDate from "../../util/hooks/useDate";
 import { useNavigation } from "@react-navigation/native";
+import StudentRow from "./StudentRow";
 
 const StudentRegistrationDetails = ({
   orderId,
@@ -12,67 +11,88 @@ const StudentRegistrationDetails = ({
   registrationFee,
   studentRegistrationNo,
   registrationFeeReceipt,
+  isRegistrationPage = false,
 }) => {
   const navigation = useNavigation();
-  const { convertDateToString } = useDate();
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <View style={styles.imageContainer}>
-          <LottieView
-            style={styles.image}
-            source={require(`../../assets/lottie-animations/payment-success.json`)}
-            autoPlay
-            loop={true}
-          />
-        </View>
-        <Text style={styles.infoText}>Registration Successful</Text>
+        {isRegistrationPage && (
+          <View style={styles.imageContainer}>
+            <LottieView
+              style={styles.image}
+              source={require(`../../assets/lottie-animations/payment-success.json`)}
+              autoPlay
+              loop={true}
+            />
+          </View>
+        )}
+        {isRegistrationPage && (
+          <Text style={styles.infoText}>Registration Successful</Text>
+        )}
+
         {studentRegistrationNo && (
-          <RegistrationDetailsRow
+          <StudentRow
             label={"Registration No"}
             data={studentRegistrationNo}
+            icon={"ticket-outline"}
+            type={"ionicons"}
           />
         )}
+
         {registrationDate && (
-          <RegistrationDetailsRow
+          <StudentRow
             label={"Registration Date"}
-            data={convertDateToString(new Date(registrationDate))}
+            data={registrationDate}
+            icon={"calendar-number-outline"}
+            type={"ionicons"}
           />
         )}
 
         {orderId && (
-          <RegistrationDetailsRow label={"Order Id"} data={orderId} />
+          <StudentRow
+            label={"Order Id"}
+            data={orderId}
+            icon={"bag-check-outline"}
+            type={"ionicons"}
+          />
         )}
 
         {registrationFeeReceipt && (
-          <RegistrationDetailsRow
+          <StudentRow
             label={"Receipt No"}
             data={registrationFeeReceipt}
+            icon={"receipt-outline"}
+            type={"ionicons"}
           />
         )}
 
         {registrationFee && (
-          <RegistrationDetailsRow
+          <StudentRow
             label={"Amount Paid"}
             data={registrationFee}
+            icon={"cash-outline"}
+            type={"ionicons"}
           />
         )}
 
-        <View style={styles.btnContainer}>
-          <Pressable
-            android_ripple={{ color: Colors.shadowColor }}
-            style={({ pressed }) => pressed && styles.pressedBtn}
-            onPress={() => {
-              navigation.navigate("Home", {
-                submittedTimeStamp: new Date().getTime(),
-              });
-            }}
-          >
-            <View style={styles.innerBtnContainer}>
-              <Ionicons name="home-outline" size={17} color={Colors.white} />
-            </View>
-          </Pressable>
-        </View>
+        {isRegistrationPage && (
+          <View style={styles.btnContainer}>
+            <Pressable
+              android_ripple={{ color: Colors.shadowColor }}
+              style={({ pressed }) => pressed && styles.pressedBtn}
+              onPress={() => {
+                navigation.navigate("Home", {
+                  submittedTimeStamp: new Date().getTime(),
+                });
+              }}
+            >
+              <View style={styles.innerBtnContainer}>
+                <Ionicons name="home-outline" size={17} color={Colors.white} />
+              </View>
+            </Pressable>
+          </View>
+        )}
       </View>
     </View>
   );

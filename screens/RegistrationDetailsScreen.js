@@ -21,12 +21,12 @@ const RegistrationDetailsScreen = ({ navigation, route }) => {
     Registration_Fee_Receipt: registrationFeeReceipt,
   } = registrationData;
   const orderId = paymentOrderId ? `XXXXXX${paymentOrderId}` : "";
+  const regDate = convertDateToString(new Date(registrationDate));
+  const regFee = `\u20B9 ${registrationFee}/-`;
 
   const sendSms = async () => {
     try {
-      const body = `Registration Successful! 🎉\nReg No: ${studentRegistrationNo}\nReg Dt: ${convertDateToString(
-        new Date(registrationDate)
-      )}\nOrder ID: ${orderId}\nReceipt: ${registrationFeeReceipt}\nFee: ${registrationFee}`;
+      const body = `Registration Successful! 🎉\nReg No: ${studentRegistrationNo}\nReg Dt: ${regDate}\nOrder ID: ${orderId}\nReceipt: ${registrationFeeReceipt}\nFee: ${registrationFee}`;
       // const to = `+919985225558`;
       const to = `+918074747801`;
       const { data } = await axios.post(POST_SMS, { to, body });
@@ -81,10 +81,11 @@ const RegistrationDetailsScreen = ({ navigation, route }) => {
       <ScrollView>
         <StudentRegistrationDetails
           orderId={orderId}
-          registrationDate={registrationData}
-          registrationFee={registrationFee}
+          registrationDate={regDate}
+          registrationFee={regFee}
           registrationFeeReceipt={registrationFeeReceipt}
           studentRegistrationNo={studentRegistrationNo}
+          isRegistrationPage={true}
         />
         <CustomSnackBar
           onDismissSnackBar={onDismissSnackBar}
