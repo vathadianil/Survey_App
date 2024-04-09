@@ -1,11 +1,4 @@
-import {
-  KeyboardAvoidingView,
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Platform,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import React, { useContext, useState } from "react";
 import { Colors } from "../constants/styles";
 import AuthContent from "../components/Auth/AuthContent";
@@ -35,9 +28,6 @@ const LoginScreen = () => {
     return <LoadingOverlay />;
   }
   return (
-    // <KeyboardAvoidingView
-    //   behavior={Platform.OS === "ios" ? "padding" : "height"}
-    // >
     <ScrollView
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
@@ -57,7 +47,6 @@ const LoginScreen = () => {
         }
       />
     </ScrollView>
-    // </KeyboardAvoidingView>
   );
 };
 
