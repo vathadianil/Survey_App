@@ -23,7 +23,7 @@ const AgentAnalytics = ({
             {completed} of {total}
           </Text>
         )}
-        {avg && <Text style={styles.text1}>{avg}</Text>}
+        {/* {avg && <Text style={styles.text1}>{Math.round(avg * 100)}</Text>} */}
         <Text style={styles.text2}>{sectionName}</Text>
       </View>
       {progress && (
@@ -35,7 +35,9 @@ const AgentAnalytics = ({
               style={{ borderRadius: 4 }}
             />
           </View>
-          <Text style={[styles.text2, { marginTop: 10 }]}>{progress}%</Text>
+          <Text style={[styles.text2, { marginTop: 10 }]}>
+            {Math.round(progress)}%
+          </Text>
         </View>
       )}
     </View>

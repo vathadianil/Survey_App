@@ -1,5 +1,5 @@
 import { StyleSheet, View, Pressable, Text, ScrollView } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
 import Button from "../components/ui/Button";
@@ -7,6 +7,8 @@ import { Colors } from "../constants/styles";
 import { Ionicons } from "@expo/vector-icons";
 import AgentAnalytics from "../components/Agent/AgentAnalytics";
 import { AppContext } from "../store/app-context";
+import { GET_ANALYTICS_DATA } from "../util/apiRequests";
+import axios from "../util/axios";
 
 const data = [
   {
@@ -36,34 +38,53 @@ const data = [
 ];
 
 const ProfileScreen = ({ navigation }) => {
-  const { loginData, logout } = useContext(AppContext);
+  const [analyticsData, setAnalyticsData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setError] = useState(false);
+  const { loginData, logout, location } = useContext(AppContext);
   const { agentId, firstName, lastName, userId, collegeId, collegeName } =
     loginData;
+
+  const getAnalyticsData = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get(`${GET_ANALYTICS_DATA}${location}`);
+      setAnalyticsData(data);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      onToggleSnackBar();
+      setError(true);
+    }
+  };
+  useEffect(() => {
+    getAnalyticsData();
+  }, []);
+
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <Pressable
-              android_ripple={{ color: Colors.shadowColor }}
-              style={({ pressed }) => pressed && styles.pressed}
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <Ionicons name="chevron-back-circle" size={30} />
-            </Pressable>
+      <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <Pressable
+            android_ripple={{ color: Colors.shadowColor }}
+            style={({ pressed }) => pressed && styles.pressed}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Ionicons name="chevron-back-circle" size={30} />
+          </Pressable>
 
-            <Button
-              onPress={() => {
-                logout();
-              }}
-              style={styles.btn}
-            >
-              Log out
-            </Button>
-          </View>
-
+          <Button
+            onPress={() => {
+              logout();
+            }}
+            style={styles.btn}
+          >
+            Log out
+          </Button>
+        </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.detailsContainer}>
             <View style={styles.imageContainer}>
               <LottieView
@@ -84,14 +105,17 @@ const ProfileScreen = ({ navigation }) => {
           </View>
 
           <View style={styles.analyticsContainer}>
-            <Text style={styles.analyticsHeaderText}>Summary{`()`}</Text>
+            <View style={styles.analyticsHeaderContainer}>
+              <Text style={styles.analyticsHeaderText}>Summary</Text>
+              <Text style={styles.locationText}>{` (${location})`}</Text>
+            </View>
 
-            {data.map((item) => (
+            {analyticsData?.map((item) => (
               <AgentAnalytics {...item} key={item.sectionName} />
             ))}
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -136,10 +160,17 @@ const styles = StyleSheet.create({
     color: Colors.gray,
   },
 
-  analyticsContainer: { marginTop: 16 },
+  analyticsContainer: { marginTop: 16, marginBottom: 160 },
+  analyticsHeaderContainer: { flexDirection: "row", alignItems: "center" },
+  locationText: {
+    fontFamily: "semibold",
+    textTransform: "capitalize",
+    color: Colors.gray,
+  },
   analyticsHeaderText: {
     fontFamily: "medium",
     fontSize: 20,
+    textTransform: "capitalize",
   },
 
   pressed: {
