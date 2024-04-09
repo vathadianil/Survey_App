@@ -21,6 +21,7 @@ const StudentDetailsScreen = ({ navigation }) => {
     registrationFeeReceipt,
     studentRegNo,
   } = studentData;
+  console.log({ studentData });
   const orderId = paymentOrderId ? `XXXXXX${paymentOrderId}` : "";
   const regDate = convertDateToString(new Date(registrationDate));
   const regFee = `\u20B9 ${registrationFee}/-`;
@@ -38,24 +39,24 @@ const StudentDetailsScreen = ({ navigation }) => {
           <Ionicons name="chevron-back-circle" size={32} />
         </Pressable>
 
-        {registrationFeeStatus !== "Yes" && (
-          <View style={[styles.editBtnContainer]}>
-            <Button
-              onPress={() =>
-                navigation.navigate("StudentForm", { isEditing: true })
-              }
-              icon={"create-outline"}
-            >
-              Edit
-            </Button>
-          </View>
-        )}
+        {/* {registrationFeeStatus?.toLowerCase() !== "yes" && ( */}
+        <View style={[styles.editBtnContainer]}>
+          <Button
+            onPress={() =>
+              navigation.navigate("StudentForm", { isEditing: true })
+            }
+            icon={"create-outline"}
+          >
+            Edit
+          </Button>
+        </View>
+        {/* )} */}
       </View>
       <ScrollView>
         <View style={styles.wrapper}>
           <StudentPersonalDetails />
           <StudentEducationDetails />
-          {registrationFeeStatus === "Yes" && (
+          {registrationFeeStatus.toLowerCase() === "yes" && (
             <StudentRegistrationDetails
               orderId={orderId}
               registrationDate={regDate}

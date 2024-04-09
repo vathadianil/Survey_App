@@ -192,7 +192,7 @@ const StudentPersonalDetails = () => {
         <StudentRow
           label={"Religion"}
           data={religion}
-          icon={"book-outline"}
+          icon={"bookmarks-outline"}
           type={"ionicons"}
         />
       )}

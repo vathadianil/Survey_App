@@ -17,6 +17,7 @@ const EducationForm = ({
   admissionCategoryDropDownData,
   courseOrGroupDropDownData,
   mediumDropDownData,
+  passedOutYearInputData,
   formList,
 }) => {
   const {
@@ -32,6 +33,13 @@ const EducationForm = ({
     valueChangeHandler: hallTicketChangeHandler,
     inputBlurHandler: hallTicketBlurHandler,
   } = hallTicketInputData;
+
+  const {
+    value: passedOutYear,
+    hasError: passedOutYearHasError,
+    valueChangeHandler: passedOutYearChangeHandler,
+    inputBlurHandler: passedOutYearBlurHandler,
+  } = passedOutYearInputData;
 
   const {
     value: schoolOrCollegeName,
@@ -71,7 +79,7 @@ const EducationForm = ({
         left={(props) => <Ionicons {...props} name="book-outline" size={20} />}
       >
         <CustomDropdown
-          label={"Previous Education"}
+          label={"Previous Education*"}
           style={styles.inputContainer}
           errorText={"Previous Education selection is required"}
           data={formList?.previousEducationList}
@@ -80,8 +88,19 @@ const EducationForm = ({
           onValueChange={previousEducationChangeHandler}
           hasError={previousEducationHasError}
         />
+
         <CustomInput
-          label={"Hall Ticket Number"}
+          label={"Last Studied School/College*"}
+          style={styles.inputContainer}
+          errorText={"Last Studied School/College Name is Required"}
+          value={schoolOrCollegeName}
+          onBlurHanlder={schoolOrCollegeNameBlurHandler}
+          onValueChange={schoolOrCollegeNameChangeHandler}
+          hasError={schoolOrCollegeNameHasError}
+        />
+
+        <CustomInput
+          label={"Hall Ticket Number*"}
           style={styles.inputContainer}
           errorText={"Hall Ticket Number is Required"}
           value={hallTicket}
@@ -91,17 +110,18 @@ const EducationForm = ({
         />
 
         <CustomInput
-          label={"Last Studied School/College"}
+          label={"Passed Out Year*"}
           style={styles.inputContainer}
-          errorText={"Last Studied School/College Name is Required"}
-          value={schoolOrCollegeName}
-          onBlurHanlder={schoolOrCollegeNameBlurHandler}
-          onValueChange={schoolOrCollegeNameChangeHandler}
-          hasError={schoolOrCollegeNameHasError}
+          numberkeyBoard={true}
+          errorText={"Passed Out Year Number is Required"}
+          value={passedOutYear}
+          onBlurHanlder={passedOutYearBlurHandler}
+          onValueChange={passedOutYearChangeHandler}
+          hasError={passedOutYearHasError}
         />
 
         <CustomDropdown
-          label={"Admission Category"}
+          label={"Admission Category*"}
           style={styles.inputContainer}
           errorText={"Admission category selection is required"}
           data={formList?.admissionCategoryList}
@@ -112,7 +132,7 @@ const EducationForm = ({
         />
 
         <CustomDropdown
-          label={"Course/Group"}
+          label={"Course/Group*"}
           style={styles.inputContainer}
           errorText={"Course/Group selection is required"}
           data={courseOrGroupList}
@@ -123,7 +143,7 @@ const EducationForm = ({
         />
 
         <CustomDropdown
-          label={"Medium"}
+          label={"Medium*"}
           style={styles.inputContainer}
           errorText={"Medium selection is required"}
           data={formList?.mediumList}

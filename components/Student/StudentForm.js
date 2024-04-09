@@ -135,6 +135,7 @@ const StudentForm = ({
     aadharNo,
     previousEducation,
     hallTicketNo,
+    passedOutYear,
     lastStudiedAt,
     admissionCategory,
     courseGroup,
@@ -231,6 +232,12 @@ const StudentForm = ({
     hallTicketNo ? hallTicketNo : "",
     validateText
   );
+
+  const passedOutYearInputData = useInput(
+    passedOutYear ? passedOutYear : "",
+    validateText
+  );
+
   const schoolOrCollegeNameInputData = useInput(
     lastStudiedAt ? lastStudiedAt : "",
     validateText
@@ -269,6 +276,7 @@ const StudentForm = ({
     (!isEditing || !signImagePickerData.uploadedImageHasError) &&
     previousEducationDropdownData.isValid &&
     hallTicketInputData.isValid &&
+    passedOutYearInputData.isValid &&
     schoolOrCollegeNameInputData.isValid &&
     admissionCategoryDropDownData.isValid &&
     courseOrGroupDropDownData.isValid &&
@@ -329,13 +337,13 @@ const StudentForm = ({
         aadharNo: aadharNoInputData.value,
         previousEducation: previousEducationDropdownData.value,
         hallTicketNo: hallTicketInputData.value,
+        passedOutYear: passedOutYearInputData.value,
         lastStudiedAt: schoolOrCollegeNameInputData.value,
         admissionCategory: admissionCategoryDropDownData.value,
         courseGroup: courseOrGroupDropDownData.value,
         medium: mediumDropDownData.value,
         visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
         intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
-        passedOutYear: "",
         district: districtInputData.value,
         mandal: mandalInputData.value,
         villege: vallageInputData.value,
@@ -355,7 +363,6 @@ const StudentForm = ({
       } else {
         formValues = { ...formValues, studentId: id + "" ? id + "" : "" };
       }
-
       dispatchFormState({
         type: "SUBMIT_LOADING",
       });
@@ -454,6 +461,7 @@ const StudentForm = ({
             admissionCategoryDropDownData={admissionCategoryDropDownData}
             courseOrGroupDropDownData={courseOrGroupDropDownData}
             mediumDropDownData={mediumDropDownData}
+            passedOutYearInputData={passedOutYearInputData}
             formList={formList}
           />
         </List.AccordionGroup>
@@ -493,7 +501,7 @@ export default StudentForm;
 const styles = StyleSheet.create({
   btnContainer: {
     alignItems: "center",
-    marginBottom: 70,
+    marginBottom: 100,
   },
   btn: {
     width: "30%",

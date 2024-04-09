@@ -6,10 +6,26 @@ import { Colors } from "../../constants/styles";
 
 const StudentEducationDetails = () => {
   const { studentData } = useContext(AppContext);
-  const { lastStudiedAt, passedOutYear, medium } = studentData;
+  const {
+    previousEducation,
+    lastStudiedAt,
+    hallTicketNo,
+    passedOutYear,
+    admissionCategory,
+    courseGroup,
+    medium,
+  } = studentData;
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Education Details</Text>
+      {previousEducation && (
+        <StudentRow
+          label={"Previous Education"}
+          data={previousEducation}
+          icon={"book-outline"}
+          type={"ionicons"}
+        />
+      )}
       {lastStudiedAt && (
         <StudentRow
           label={"School"}
@@ -18,11 +34,35 @@ const StudentEducationDetails = () => {
           type={"ionicons"}
         />
       )}
+      {hallTicketNo && (
+        <StudentRow
+          label={"Hall Ticket No"}
+          data={hallTicketNo}
+          icon={"pencil-outline"}
+          type={"ionicons"}
+        />
+      )}
       {passedOutYear && (
         <StudentRow
           label={"Passed Out Year"}
           data={passedOutYear}
           icon={"calendar-number-outline"}
+          type={"ionicons"}
+        />
+      )}
+      {admissionCategory && (
+        <StudentRow
+          label={"Admission Category"}
+          data={admissionCategory}
+          icon={"bulb-outline"}
+          type={"ionicons"}
+        />
+      )}
+      {courseGroup && (
+        <StudentRow
+          label={"Course/Group"}
+          data={courseGroup}
+          icon={"save-outline"}
           type={"ionicons"}
         />
       )}
