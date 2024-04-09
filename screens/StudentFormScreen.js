@@ -49,10 +49,8 @@ const StudentFormScreen = ({ navigation }) => {
         }
         title={studentName ? studentName : "Add Details"}
       />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <ScrollView keyboardShouldPersistTaps="handled">
+      <KeyboardAvoidingView behavior={"padding"}>
+        <ScrollView keyboardShouldPersistTaps="always">
           <View style={styles.container}>
             <CustomSwitch
               label={"Visited Status"}

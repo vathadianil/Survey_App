@@ -43,8 +43,8 @@ const RegistrationDetailsScreen = ({ navigation, route }) => {
       const body = `Registration Successful! 🎉\nReg No: ${Student_Reg_No}\nReg Dt: ${convertDateToString(
         new Date(Registration_Date)
       )}\nOrder ID: ${orderId}\nReceipt: ${Registration_Fee_Receipt}\nFee: ${Registration_Fee}`;
-      const to = `+919985225558`;
-      // const to = `+918074747801`;
+      // const to = `+919985225558`;
+      const to = `+918074747801`;
       const { data } = await axios.post(POST_SMS, { to, body });
       if (data?.sid) {
         setMessage(data?.message);

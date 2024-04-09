@@ -78,11 +78,13 @@ const ProfileScreen = ({ navigation }) => {
             </Text>
             <Text style={styles.loginText}>Login ID : {agentId}</Text>
             <Text style={styles.loginText}>User Name : {userId}</Text>
-            <Text style={styles.loginText}>College : {collegeId} - {collegeName}</Text>
+            <Text style={styles.loginText}>
+              College : {collegeId} - {collegeName}
+            </Text>
           </View>
 
           <View style={styles.analyticsContainer}>
-            <Text style={styles.analyticsHeaderText}>Analytics</Text>
+            <Text style={styles.analyticsHeaderText}>Summary{`()`}</Text>
 
             {data.map((item) => (
               <AgentAnalytics {...item} key={item.sectionName} />
