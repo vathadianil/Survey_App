@@ -15,6 +15,7 @@ import AppBar from "../components/ui/AppBar";
 
 const StudentFormScreen = ({ navigation }) => {
   const { studentData } = useContext(AppContext);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const { studentName, visitedStatus, intrestedStatus } = studentData;
 
   const [isVisitedSwitchOn, setIsVisitedSwitchOn] = useState(
@@ -32,36 +33,42 @@ const StudentFormScreen = ({ navigation }) => {
     setIsInterestSwitchOn((prevState) => !prevState);
   };
 
+  const onFormSubmitted = () => {
+    setIsFormSubmitted(true);
+  };
+
   return (
     <SafeAreaView>
       <AppBar
-        onPress={() => navigation.goBack()}
+        onPress={() =>
+          isFormSubmitted
+            ? navigation.navigate("Home", {
+                submittedTimeStamp: new Date().getTime(),
+              })
+            : navigation.goBack()
+        }
         title={studentName ? studentName : "Add Details"}
       />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <ScrollView keyboardShouldPersistTaps="handled">
-          <View style={styles.container}>
-            <CustomSwitch
-              label={"Visited Status"}
-              isSwitchOn={isVisitedSwitchOn}
-              onValueChange={onToggleVisitedSwitch}
-            />
-            {isVisitedSwitchOn && (
-              <CustomSwitch
-                label={"Interested To Join"}
-                isSwitchOn={isInterestSwitchOn}
-                onValueChange={onToggleInterestSwitch}
-              />
-            )}
-          </View>
-          <StudentForm
-            isVisitedSwitchOn={isVisitedSwitchOn}
-            isInterestSwitchOn={isInterestSwitchOn}
+      <ScrollView>
+        <View style={styles.container}>
+          <CustomSwitch
+            label={"Visited Status"}
+            isSwitchOn={isVisitedSwitchOn}
+            onValueChange={onToggleVisitedSwitch}
           />
-        </ScrollView>
-      </KeyboardAvoidingView>
+          {isVisitedSwitchOn && (
+            <CustomSwitch
+              label={"Interested To Join"}
+              isSwitchOn={isInterestSwitchOn}
+              onValueChange={onToggleInterestSwitch}
+            />
+          )}
+        </View>
+        <StudentForm
+          isVisitedSwitchOn={isVisitedSwitchOn}
+          isInterestSwitchOn={isInterestSwitchOn}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };

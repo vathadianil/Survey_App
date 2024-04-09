@@ -89,6 +89,7 @@ const AuthContent = ({ isLogin, onAuthenticate }) => {
       <CustomSnackBar
         onDismissSnackBar={onDismissSnackBar}
         visible={visible}
+        style={styles.snackBarStyle}
         message={" Please check your entered credentials."}
       />
     </View>
@@ -122,5 +123,11 @@ const styles = StyleSheet.create({
   },
   normalText: {
     fontFamily: "regular",
+  },
+  snackBarStyle: {
+    position: "absolute",
+    bottom: -10,
+    left: 0,
+    right: 0,
   },
 });
