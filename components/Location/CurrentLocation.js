@@ -11,7 +11,7 @@ const CurrentLocation = ({ location }) => {
 
   return (
     <View style={styles.appBar}>
-      <Text style={styles.location}>{location && location?.split(" ")[0]}</Text>
+      <Text style={styles.location}>{location}</Text>
       <View style={styles.btnContainer}>
         <Pressable
           android_ripple={{ color: Colors.shadowColor }}
