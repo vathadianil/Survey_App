@@ -5,6 +5,8 @@ import HomeScreen from "../screens/HomeScreen";
 import { Colors } from "../constants/styles";
 import LocationSearchScreen from "../screens/LocationSearchScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import { DISTRICT } from "../constants/location-names";
+import DistrictLocationSearchScreen from "../screens/LocationSearch/DistrictLocationSearchScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -73,8 +75,9 @@ const AuthenticatedTabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="LocationSearch"
-        component={LocationSearchScreen}
+        name="DistrictLocationSearch"
+        initialParams={{ locationKey: DISTRICT }}
+        component={DistrictLocationSearchScreen}
         options={{
           tabBarIcon: () => (
             <Ionicons
@@ -86,6 +89,7 @@ const AuthenticatedTabNavigation = () => {
           tabBarButton: (props) => <CustomTabBarButton {...props} />,
         }}
       />
+
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}

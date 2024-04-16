@@ -3,11 +3,12 @@ import LottieView from "lottie-react-native";
 import Button from "../ui/Button";
 import { useNavigation } from "@react-navigation/native";
 import { Colors } from "../../constants/styles";
+import { DISTRICT } from "../../constants/location-names";
 
 const NoLocation = () => {
   const navigation = useNavigation();
   const addLocationHndlr = () => {
-    navigation.navigate("LocationSearch");
+    navigation.navigate("DistrictLocationSearch", { locationKey: DISTRICT });
   };
   return (
     <View style={styles.container}>

@@ -1,7 +1,9 @@
 export const GET_STUDENT_LIST = "/studentDetails?villege=";
 export const UPDATE_STUDENT_DETAILS = "/updateStudentDetails";
 export const ADD_STUDENT_DETAILS = "/addStudentDetails";
-export const GET_LOCATION_LIST = "/getVillegeList";
+export const GET_DISTRICT_LIST = "/getDistrictList";
+export const GET_MANDAL_LIST = "/getMandalList";
+export const GET_VILLAGE_LIST = "/getVillegeList";
 export const GET_FATHER_OCCUPATION_LIST = "/getFatherOccupationList";
 export const GET_MOTHER_OCCUPATION_LIST = "/getMotherOccupationList";
 export const GET_CASTE_LIST = "/getCasteList";

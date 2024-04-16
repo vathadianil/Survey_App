@@ -1,24 +1,17 @@
 import { StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import SearchInput from "../../components/SearchInput";
+import LocationSearchSkelton from "../../components/ui/skelton/LocationSearchSkelton";
+import LocationList from "../../components/Location/LocationList";
+import NoDataFound from "../../components/ui/NoDataFound";
+import CustomSnackBar from "../../components/ui/paper/CustomSnackBar";
+import { GET_VILLAGE_LIST } from "../../util/apiRequests";
+import useSnackBar from "../../util/hooks/useSnackBar";
+import axios from "../../util/axios";
 
-import LocationList from "../components/Location/LocationList";
-import axios from "../util/axios";
-import LocationSearchSkelton from "../components/ui/skelton/LocationSearchSkelton";
-import NoDataFound from "../components/ui/NoDataFound";
-import SearchInput from "../components/SearchInput";
-import {
-  GET_DISTRICT_LIST,
-  GET_LOCATION_LIST,
-  GET_MANDAL_LIST,
-} from "../util/apiRequests";
-import useSnackBar from "../util/hooks/useSnackBar";
-import CustomSnackBar from "../components/ui/paper/CustomSnackBar";
-import { DISTRICT, MANDAL, VILLAGE } from "../constants/location-names";
-
-const LocationSearchScreen = ({ route }) => {
-  const { locationKey, location } = route?.params;
-  console.log(locationKey);
+const VilllageLocationSearchScreen = ({ route }) => {
+  const { locationKey, district, mandal } = route?.params;
   const [enteredInput, setEnteredInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [locationList, setLocationList] = useState([]);
@@ -39,39 +32,24 @@ const LocationSearchScreen = ({ route }) => {
     setFilteredLocationList(filteredData);
   }
 
-  const getDistrictList = async () => {
+  const getVillageList = async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get(GET_DISTRICT_LIST);
+      const { data } = await axios.get(
+        `${GET_VILLAGE_LIST}/${district}/${mandal}`
+      );
       setLocationList(data?.data);
       setFilteredLocationList(data?.data);
       setIsLoading(false);
     } catch (error) {
-      setIsLoading(false);
-      onToggleSnackBar();
-      setError(true);
-    }
-  };
-
-  const getMandalList = async () => {
-    try {
-      setIsLoading(true);
-      const { data } = await axios.get(`${GET_MANDAL_LIST}/${location}`);
-      setLocationList(data?.data);
-      setFilteredLocationList(data?.data);
-      setIsLoading(false);
-    } catch (error) {
+      console.log(error);
       setIsLoading(false);
       onToggleSnackBar();
       setError(true);
     }
   };
   useEffect(() => {
-    if (locationKey === DISTRICT) {
-      getDistrictList();
-    } else if (locationKey === MANDAL) {
-      getMandalList();
-    }
+    getVillageList();
   }, []);
 
   return (
@@ -80,15 +58,7 @@ const LocationSearchScreen = ({ route }) => {
         updateInputValueHandler={updateInputValueHandler}
         enteredInput={enteredInput}
         showGoBackBtn={true}
-        placeholder={`Search ${
-          locationKey === DISTRICT
-            ? "District"
-            : locationKey === MANDAL
-            ? "Mandal"
-            : locationKey === VILLAGE
-            ? "Village"
-            : ""
-        }`}
+        placeholder={`Search Village in ${mandal}`}
         iconType={"search"}
       />
 
@@ -103,6 +73,7 @@ const LocationSearchScreen = ({ route }) => {
         <NoDataFound />
       )}
       <CustomSnackBar
+        style={styles.snackBarStyle}
         onDismissSnackBar={onDismissSnackBar}
         visible={visible}
         message={"Something went wrong. Please Try Again!"}
@@ -111,10 +82,16 @@ const LocationSearchScreen = ({ route }) => {
   );
 };
 
-export default LocationSearchScreen;
+export default VilllageLocationSearchScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 50,
+  },
+  snackBarStyle: {
+    position: "absolute",
+    bottom: 100,
+    left: 0,
+    right: 0,
   },
 });

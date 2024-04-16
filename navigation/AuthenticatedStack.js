@@ -7,6 +7,10 @@ import UploadPhotoScreen from "../screens/UploadPhotoScreen";
 import CheckoutScreen from "../screens/CheckoutScreen";
 import PaymentCompleteScreen from "../screens/PaymentCompleteScreen";
 import RegistrationDetailsScreen from "../screens/RegistrationDetailsScreen";
+import { DISTRICT } from "../constants/location-names";
+import DistrictLocationSearchScreen from "../screens/LocationSearch/DistrictLocationSearchScreen";
+import MandalLocationSearchScreen from "../screens/LocationSearch/MandalLocationSearchScreen";
+import VilllageLocationSearchScreen from "../screens/LocationSearch/VilllageLocationSearchScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,8 +71,23 @@ export default function AuthenticatedStack() {
       />
 
       <Stack.Screen
-        name="LocationSearch"
-        component={LocationSearchScreen}
+        name="DistrictLocationSearch"
+        initialParams={{ locationKey: DISTRICT }}
+        component={DistrictLocationSearchScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="MandalLocationSearch"
+        component={MandalLocationSearchScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="VillageLocationSearch"
+        component={VilllageLocationSearchScreen}
         options={{
           headerShown: false,
         }}

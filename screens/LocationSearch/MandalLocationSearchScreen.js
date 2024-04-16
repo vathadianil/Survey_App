@@ -1,24 +1,17 @@
 import { StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import SearchInput from "../../components/SearchInput";
+import LocationSearchSkelton from "../../components/ui/skelton/LocationSearchSkelton";
+import LocationList from "../../components/Location/LocationList";
+import NoDataFound from "../../components/ui/NoDataFound";
+import CustomSnackBar from "../../components/ui/paper/CustomSnackBar";
+import { GET_MANDAL_LIST } from "../../util/apiRequests";
+import useSnackBar from "../../util/hooks/useSnackBar";
+import axios from "../../util/axios";
 
-import LocationList from "../components/Location/LocationList";
-import axios from "../util/axios";
-import LocationSearchSkelton from "../components/ui/skelton/LocationSearchSkelton";
-import NoDataFound from "../components/ui/NoDataFound";
-import SearchInput from "../components/SearchInput";
-import {
-  GET_DISTRICT_LIST,
-  GET_LOCATION_LIST,
-  GET_MANDAL_LIST,
-} from "../util/apiRequests";
-import useSnackBar from "../util/hooks/useSnackBar";
-import CustomSnackBar from "../components/ui/paper/CustomSnackBar";
-import { DISTRICT, MANDAL, VILLAGE } from "../constants/location-names";
-
-const LocationSearchScreen = ({ route }) => {
-  const { locationKey, location } = route?.params;
-  console.log(locationKey);
+const MandalLocationSearchScreen = ({ route }) => {
+  const { locationKey, district } = route?.params;
   const [enteredInput, setEnteredInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [locationList, setLocationList] = useState([]);
@@ -39,39 +32,22 @@ const LocationSearchScreen = ({ route }) => {
     setFilteredLocationList(filteredData);
   }
 
-  const getDistrictList = async () => {
-    try {
-      setIsLoading(true);
-      const { data } = await axios.get(GET_DISTRICT_LIST);
-      setLocationList(data?.data);
-      setFilteredLocationList(data?.data);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      onToggleSnackBar();
-      setError(true);
-    }
-  };
-
   const getMandalList = async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get(`${GET_MANDAL_LIST}/${location}`);
+      const { data } = await axios.get(`${GET_MANDAL_LIST}/${district}`);
       setLocationList(data?.data);
       setFilteredLocationList(data?.data);
       setIsLoading(false);
     } catch (error) {
+      console.log(error);
       setIsLoading(false);
       onToggleSnackBar();
       setError(true);
     }
   };
   useEffect(() => {
-    if (locationKey === DISTRICT) {
-      getDistrictList();
-    } else if (locationKey === MANDAL) {
-      getMandalList();
-    }
+    getMandalList();
   }, []);
 
   return (
@@ -80,15 +56,7 @@ const LocationSearchScreen = ({ route }) => {
         updateInputValueHandler={updateInputValueHandler}
         enteredInput={enteredInput}
         showGoBackBtn={true}
-        placeholder={`Search ${
-          locationKey === DISTRICT
-            ? "District"
-            : locationKey === MANDAL
-            ? "Mandal"
-            : locationKey === VILLAGE
-            ? "Village"
-            : ""
-        }`}
+        placeholder={`Search Mandal in ${district}`}
         iconType={"search"}
       />
 
@@ -98,11 +66,13 @@ const LocationSearchScreen = ({ route }) => {
         <LocationList
           locationList={filteredLocationList}
           locationKey={locationKey}
+          district={district}
         />
       ) : (
         <NoDataFound />
       )}
       <CustomSnackBar
+        style={styles.snackBarStyle}
         onDismissSnackBar={onDismissSnackBar}
         visible={visible}
         message={"Something went wrong. Please Try Again!"}
@@ -111,10 +81,16 @@ const LocationSearchScreen = ({ route }) => {
   );
 };
 
-export default LocationSearchScreen;
+export default MandalLocationSearchScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 50,
+  },
+  snackBarStyle: {
+    position: "absolute",
+    bottom: 100,
+    left: 0,
+    right: 0,
   },
 });

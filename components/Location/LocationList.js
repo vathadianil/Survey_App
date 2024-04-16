@@ -11,15 +11,15 @@ import { Colors } from "../../constants/styles";
 import { useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { AppContext } from "../../store/app-context";
+import { DISTRICT, MANDAL, VILLAGE } from "../../constants/location-names";
 
-const LocationList = ({ locationList }) => {
+const LocationList = ({ locationList, locationKey, district }) => {
   const appCtx = useContext(AppContext);
   const navigation = useNavigation();
 
   function renderLocation({ item }) {
     const locationData = {
-      id: item.id,
-      location: item.villege,
+      location: item[locationKey],
     };
 
     return (
@@ -28,8 +28,21 @@ const LocationList = ({ locationList }) => {
           android_ripple={{ color: Colors.shadowColor }}
           style={({ pressed }) => pressed && styles.pressedBtn}
           onPress={() => {
-            appCtx.addLocation(locationData.location);
-            navigation.navigate("Home");
+            if (locationKey === DISTRICT) {
+              navigation.navigate("MandalLocationSearch", {
+                locationKey: MANDAL,
+                district: locationData.location,
+              });
+            } else if (locationKey === MANDAL) {
+              navigation.navigate("VillageLocationSearch", {
+                locationKey: VILLAGE,
+                district: district,
+                mandal: locationData.location,
+              });
+            } else if (locationKey === VILLAGE) {
+              navigation.navigate("Home");
+              appCtx.addLocation(locationData.location);
+            }
           }}
         >
           <View style={styles.innerContainer}>
@@ -48,7 +61,9 @@ const LocationList = ({ locationList }) => {
       contentContainerStyle={{
         padding: 16,
       }}
-      keyExtractor={(location) => location.id}
+      keyExtractor={(location) =>
+        location.id ? location.id : location[locationKey]
+      }
       renderItem={renderLocation}
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="always"
