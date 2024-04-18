@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import StudentDetailsScreen from "../screens/StudentDetailsScreen";
-import LocationSearchScreen from "../screens/LocationSearchScreen";
 import AuthenticatedTabNavigation from "./AuthenticatedTabNavigation";
 import StudentFormScreen from "../screens/StudentFormScreen";
 import UploadPhotoScreen from "../screens/UploadPhotoScreen";

@@ -141,6 +141,8 @@ const StudentForm = ({
     courseGroup,
     medium,
     insertBy,
+    level,
+    streamProgram,
   } = studentData;
 
   const {
@@ -150,6 +152,7 @@ const StudentForm = ({
     casteList,
     subCasteList,
   } = formList;
+  console.log({ levelList: formList.fatherOccupationList });
 
   const { agentId, userId } = loginData;
 
@@ -244,6 +247,11 @@ const StudentForm = ({
   );
   const admissionCategoryDropDownData = useInput(
     admissionCategory ? admissionCategory : "",
+    validateText
+  );
+  const levelDropDownData = useInput(level ? level : "", validateText);
+  const streamProgramDropDownData = useInput(
+    streamProgram ? streamProgram : "",
     validateText
   );
   const courseOrGroupDropDownData = useInput(
@@ -459,6 +467,8 @@ const StudentForm = ({
             hallTicketInputData={hallTicketInputData}
             schoolOrCollegeNameInputData={schoolOrCollegeNameInputData}
             admissionCategoryDropDownData={admissionCategoryDropDownData}
+            levelDropDownData={levelDropDownData}
+            streamProgramDropDownData={streamProgramDropDownData}
             courseOrGroupDropDownData={courseOrGroupDropDownData}
             mediumDropDownData={mediumDropDownData}
             passedOutYearInputData={passedOutYearInputData}

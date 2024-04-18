@@ -13,6 +13,7 @@ export const GET_MEDIUM_LIST = "/getMedium";
 export const GET_RELIGION_LIST = "/getReligion";
 export const GET_PREVIOUS_EDUCATION_LIST = "/getPreviousEducation";
 export const GET_ADMISSION_LIST = "/getAdmissionList";
+export const GET_LEVEL_LIST = "/getLevelList";
 export const UPDATE_REGISTRATION_DETAILS = "/update_registration";
 export const POST_SMS = `/send-sms`;
 export const GET_TOKEN = "/token";

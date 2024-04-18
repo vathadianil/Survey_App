@@ -15,6 +15,8 @@ const EducationForm = ({
   hallTicketInputData,
   schoolOrCollegeNameInputData,
   admissionCategoryDropDownData,
+  levelDropDownData,
+  streamProgramDropDownData,
   courseOrGroupDropDownData,
   mediumDropDownData,
   passedOutYearInputData,
@@ -54,6 +56,20 @@ const EducationForm = ({
     valueChangeHandler: admissionCategoryChangeHandler,
     inputBlurHandler: admissionCategoryBlurHandler,
   } = admissionCategoryDropDownData;
+
+  const {
+    value: level,
+    hasError: levelHasError,
+    valueChangeHandler: levelChangeHandler,
+    inputBlurHandler: levelBlurHandler,
+  } = levelDropDownData;
+
+  const {
+    value: streamProgram,
+    hasError: streamProgramHasError,
+    valueChangeHandler: streamProgramChangeHandler,
+    inputBlurHandler: streamProgramBlurHandler,
+  } = streamProgramDropDownData;
 
   const {
     value: courseorGroup,
@@ -132,6 +148,17 @@ const EducationForm = ({
         />
 
         <CustomDropdown
+          label={"Level*"}
+          style={styles.inputContainer}
+          errorText={"Level selection is required"}
+          data={formList?.levelList}
+          value={courseorGroup}
+          onBlurHanlder={courseorGroupBlurHandler}
+          onValueChange={courseorGroupChangeHandler}
+          hasError={courseorGroupHasError}
+        />
+
+        <CustomDropdown
           label={"Course/Group*"}
           style={styles.inputContainer}
           errorText={"Course/Group selection is required"}
@@ -143,15 +170,41 @@ const EducationForm = ({
         />
 
         <CustomDropdown
-          label={"Medium*"}
+          label={"Level *"}
           style={styles.inputContainer}
-          errorText={"Medium selection is required"}
-          data={formList?.mediumList}
-          value={medium}
-          onBlurHanlder={mediumBlurHandler}
-          onValueChange={mediumChangeHandler}
-          hasError={mediumHasError}
+          errorText={"Level selection is required"}
+          data={formList?.levelList}
+          value={level}
+          onBlurHanlder={levelBlurHandler}
+          onValueChange={levelChangeHandler}
+          hasError={levelHasError}
         />
+
+        {level && (
+          <CustomDropdown
+            label={"Stream Program *"}
+            style={styles.inputContainer}
+            errorText={"Stream Program selection is required"}
+            data={courseOrGroupList}
+            value={streamProgram}
+            onBlurHanlder={streamProgramBlurHandler}
+            onValueChange={streamProgramChangeHandler}
+            hasError={streamProgramHasError}
+          />
+        )}
+
+        {level && streamProgram && (
+          <CustomDropdown
+            label={"Medium*"}
+            style={styles.inputContainer}
+            errorText={"Medium selection is required"}
+            data={formList?.mediumList}
+            value={medium}
+            onBlurHanlder={mediumBlurHandler}
+            onValueChange={mediumChangeHandler}
+            hasError={mediumHasError}
+          />
+        )}
       </List.Accordion>
     </Card>
   );

@@ -3,7 +3,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
 import { Colors } from "../constants/styles";
-import LocationSearchScreen from "../screens/LocationSearchScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { DISTRICT } from "../constants/location-names";
 import DistrictLocationSearchScreen from "../screens/LocationSearch/DistrictLocationSearchScreen";
