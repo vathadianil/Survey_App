@@ -152,7 +152,6 @@ const StudentForm = ({
     casteList,
     subCasteList,
   } = formList;
-  console.log({ levelList: formList.fatherOccupationList });
 
   const { agentId, userId } = loginData;
 
@@ -472,6 +471,7 @@ const StudentForm = ({
             courseOrGroupDropDownData={courseOrGroupDropDownData}
             mediumDropDownData={mediumDropDownData}
             passedOutYearInputData={passedOutYearInputData}
+            onToggleSnackBar={onToggleSnackBar}
             formList={formList}
           />
         </List.AccordionGroup>

@@ -55,15 +55,15 @@ const StudentDetailsScreen = ({ navigation }) => {
         <View style={styles.wrapper}>
           <StudentPersonalDetails />
           <StudentEducationDetails />
-          {registrationFeeStatus.toLowerCase() === "yes" && (
-            <StudentRegistrationDetails
-              orderId={orderId}
-              registrationDate={regDate}
-              registrationFee={regFee}
-              registrationFeeReceipt={registrationFeeReceipt}
-              studentRegistrationNo={studentRegNo}
-            />
-          )}
+          {/* {registrationFeeStatus.toLowerCase() === "yes" && ( */}
+          <StudentRegistrationDetails
+            orderId={orderId}
+            registrationDate={regDate}
+            registrationFee={regFee}
+            registrationFeeReceipt={registrationFeeReceipt}
+            studentRegistrationNo={studentRegNo}
+          />
+          {/* )} */}
         </View>
       </ScrollView>
     </SafeAreaView>

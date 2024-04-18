@@ -4,11 +4,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/styles";
 import CustomInput from "../ui/paper/CustomInput";
 import CustomDropdown from "../ui/paper/CustomDropdown";
-
-const courseOrGroupList = [
-  { label: "Engineering", value: "Engineering" },
-  { label: "Inter", value: "Inter" },
-];
+import { useEffect, useState } from "react";
+import axios from "../../util/axios";
+import {
+  GET_COURSE_OR_GROUP_LIST,
+  GET_STREAM_PROGRAM_LIST,
+} from "../../util/apiRequests";
 
 const EducationForm = ({
   previousEducationDropdownData,
@@ -21,7 +22,10 @@ const EducationForm = ({
   mediumDropDownData,
   passedOutYearInputData,
   formList,
+  onToggleSnackBar,
 }) => {
+  const [streamProgramList, setStreamProgramList] = useState([]);
+  const [courseOrGroupList, setCourseOrGroupList] = useState([]);
   const {
     value: previousEducation,
     hasError: previousEducationHasError,
@@ -84,6 +88,40 @@ const EducationForm = ({
     valueChangeHandler: mediumChangeHandler,
     inputBlurHandler: mediumBlurHandler,
   } = mediumDropDownData;
+
+  const getStreamProgramList = async (level) => {
+    try {
+      const { data } = await axios.get(`${GET_STREAM_PROGRAM_LIST}/${level}`);
+      setStreamProgramList(data?.data);
+    } catch (error) {
+      console.log(error);
+      onToggleSnackBar();
+    }
+  };
+
+  const getCourseorGroupList = async (level, streamProgram) => {
+    try {
+      const { data } = await axios.get(
+        `${GET_COURSE_OR_GROUP_LIST}/${level}/${streamProgram}`
+      );
+      setCourseOrGroupList(data?.data);
+    } catch (error) {
+      console.log(error);
+      onToggleSnackBar();
+    }
+  };
+
+  useEffect(() => {
+    if (level) {
+      getStreamProgramList(level);
+    }
+  }, [level]);
+
+  useEffect(() => {
+    if (level && streamProgram) {
+      getCourseorGroupList(level, streamProgram);
+    }
+  }, [streamProgram]);
 
   return (
     <Card mode="elevated" style={styles.container}>
@@ -148,28 +186,6 @@ const EducationForm = ({
         />
 
         <CustomDropdown
-          label={"Level*"}
-          style={styles.inputContainer}
-          errorText={"Level selection is required"}
-          data={formList?.levelList}
-          value={courseorGroup}
-          onBlurHanlder={courseorGroupBlurHandler}
-          onValueChange={courseorGroupChangeHandler}
-          hasError={courseorGroupHasError}
-        />
-
-        <CustomDropdown
-          label={"Course/Group*"}
-          style={styles.inputContainer}
-          errorText={"Course/Group selection is required"}
-          data={courseOrGroupList}
-          value={courseorGroup}
-          onBlurHanlder={courseorGroupBlurHandler}
-          onValueChange={courseorGroupChangeHandler}
-          hasError={courseorGroupHasError}
-        />
-
-        <CustomDropdown
           label={"Level *"}
           style={styles.inputContainer}
           errorText={"Level selection is required"}
@@ -185,7 +201,7 @@ const EducationForm = ({
             label={"Stream Program *"}
             style={styles.inputContainer}
             errorText={"Stream Program selection is required"}
-            data={courseOrGroupList}
+            data={streamProgramList}
             value={streamProgram}
             onBlurHanlder={streamProgramBlurHandler}
             onValueChange={streamProgramChangeHandler}
@@ -195,16 +211,26 @@ const EducationForm = ({
 
         {level && streamProgram && (
           <CustomDropdown
-            label={"Medium*"}
+            label={"Course/Group*"}
             style={styles.inputContainer}
-            errorText={"Medium selection is required"}
-            data={formList?.mediumList}
-            value={medium}
-            onBlurHanlder={mediumBlurHandler}
-            onValueChange={mediumChangeHandler}
-            hasError={mediumHasError}
+            errorText={"Course/Group selection is required"}
+            data={courseOrGroupList}
+            value={courseorGroup}
+            onBlurHanlder={courseorGroupBlurHandler}
+            onValueChange={courseorGroupChangeHandler}
+            hasError={courseorGroupHasError}
           />
         )}
+        <CustomDropdown
+          label={"Medium*"}
+          style={styles.inputContainer}
+          errorText={"Medium selection is required"}
+          data={formList?.mediumList}
+          value={medium}
+          onBlurHanlder={mediumBlurHandler}
+          onValueChange={mediumChangeHandler}
+          hasError={mediumHasError}
+        />
       </List.Accordion>
     </Card>
   );

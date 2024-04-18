@@ -4,6 +4,7 @@ import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import StudentRow from "./StudentRow";
+import usePdf from "../../util/hooks/usePdf";
 
 const StudentRegistrationDetails = ({
   orderId,
@@ -14,6 +15,7 @@ const StudentRegistrationDetails = ({
   isRegistrationPage = false,
 }) => {
   const navigation = useNavigation();
+  const { sharePdf } = usePdf();
   return (
     <View style={styles.container}>
       {!isRegistrationPage && (
@@ -78,24 +80,52 @@ const StudentRegistrationDetails = ({
             type={"ionicons"}
           />
         )}
-
-        {isRegistrationPage && (
-          <View style={styles.btnContainer}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            marginBottom: 20,
+          }}
+        >
+          {isRegistrationPage && (
+            <View style={[styles.btnContainer, { marginRight: 20 }]}>
+              <Pressable
+                android_ripple={{ color: Colors.shadowColor }}
+                style={({ pressed }) => pressed && styles.pressedBtn}
+                onPress={() => {
+                  navigation.navigate("Home", {
+                    submittedTimeStamp: new Date().getTime(),
+                  });
+                }}
+              >
+                <View style={styles.innerBtnContainer}>
+                  <Ionicons
+                    name="home-outline"
+                    size={17}
+                    color={Colors.white}
+                  />
+                </View>
+              </Pressable>
+            </View>
+          )}
+          <View style={[styles.btnContainer]}>
             <Pressable
               android_ripple={{ color: Colors.shadowColor }}
               style={({ pressed }) => pressed && styles.pressedBtn}
               onPress={() => {
-                navigation.navigate("Home", {
-                  submittedTimeStamp: new Date().getTime(),
-                });
+                sharePdf();
               }}
             >
               <View style={styles.innerBtnContainer}>
-                <Ionicons name="home-outline" size={17} color={Colors.white} />
+                <Ionicons
+                  name="share-social-outline"
+                  size={17}
+                  color={Colors.white}
+                />
               </View>
             </Pressable>
           </View>
-        )}
+        </View>
       </View>
     </View>
   );

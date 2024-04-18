@@ -1,10 +1,19 @@
-const usePdf = () => {
-  const sharePdf = () => {
-    const pdf = new jsPDF();
-    pdf.text("Hello, world!", 10, 10);
-    pdf.save("my-pdf.pdf");
+import { Share } from "react-native";
+import RNHTMLtoPDF from "react-native-html-to-pdf";
 
-    const url = "file://" + pdf.output("blob");
+const usePdf = () => {
+  const sharePdf = async () => {
+    let options = {
+      html: "<h1>PDF TEST</h1>",
+      fileName: "test",
+      directory: "Documents",
+    };
+    console.log(RNHTMLtoPDF);
+    let file = await RNHTMLtoPDF?.convert(options);
+    // console.log(file.filePath);
+    alert(file.filePath);
+
+    const url = "file://" + file.filePath;
 
     Share.share({
       url,
