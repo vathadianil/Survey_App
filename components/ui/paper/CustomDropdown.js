@@ -13,6 +13,7 @@ const CustomDropdown = ({
   onBlurHanlder,
   onValueChange,
   errorText,
+  valueKey,
 }) => {
   return (
     <View style={style}>
@@ -33,14 +34,14 @@ const CustomDropdown = ({
         data={data}
         search
         maxHeight={300}
-        labelField="value"
-        valueField="value"
+        labelField={valueKey ? valueKey : "value"}
+        valueField={valueKey ? valueKey : "value"}
         placeholder={label}
         searchPlaceholder={`Search ${label}...`}
         value={value}
         onBlur={onBlurHanlder}
         onChange={(item) => {
-          onValueChange(item.value);
+          onValueChange(valueKey ? item[valueKey] : item.value);
         }}
         keyboardAvoiding={true}
       />

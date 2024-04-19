@@ -38,32 +38,32 @@ const StudentDetailsScreen = ({ navigation }) => {
           <Ionicons name="chevron-back-circle" size={32} />
         </Pressable>
 
-        {registrationFeeStatus?.toLowerCase() !== "yes" && (
-          <View style={[styles.editBtnContainer]}>
-            <Button
-              onPress={() =>
-                navigation.navigate("StudentForm", { isEditing: true })
-              }
-              icon={"create-outline"}
-            >
-              Edit
-            </Button>
-          </View>
-        )}
+        {/* {registrationFeeStatus?.toLowerCase() !== "yes" && ( */}
+        <View style={[styles.editBtnContainer]}>
+          <Button
+            onPress={() =>
+              navigation.navigate("StudentForm", { isEditing: true })
+            }
+            icon={"create-outline"}
+          >
+            Edit
+          </Button>
+        </View>
+        {/* )} */}
       </View>
       <ScrollView>
         <View style={styles.wrapper}>
           <StudentPersonalDetails />
           <StudentEducationDetails />
-          {/* {registrationFeeStatus.toLowerCase() === "yes" && ( */}
-          <StudentRegistrationDetails
-            orderId={orderId}
-            registrationDate={regDate}
-            registrationFee={regFee}
-            registrationFeeReceipt={registrationFeeReceipt}
-            studentRegistrationNo={studentRegNo}
-          />
-          {/* )} */}
+          {registrationFeeStatus.toLowerCase() === "yes" && (
+            <StudentRegistrationDetails
+              orderId={orderId}
+              registrationDate={regDate}
+              registrationFee={regFee}
+              registrationFeeReceipt={registrationFeeReceipt}
+              studentRegistrationNo={studentRegNo}
+            />
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

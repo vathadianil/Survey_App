@@ -13,6 +13,7 @@ import useFilter from "../util/hooks/useFilter";
 import {
   GET_ADMISSION_LIST,
   GET_CASTE_LIST,
+  GET_DISTRICT_LIST,
   GET_FATHER_OCCUPATION_LIST,
   GET_HT_NO_LIST,
   GET_LEVEL_LIST,
@@ -73,6 +74,7 @@ const HomeScreen = ({ route }) => {
         previousEducation,
         admissionCategory,
         level,
+        district,
       ] = await Promise.allSettled([
         axios.get(GET_FATHER_OCCUPATION_LIST),
         axios.get(GET_MOTHER_OCCUPATION_LIST),
@@ -84,6 +86,7 @@ const HomeScreen = ({ route }) => {
         axios.get(GET_PREVIOUS_EDUCATION_LIST),
         axios.get(GET_ADMISSION_LIST),
         axios.get(GET_LEVEL_LIST),
+        axios.get(GET_DISTRICT_LIST),
       ]);
       const fatherOccupationList = fatherOccupation?.value?.data?.data;
       const motherOccupationList = motherOccupation?.value?.data?.value;
@@ -95,6 +98,7 @@ const HomeScreen = ({ route }) => {
       const previousEducationList = previousEducation.value?.data?.data;
       const admissionCategoryList = admissionCategory?.value?.data?.data;
       const levelList = level?.value?.data?.data;
+      const districtList = district?.value?.data?.data;
 
       appCtx.addFormList({
         ...formList,
@@ -108,6 +112,7 @@ const HomeScreen = ({ route }) => {
         previousEducationList,
         admissionCategoryList,
         levelList,
+        districtList,
       });
     } catch (error) {
       setError(true);

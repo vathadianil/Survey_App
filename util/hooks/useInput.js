@@ -3,12 +3,13 @@ import { useState } from "react";
 const useInput = (initialValue, validateValue, type) => {
   const [enteredValue, setEnteredValue] = useState(initialValue);
   const [isTouched, setIsTouched] = useState(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const valueIsValid = validateValue(enteredValue);
   let hasError = false;
   if (type === "dob") {
     hasError = !valueIsValid;
   } else {
-    hasError = !valueIsValid && isTouched;
+    hasError = !valueIsValid && (isTouched || isFormSubmitted);
   }
 
   const valueChangeHandler = (value) => {
@@ -22,6 +23,11 @@ const useInput = (initialValue, validateValue, type) => {
   const reset = () => {
     setEnteredValue(initialValue);
     setIsTouched(false);
+    setIsFormSubmitted(false);
+  };
+
+  const formStateChangeHandler = () => {
+    setIsFormSubmitted(true);
   };
 
   return {
@@ -31,6 +37,7 @@ const useInput = (initialValue, validateValue, type) => {
     valueChangeHandler,
     inputBlurHandler,
     reset,
+    formStateChangeHandler,
   };
 };
 

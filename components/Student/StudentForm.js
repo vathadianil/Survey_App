@@ -141,7 +141,7 @@ const StudentForm = ({
     courseGroup,
     medium,
     insertBy,
-    level,
+    courseLevel,
     streamProgram,
   } = studentData;
 
@@ -222,9 +222,9 @@ const StudentForm = ({
     `${baseURL}/get-sign/${id}?random=${new Date().getTime()}`
   );
 
-  const mandalInputData = useInput("", validateText);
-  const districtInputData = useInput("", validateText);
-  const vallageInputData = useInput("", validateText);
+  const districtDropDownData = useInput("", validateText);
+  const mandalDropDownData = useInput("", validateText);
+  const villageDropDownData = useInput("", validateText);
 
   const previousEducationDropdownData = useInput(
     previousEducation ? previousEducation : "",
@@ -248,7 +248,10 @@ const StudentForm = ({
     admissionCategory ? admissionCategory : "",
     validateText
   );
-  const levelDropDownData = useInput(level ? level : "", validateText);
+  const courseLevelDropDownData = useInput(
+    courseLevel ? courseLevel : "",
+    validateText
+  );
   const streamProgramDropDownData = useInput(
     streamProgram ? streamProgram : "",
     validateText
@@ -286,6 +289,8 @@ const StudentForm = ({
     passedOutYearInputData.isValid &&
     schoolOrCollegeNameInputData.isValid &&
     admissionCategoryDropDownData.isValid &&
+    courseLevelDropDownData.isValid &&
+    streamProgramDropDownData.isValid &&
     courseOrGroupDropDownData.isValid &&
     mediumDropDownData.isValid
   ) {
@@ -299,9 +304,9 @@ const StudentForm = ({
     } else {
       if (
         !isEditing &&
-        (!mandalInputData.isValid ||
-          !districtInputData.isValid ||
-          !vallageInputData.isValid)
+        (!mandalDropDownData.isValid ||
+          !districtDropDownData.isValid ||
+          !villageDropDownData.isValid)
       ) {
         formIsValid = false;
       } else {
@@ -310,13 +315,43 @@ const StudentForm = ({
     }
   }
 
+  const inValidFormSubmitHandler = () => {
+    studentNameInputData.formStateChangeHandler();
+    fatherNameInputData.formStateChangeHandler();
+    fatherOccupationDropDownData.formStateChangeHandler();
+    motherNameInputData.formStateChangeHandler();
+    motherOccupationDropDownData.formStateChangeHandler();
+    genderRadioData.formStateChangeHandler();
+    physicallyChallengedRadioData.formStateChangeHandler();
+    religionDropDownData.formStateChangeHandler();
+    motherTongueInputData.formStateChangeHandler();
+    casteDropDownData.formStateChangeHandler();
+    subCasteDropDownData.formStateChangeHandler();
+    mobileNumberInputData.formStateChangeHandler();
+    dateOfBirthDateData.formStateChangeHandler();
+    aadharNoInputData.formStateChangeHandler();
+    previousEducationDropdownData.formStateChangeHandler();
+    hallTicketInputData.formStateChangeHandler();
+    passedOutYearInputData.formStateChangeHandler();
+    schoolOrCollegeNameInputData.formStateChangeHandler();
+    admissionCategoryDropDownData.formStateChangeHandler();
+    courseLevelDropDownData.formStateChangeHandler();
+    streamProgramDropDownData.formStateChangeHandler();
+    courseOrGroupDropDownData.formStateChangeHandler();
+    mediumDropDownData.formStateChangeHandler();
+    !isEditing && mandalDropDownData.formStateChangeHandler();
+    !isEditing && districtDropDownData.formStateChangeHandler();
+    !isEditing && villageDropDownData.formStateChangeHandler();
+  };
+
   const handleSubmit = async () => {
-    if (!studentNameInputData.value) {
+    if (!studentNameInputData.value || !formIsValid) {
       dispatchFormState({
         type: "FAILURE",
         message: "Please Add required Details and Try Again!",
       });
       onToggleSnackBar();
+      inValidFormSubmitHandler();
       return;
     }
     try {
@@ -347,13 +382,15 @@ const StudentForm = ({
         passedOutYear: passedOutYearInputData.value,
         lastStudiedAt: schoolOrCollegeNameInputData.value,
         admissionCategory: admissionCategoryDropDownData.value,
+        courseLevel: courseLevelDropDownData.value,
+        streamProgram: streamProgramDropDownData.value,
         courseGroup: courseOrGroupDropDownData.value,
         medium: mediumDropDownData.value,
         visitedStatus: isVisitedSwitchOn ? "Yes" : "No",
         intrestedStatus: isInterestSwitchOn ? "Yes" : "No",
-        district: districtInputData.value,
-        mandal: mandalInputData.value,
-        villege: vallageInputData.value,
+        district: districtDropDownData.value,
+        mandal: mandalDropDownData.value,
+        villege: villageDropDownData.value,
         agentID: agentId + "",
         insertBy: insertBy ? insertBy : "",
         updateBy: userId,
@@ -365,7 +402,7 @@ const StudentForm = ({
           signPath: "",
           fatherMobileNo: "",
           insertBy: userId,
-          permanentAddress: `${vallageInputData.value} ${mandalInputData.value} ${districtInputData.value}`,
+          permanentAddress: `${villageDropDownData.value} ${mandalDropDownData.value} ${districtDropDownData.value}`,
         };
       } else {
         formValues = { ...formValues, studentId: id + "" ? id + "" : "" };
@@ -425,7 +462,11 @@ const StudentForm = ({
       <CustomSnackBar
         onDismissSnackBar={onDismissSnackBar}
         visible={visible}
-        message={formState.message}
+        message={
+          formState.message
+            ? formState.message
+            : "Something went wrong! Please Try Again"
+        }
         style={styles.snackBarStyle}
       />
       {isVisitedSwitchOn && isInterestSwitchOn && (
@@ -456,9 +497,11 @@ const StudentForm = ({
           />
           {!isEditing && (
             <AddressForm
-              mandalInputData={mandalInputData}
-              districtInputData={districtInputData}
-              vallageInputData={vallageInputData}
+              districtDropDownData={districtDropDownData}
+              mandalDropDownData={mandalDropDownData}
+              villageDropDownData={villageDropDownData}
+              formList={formList}
+              onToggleSnackBar={onToggleSnackBar}
             />
           )}
           <EducationForm
@@ -466,7 +509,7 @@ const StudentForm = ({
             hallTicketInputData={hallTicketInputData}
             schoolOrCollegeNameInputData={schoolOrCollegeNameInputData}
             admissionCategoryDropDownData={admissionCategoryDropDownData}
-            levelDropDownData={levelDropDownData}
+            courseLevelDropDownData={courseLevelDropDownData}
             streamProgramDropDownData={streamProgramDropDownData}
             courseOrGroupDropDownData={courseOrGroupDropDownData}
             mediumDropDownData={mediumDropDownData}
@@ -480,7 +523,7 @@ const StudentForm = ({
         <View style={styles.btnContainer}>
           <Button
             style={styles.btn}
-            disabled={!formIsValid || formState.loading}
+            disabled={formState.loading}
             onPress={handleSubmit}
           >
             <View

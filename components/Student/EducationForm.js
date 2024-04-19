@@ -16,7 +16,7 @@ const EducationForm = ({
   hallTicketInputData,
   schoolOrCollegeNameInputData,
   admissionCategoryDropDownData,
-  levelDropDownData,
+  courseLevelDropDownData,
   streamProgramDropDownData,
   courseOrGroupDropDownData,
   mediumDropDownData,
@@ -62,11 +62,11 @@ const EducationForm = ({
   } = admissionCategoryDropDownData;
 
   const {
-    value: level,
-    hasError: levelHasError,
-    valueChangeHandler: levelChangeHandler,
-    inputBlurHandler: levelBlurHandler,
-  } = levelDropDownData;
+    value: courseLevel,
+    hasError: courseLevelHasError,
+    valueChangeHandler: courseLevelChangeHandler,
+    inputBlurHandler: courseLevelBlurHandler,
+  } = courseLevelDropDownData;
 
   const {
     value: streamProgram,
@@ -89,9 +89,11 @@ const EducationForm = ({
     inputBlurHandler: mediumBlurHandler,
   } = mediumDropDownData;
 
-  const getStreamProgramList = async (level) => {
+  const getStreamProgramList = async (courseLevel) => {
     try {
-      const { data } = await axios.get(`${GET_STREAM_PROGRAM_LIST}/${level}`);
+      const { data } = await axios.get(
+        `${GET_STREAM_PROGRAM_LIST}/${courseLevel}`
+      );
       setStreamProgramList(data?.data);
     } catch (error) {
       console.log(error);
@@ -99,10 +101,10 @@ const EducationForm = ({
     }
   };
 
-  const getCourseorGroupList = async (level, streamProgram) => {
+  const getCourseorGroupList = async (courseLevel, streamProgram) => {
     try {
       const { data } = await axios.get(
-        `${GET_COURSE_OR_GROUP_LIST}/${level}/${streamProgram}`
+        `${GET_COURSE_OR_GROUP_LIST}/${courseLevel}/${streamProgram}`
       );
       setCourseOrGroupList(data?.data);
     } catch (error) {
@@ -112,14 +114,14 @@ const EducationForm = ({
   };
 
   useEffect(() => {
-    if (level) {
-      getStreamProgramList(level);
+    if (courseLevel) {
+      getStreamProgramList(courseLevel);
     }
-  }, [level]);
+  }, [courseLevel]);
 
   useEffect(() => {
-    if (level && streamProgram) {
-      getCourseorGroupList(level, streamProgram);
+    if (courseLevel && streamProgram) {
+      getCourseorGroupList(courseLevel, streamProgram);
     }
   }, [streamProgram]);
 
@@ -190,13 +192,13 @@ const EducationForm = ({
           style={styles.inputContainer}
           errorText={"Level selection is required"}
           data={formList?.levelList}
-          value={level}
-          onBlurHanlder={levelBlurHandler}
-          onValueChange={levelChangeHandler}
-          hasError={levelHasError}
+          value={courseLevel}
+          onBlurHanlder={courseLevelBlurHandler}
+          onValueChange={courseLevelChangeHandler}
+          hasError={courseLevelHasError}
         />
 
-        {level && (
+        {courseLevel && (
           <CustomDropdown
             label={"Stream Program *"}
             style={styles.inputContainer}
@@ -209,7 +211,7 @@ const EducationForm = ({
           />
         )}
 
-        {level && streamProgram && (
+        {courseLevel && streamProgram && (
           <CustomDropdown
             label={"Course/Group*"}
             style={styles.inputContainer}

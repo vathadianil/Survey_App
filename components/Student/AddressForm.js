@@ -1,35 +1,75 @@
 import { StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, List } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import CustomInput from "../ui/paper/CustomInput";
 import { Colors } from "../../constants/styles";
+import CustomDropdown from "../ui/paper/CustomDropdown";
+import { GET_MANDAL_LIST, GET_VILLAGE_LIST } from "../../util/apiRequests";
+import axios from "../../util/axios";
 
 const AddressForm = ({
-  mandalInputData,
-  districtInputData,
-  vallageInputData,
+  districtDropDownData,
+  mandalDropDownData,
+  villageDropDownData,
+  formList,
+  onToggleSnackBar,
 }) => {
-  const {
-    value: mandal,
-    hasError: mandalHasError,
-    valueChangeHandler: mandalChangeHandler,
-    inputBlurHandler: mandalBlurHandler,
-  } = mandalInputData;
-
+  const [mandalList, setMandalList] = useState([]);
+  const [villageList, setVillageList] = useState([]);
   const {
     value: district,
     hasError: districtHasError,
     valueChangeHandler: districtChangeHandler,
     inputBlurHandler: districtBlurHandler,
-  } = districtInputData;
+  } = districtDropDownData;
+  const {
+    value: mandal,
+    hasError: mandalHasError,
+    valueChangeHandler: mandalChangeHandler,
+    inputBlurHandler: mandalBlurHandler,
+  } = mandalDropDownData;
 
   const {
     value: village,
     hasError: villageHasError,
     valueChangeHandler: villageChangeHandler,
     inputBlurHandler: villageBlurHandler,
-  } = vallageInputData;
+  } = villageDropDownData;
+
+  const getMandalList = async (mandal) => {
+    try {
+      const { data } = await axios.get(`${GET_MANDAL_LIST}/${mandal}`);
+      setMandalList(data?.data);
+    } catch (error) {
+      console.log(error);
+      onToggleSnackBar();
+    }
+  };
+
+  const getVillageList = async (district, mandal) => {
+    try {
+      const { data } = await axios.get(
+        `${GET_VILLAGE_LIST}/${district}/${mandal}`
+      );
+      setVillageList(data?.data);
+    } catch (error) {
+      console.log(error);
+      onToggleSnackBar();
+    }
+  };
+
+  useEffect(() => {
+    if (district) {
+      getMandalList(district);
+    }
+  }, [district]);
+
+  useEffect(() => {
+    if (district && mandal) {
+      getVillageList(district, mandal);
+    }
+  }, [mandal]);
 
   return (
     <Card mode="elevated" style={styles.container}>
@@ -42,34 +82,45 @@ const AddressForm = ({
           <Ionicons {...props} name="location-outline" size={20} />
         )}
       >
-        <CustomInput
-          label={"District"}
+        <CustomDropdown
+          label={"District *"}
           style={styles.inputContainer}
-          errorText={"District is Required"}
+          errorText={"District selection is required"}
+          data={formList?.districtList}
           value={district}
           onBlurHanlder={districtBlurHandler}
           onValueChange={districtChangeHandler}
           hasError={districtHasError}
-        />
-        <CustomInput
-          label={"Mandal"}
-          style={styles.inputContainer}
-          errorText={"Mandal is Required"}
-          value={mandal}
-          onBlurHanlder={mandalBlurHandler}
-          onValueChange={mandalChangeHandler}
-          hasError={mandalHasError}
+          valueKey={"district"}
         />
 
-        <CustomInput
-          label={"Village"}
-          style={styles.inputContainer}
-          errorText={"village is Required"}
-          value={village}
-          onBlurHanlder={villageBlurHandler}
-          onValueChange={villageChangeHandler}
-          hasError={villageHasError}
-        />
+        {district && (
+          <CustomDropdown
+            label={"Mnadal *"}
+            style={styles.inputContainer}
+            errorText={"Mandal selection is required"}
+            data={mandalList}
+            value={mandal}
+            onBlurHanlder={mandalBlurHandler}
+            onValueChange={mandalChangeHandler}
+            hasError={mandalHasError}
+            valueKey={"mandal"}
+          />
+        )}
+
+        {district && mandal && (
+          <CustomDropdown
+            label={"Village *"}
+            style={styles.inputContainer}
+            errorText={"Village selection is required"}
+            data={villageList}
+            value={village}
+            onBlurHanlder={villageBlurHandler}
+            onValueChange={villageChangeHandler}
+            hasError={villageHasError}
+            valueKey={"villege"}
+          />
+        )}
       </List.Accordion>
     </Card>
   );
