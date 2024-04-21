@@ -9,8 +9,9 @@ import ImagePicker from "../components/ui/ImagePicker";
 import useImage from "../util/hooks/useImage";
 import { baseURL } from "../util/axios";
 import CustomModal from "../components/ui/paper/CustomModal";
-import { useReducer, useState } from "react";
+import { useContext, useReducer, useState } from "react";
 import useSnackBar from "../util/hooks/useSnackBar";
+import { AppContext } from "../store/app-context";
 
 const initialState = {
   isSuccess: false,
@@ -47,7 +48,8 @@ const formSubmitReducer = (state = initialState, action) => {
   }
 };
 
-const UploadPhotoScreen = ({ navigation, route }) => {
+const UploadPhotoScreen = ({ navigation }) => {
+  const { studentData } = useContext(AppContext);
   const [formState, dispatchFormState] = useReducer(
     formSubmitReducer,
     initialState
@@ -59,12 +61,12 @@ const UploadPhotoScreen = ({ navigation, route }) => {
   const hideModal = (uri) =>
     setModalStatus((prevState) => ({ ...prevState, visible: false, uri: uri }));
 
-  const { studentId } = route.params;
+  const { id } = studentData;
   const photoImagePickerData = useImage(
-    `${baseURL}/get-photo/${studentId}?random=${new Date().getTime()}`
+    `${baseURL}/get-photo/${id}?random=${new Date().getTime()}`
   );
   const signImagePickerData = useImage(
-    `${baseURL}/get-sign/${studentId}?random=${new Date().getTime()}`
+    `${baseURL}/get-sign/${id}?random=${new Date().getTime()}`
   );
 
   let formIsValid = false;
@@ -127,7 +129,7 @@ const UploadPhotoScreen = ({ navigation, route }) => {
             lottieImageType={"pic"}
             pickedImage={photo}
             takeImageHandler={() =>
-              photoChangeHandler(`upload-photo/?student_id=${studentId}`)
+              photoChangeHandler(`upload-photo/?student_id=${id}`)
             }
             hasError={photoHasError}
             errorText={"Photo is required"}
@@ -147,7 +149,7 @@ const UploadPhotoScreen = ({ navigation, route }) => {
             lottieImageType={"sign"}
             pickedImage={sign}
             takeImageHandler={() =>
-              signChangeHandler(`upload-sign/?student_id=${studentId}`)
+              signChangeHandler(`upload-sign/?student_id=${id}`)
             }
             hasError={signHasError}
             errorText={"Sign is required"}

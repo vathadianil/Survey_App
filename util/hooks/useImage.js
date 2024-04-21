@@ -63,6 +63,7 @@ const useImage = (initialValue) => {
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
+
       if (data.returnCode === 1 && data.returnMessage === "Success") {
         setUploadedImageHasError(false);
       } else {

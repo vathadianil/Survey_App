@@ -110,7 +110,8 @@ const StudentForm = ({
   const { params } = useRoute();
   const { isEditing } = params;
   const { visible, onToggleSnackBar, onDismissSnackBar } = useSnackBar();
-  const { formList, studentData, loginData } = useContext(AppContext);
+  const { formList, studentData, loginData, addStudentData } =
+    useContext(AppContext);
   const [formState, dispatchFormState] = useReducer(
     formSubmitReducer,
     initialState
@@ -434,9 +435,9 @@ const StudentForm = ({
             });
           }
         } else {
-          navigation.navigate("UploadPhoto", {
-            studentId: result?.data?.studentId,
-          });
+          const studentData = { ...formValues, id: result?.data?.studentId };
+          addStudentData(studentData);
+          navigation.navigate("UploadPhoto");
         }
       } else {
         dispatchFormState({
