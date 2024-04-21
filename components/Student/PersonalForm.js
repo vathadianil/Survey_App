@@ -9,7 +9,9 @@ import CustomDropdown from "../ui/paper/CustomDropdown";
 import CustomDatePicker from "../ui/CustomDatePicker";
 import ImagePicker from "../ui/ImagePicker";
 import CustomModal from "../ui/paper/CustomModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { GET_SUB_CASTE_LIST } from "../../util/apiRequests";
+import axios from "../../util/axios";
 
 const PersonalForm = ({
   id,
@@ -34,7 +36,9 @@ const PersonalForm = ({
   signImagePickerData,
   formList,
   isEditing,
+  onToggleSnackBar,
 }) => {
+  const [subCasteList, setSubCasteList] = useState([]);
   const [modalStatus, setModalStatus] = useState({ visible: false, uri: "" });
   const showModal = (uri) =>
     setModalStatus((prevState) => ({ ...prevState, visible: true, uri: uri }));
@@ -166,6 +170,22 @@ const PersonalForm = ({
     errorValueHandler: signErrorHandler,
     uploadedImageHasError: uploadedSignHasErr,
   } = signImagePickerData;
+
+  const getMandalList = async (caste) => {
+    try {
+      const { data } = await axios.get(`${GET_SUB_CASTE_LIST}/${caste}`);
+      setSubCasteList(data?.data);
+    } catch (error) {
+      console.log(error);
+      onToggleSnackBar();
+    }
+  };
+
+  useEffect(() => {
+    if (casteDropDown) {
+      getMandalList(casteDropDown);
+    }
+  }, [casteDropDown]);
 
   return (
     <Card mode="elevated" style={styles.container}>
@@ -314,16 +334,18 @@ const PersonalForm = ({
           hasError={casteDropDownHasError}
         />
 
-        <CustomDropdown
-          label={"Sub Caste *"}
-          style={styles.inputContainer}
-          errorText={"Sub Caste selection is required"}
-          data={formList?.subCasteList}
-          value={subCasteDropdown}
-          onBlurHanlder={subCasteDropdownBlurHandler}
-          onValueChange={subCasteDropdownChangeHandler}
-          hasError={subCasteDropdownHasError}
-        />
+        {casteDropDown && (
+          <CustomDropdown
+            label={"Sub Caste *"}
+            style={styles.inputContainer}
+            errorText={"Sub Caste selection is required"}
+            data={subCasteList}
+            value={subCasteDropdown}
+            onBlurHanlder={subCasteDropdownBlurHandler}
+            onValueChange={subCasteDropdownChangeHandler}
+            hasError={subCasteDropdownHasError}
+          />
+        )}
 
         <CustomInput
           label={"Mobile *"}

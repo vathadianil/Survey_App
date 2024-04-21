@@ -495,6 +495,7 @@ const StudentForm = ({
             signImagePickerData={signImagePickerData}
             formList={formList}
             isEditing={isEditing}
+            onToggleSnackBar={onToggleSnackBar}
           />
           {!isEditing && (
             <AddressForm

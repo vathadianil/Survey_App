@@ -22,7 +22,6 @@ import {
   GET_PREVIOUS_EDUCATION_LIST,
   GET_RELIGION_LIST,
   GET_STUDENT_LIST,
-  GET_SUB_CASTE_LIST,
 } from "../util/apiRequests";
 import { AppContext } from "../store/app-context";
 import useSnackBar from "../util/hooks/useSnackBar";
@@ -67,7 +66,7 @@ const HomeScreen = ({ route }) => {
         fatherOccupation,
         motherOccupation,
         caste,
-        subCaste,
+
         hallTicketNo,
         medium,
         religion,
@@ -79,7 +78,6 @@ const HomeScreen = ({ route }) => {
         axios.get(GET_FATHER_OCCUPATION_LIST),
         axios.get(GET_MOTHER_OCCUPATION_LIST),
         axios.get(GET_CASTE_LIST),
-        axios.get(GET_SUB_CASTE_LIST),
         axios.get(GET_HT_NO_LIST),
         axios.get(GET_MEDIUM_LIST),
         axios.get(GET_RELIGION_LIST),
@@ -91,7 +89,6 @@ const HomeScreen = ({ route }) => {
       const fatherOccupationList = fatherOccupation?.value?.data?.data;
       const motherOccupationList = motherOccupation?.value?.data?.value;
       const casteList = caste?.value?.data?.data;
-      const subCasteList = subCaste?.value?.data?.data;
       const hallTicketNoList = hallTicketNo?.value?.data?.data;
       const mediumList = medium?.value?.data?.data;
       const religionList = religion?.value?.data?.data;
@@ -105,7 +102,7 @@ const HomeScreen = ({ route }) => {
         fatherOccupationList,
         motherOccupationList,
         casteList,
-        subCasteList,
+
         hallTicketNoList,
         mediumList,
         religionList,
