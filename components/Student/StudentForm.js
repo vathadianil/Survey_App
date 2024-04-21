@@ -151,7 +151,6 @@ const StudentForm = ({
     motherOccupationList,
     religionList,
     casteList,
-    subCasteList,
   } = formList;
 
   const { agentId, userId } = loginData;
@@ -195,10 +194,7 @@ const StudentForm = ({
     getInitialValue(casteList, caste),
     validateText
   );
-  const subCasteDropDownData = useInput(
-    getInitialValue(subCasteList, subCaste),
-    validateText
-  );
+  const subCasteDropDownData = useInput(subCaste ? subCaste : "", validateText);
   const mobileNumberInputData = useInput(
     mobileNumber ? mobileNumber : "",
     validateMobileNo

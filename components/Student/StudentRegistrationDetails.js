@@ -108,7 +108,7 @@ const StudentRegistrationDetails = ({
               </Pressable>
             </View>
           )}
-          <View style={[styles.btnContainer]}>
+          {/* <View style={[styles.btnContainer]}>
             <Pressable
               android_ripple={{ color: Colors.shadowColor }}
               style={({ pressed }) => pressed && styles.pressedBtn}
@@ -124,7 +124,7 @@ const StudentRegistrationDetails = ({
                 />
               </View>
             </Pressable>
-          </View>
+          </View> */}
         </View>
       </View>
     </View>
