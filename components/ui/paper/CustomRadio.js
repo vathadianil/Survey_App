@@ -14,8 +14,12 @@ const CustomRadio = ({
   const RenderRadioButton = ({ value, displayText }) => {
     return (
       <View style={styles.radioBtnContainer}>
-        <RadioButton value={value} color={Colors.primary800} />
-        <Text style={styles.radioLabelText}>{displayText}</Text>
+        <RadioButton.Item
+          label={displayText}
+          value={value}
+          color={Colors.primary800}
+        />
+        {/* <Text style={styles.radioLabelText}>{displayText}</Text> */}
       </View>
     );
   };
@@ -43,7 +47,7 @@ const styles = StyleSheet.create({
   radioBtnContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: 12,
+    // marginLeft: 12,
   },
   radioGroupLable: {
     fontFamily: "regular",
