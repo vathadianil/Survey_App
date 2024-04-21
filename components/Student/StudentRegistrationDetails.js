@@ -4,7 +4,7 @@ import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import StudentRow from "./StudentRow";
-import usePdf from "../../util/hooks/usePdf";
+// import usePdf from "../../util/hooks/usePdf";
 
 const StudentRegistrationDetails = ({
   orderId,
@@ -15,7 +15,7 @@ const StudentRegistrationDetails = ({
   isRegistrationPage = false,
 }) => {
   const navigation = useNavigation();
-  const { sharePdf } = usePdf();
+  // const { sharePdf } = usePdf();
   return (
     <View style={styles.container}>
       {!isRegistrationPage && (
@@ -113,7 +113,7 @@ const StudentRegistrationDetails = ({
               android_ripple={{ color: Colors.shadowColor }}
               style={({ pressed }) => pressed && styles.pressedBtn}
               onPress={() => {
-                sharePdf();
+                // sharePdf();
               }}
             >
               <View style={styles.innerBtnContainer}>
