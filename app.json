@@ -2,7 +2,7 @@
   "expo": {
     "name": "EduNexus",
     "slug": "survey_app",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,12 +15,12 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "1.0.3",
+      "buildNumber": "1.0.4",
       "supportsTablet": true,
       "bundleIdentifier": "com.anil2a6.surveyapp"
     },
     "android": {
-      "VersionCode": 4,
+      "VersionCode": 5,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
