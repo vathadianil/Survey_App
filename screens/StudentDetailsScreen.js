@@ -14,6 +14,7 @@ const StudentDetailsScreen = ({ navigation }) => {
   const { studentData } = useContext(AppContext);
   const { convertDateToString } = useDate();
   const {
+    id,
     paymentOrderId,
     registrationFeeStatus,
     registrationDate,
@@ -57,10 +58,13 @@ const StudentDetailsScreen = ({ navigation }) => {
           <StudentEducationDetails />
           {registrationFeeStatus.toLowerCase() === "yes" && (
             <StudentRegistrationDetails
+              id={id}
               orderId={orderId}
               registrationDate={regDate}
               registrationFee={regFee}
+              registrationFeeNum={registrationFee}
               registrationFeeReceipt={registrationFeeReceipt}
+              registrationFeeStatus={registrationFeeStatus}
               studentRegistrationNo={studentRegNo}
             />
           )}

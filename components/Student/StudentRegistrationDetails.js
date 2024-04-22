@@ -4,18 +4,22 @@ import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import StudentRow from "./StudentRow";
-// import usePdf from "../../util/hooks/usePdf";
+import usePdf from "../../util/hooks/usePdf";
+import { ActivityIndicator } from "react-native-paper";
 
 const StudentRegistrationDetails = ({
+  id,
   orderId,
   registrationDate,
   registrationFee,
   studentRegistrationNo,
   registrationFeeReceipt,
+  registrationFeeStatus,
+  registrationFeeNum,
   isRegistrationPage = false,
 }) => {
   const navigation = useNavigation();
-  // const { sharePdf } = usePdf();
+  const { loading: isPdfloading, sharePdf } = usePdf();
   return (
     <View style={styles.container}>
       {!isRegistrationPage && (
@@ -108,23 +112,44 @@ const StudentRegistrationDetails = ({
               </Pressable>
             </View>
           )}
-          {/* <View style={[styles.btnContainer]}>
+          <View style={[styles.btnContainer]}>
             <Pressable
               android_ripple={{ color: Colors.shadowColor }}
               style={({ pressed }) => pressed && styles.pressedBtn}
               onPress={() => {
-                // sharePdf();
+                sharePdf(
+                  id,
+                  studentRegistrationNo,
+                  orderId,
+                  registrationFeeNum,
+                  registrationDate,
+                  registrationFeeStatus,
+                  registrationFeeReceipt
+                );
               }}
             >
-              <View style={styles.innerBtnContainer}>
-                <Ionicons
-                  name="share-social-outline"
-                  size={17}
-                  color={Colors.white}
-                />
+              <View
+                style={[
+                  styles.innerBtnContainer,
+                  {
+                    backgroundColor: isPdfloading
+                      ? Colors.gray2
+                      : Colors.primary800,
+                  },
+                ]}
+              >
+                {!isPdfloading ? (
+                  <Ionicons
+                    name="share-social-outline"
+                    size={17}
+                    color={Colors.white}
+                  />
+                ) : (
+                  <ActivityIndicator animating={true} color={Colors.black} />
+                )}
               </View>
             </Pressable>
-          </View> */}
+          </View>
         </View>
       </View>
     </View>

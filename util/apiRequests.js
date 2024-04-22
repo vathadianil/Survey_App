@@ -20,3 +20,4 @@ export const UPDATE_REGISTRATION_DETAILS = "/update_registration";
 export const POST_SMS = `/send-sms`;
 export const GET_TOKEN = "/token";
 export const GET_ANALYTICS_DATA = `/getStudentCounts?villege=`;
+export const GENERATE_INVOICE = "/generate_invoice";
