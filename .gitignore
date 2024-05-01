@@ -28,6 +28,10 @@ yarn-error.*
 .DS_Store
 *.pem
 
+#windows
+%ProgramData%
+.vscode
+
 # local env files
 .env*.local
 
